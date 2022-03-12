@@ -15,11 +15,11 @@ std::string TextUI::DisplayRoleChoice() {
 }
 
 void TextUI::LoadInData(std::string filename) {
-  fstream file(filename, std::ios::in)
+  std::fstream file(filename, std::ios::in);
   std::string line;
   if (file.is_open()) {
     while (getline(file, line)) {
-      stringstream str(line);
+      std::stringstream str(line);
       std::string userType;
       getline(str, userType, ',');
       std::string username;
@@ -34,6 +34,7 @@ void TextUI::LoadInData(std::string filename) {
       getline(str, avgRating, ',');
       std::string orderCount;
       getline(str, orderCount, ',');
+      MakeNewUser(username, address, stol(phoneNum), stod(accountBalance), userType);
     }
   }
 }
@@ -57,15 +58,18 @@ std::string TextUI::LogInUsername(std::string role) {
         std::cin >> option;
       }
       if (option == "c") {
+        std::string address;
         long phoneNum;
         double accountBalance;
 
+        std::cout << "Address: ";
+        std::cin >> address;
         std::cout << "Phone Number: ";
         std::cin >> phoneNum;
         std::cout << "Add money to account: ";
         std::cin >> accountBalance;
 
-        MakeNewUser(username, phoneNum, accountBalance, "Buyer");
+        MakeNewUser(username, address, phoneNum, accountBalance, "Buyer");
       }
       if (option == "e") {
         throw std::exception();
@@ -85,15 +89,18 @@ std::string TextUI::LogInUsername(std::string role) {
         std::cin >> option;
       }
       if (option == "c") {
+        std::string address;
         long phoneNum;
         double accountBalance;
 
+        std::cout << "Address: ";
+        std::cin >> address;
         std::cout << "Phone Number: ";
         std::cin >> phoneNum;
         std::cout << "Add money to account: ";
         std::cin >> accountBalance;
 
-        MakeNewUser(username, phoneNum, accountBalance, "Seller");
+        MakeNewUser(username, address, phoneNum, accountBalance, "Seller");
       }
       if (option == "e") {
         throw std::exception();
@@ -125,12 +132,12 @@ Buyer* TextUI::GetBuyer(std::string name) {
   }
 }
 
-bool TextUI::MakeNewUser(std::string name, long phoneNum, double accountBalance, std::string userType) {
+bool TextUI::MakeNewUser(std::string name, std::string address, long phoneNum, double accountBalance, std::string userType) {
   if (userType == "seller") {
-    _sellers.insert(std::make_pair(name, new Seller(name, phoneNum, accountBalance)));
+    _sellers.insert(std::make_pair(name, new Seller(name, address, phoneNum, accountBalance)));
     return true;
   } else if (userType == "buyer") {
-    _buyers.insert(std::make_pair(name, new Buyer(name, phoneNum, accountBalance)));
+    _buyers.insert(std::make_pair(name, new Buyer(name, address, phoneNum, accountBalance)));
     return true;
   } else {
     return false;

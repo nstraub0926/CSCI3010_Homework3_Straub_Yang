@@ -1,7 +1,9 @@
 #pragma once
 
+#include <fstream>
 #include <iostream>
 #include <map>
+#include <sstream>
 
 #include "Product.h"
 #include "User.h"
@@ -21,7 +23,7 @@ class TextUI {
   void ViewHistoryProducts();
   Seller* GetSeller(std::string name);
   Buyer* GetBuyer(std::string name);
-  bool MakeNewUser(std::string name, long phoneNum, double accountBalance, std::string userType);
+  bool MakeNewUser(std::string name, std::string address, long phoneNum, double accountBalance, std::string userType);
   bool AddNewProduct(Product* p, Seller* seller);
   bool AddBidToProduct(int id, double bid, Buyer* buyer);
   static int GetID() {

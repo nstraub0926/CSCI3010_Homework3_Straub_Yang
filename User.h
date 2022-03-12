@@ -10,7 +10,7 @@
 
 class User {
  public:
-  User(std::string name, long phoneNum, double accountBalance) : _username(name), _phoneNum(phoneNum), _accountBalance(accountBalance){};
+  User(std::string name, std::string address, long phoneNum, double accountBalance) : _username(name), _address(address), _phoneNum(phoneNum), _accountBalance(accountBalance){};
   std::string GetUsername() { return _username; };
   void UpdateUsername(std::string newName) { _username = newName; };
   std::string GetAddress() { return _address; };
@@ -35,7 +35,7 @@ class User {
 
 class Seller : public User {
  public:
-  Seller(std::string name, long phoneNum, double accountBalance) : User(name, phoneNum, accountBalance){};
+  Seller(std::string name, std::string address, long phoneNum, double accountBalance) : User(name, address, phoneNum, accountBalance){};
   void AddProductForSale(int productID, Product* product);
   void ViewProductList();
   void SetProductStatus(int productID, bool status);
@@ -48,7 +48,7 @@ class Seller : public User {
 
 class Buyer : public User {
  public:
-  Buyer(std::string name, long phoneNum, double accountBalance) : User(name, phoneNum, accountBalance){};
+  Buyer(std::string name, std::string address, long phoneNum, double accountBalance) : User(name, address, phoneNum, accountBalance){};
   void AddBidToProduct(Product* product, double bid);
 
  private:

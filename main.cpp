@@ -8,6 +8,9 @@
 
 int main() {
   TextUI& t = TextUI::GetInstance();
+  t.LoadInData("Users.csv");
+  Seller* s = t.GetSeller("Peter_Yang");
+  std::cout << s->GetUsername() << ", address: " << s->GetAddress() << std::endl;
   while (1) {
     std::string role = t.DisplayRoleChoice();
     std::string username;
