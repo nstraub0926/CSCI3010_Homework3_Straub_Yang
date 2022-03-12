@@ -48,7 +48,7 @@ std::string TextUI::LogInUsername(std::string role) {
         return username;
       }
       if (option == "e") {
-        throw new std::exception;
+        throw std::exception();
       }
     } else {
       return username;
@@ -82,7 +82,7 @@ std::string TextUI::LogInUsername(std::string role) {
         return username;
       }
       if (option == "e") {
-        throw new std::exception;
+        throw std::exception();
       }
     } else {
       return username;
