@@ -14,7 +14,7 @@ std::string TextUI::DisplayRoleChoice() {
   return role;
 }
 
-bool TextUI::LogInUsername(std::string role) {
+std::string TextUI::LogInUsername(std::string role) {
   std::string username;
 
   std::cout << "Username: ";
@@ -33,16 +33,29 @@ bool TextUI::LogInUsername(std::string role) {
         std::cin >> option;
       }
       if (option == "c") {
-        std::string;
-        long 
-        MakeNewUser(std::string name, long phoneNum, double accountBalance, std::string userType)
+        std::string username;
+        long phoneNum;
+        double accountBalance;
+        
+        std::cout << "Username: ";
+        std::cin >> username;
+        std::cout << "Phone Number: ";
+        std::cin >> phoneNum;
+        std::cout << "Add money to account: ";
+        std::cin >> accountBalance;
+        
+        MakeNewUser(username, phoneNum, accountBalance, "Buyer")
+        return username
+      }
+      if (option == "e") {
+        break;
       }
     }
     else {
-    
+      return username;
     }
   }
-  if (role == "seller") {
+  else {
     if (GetSeller(username) == NULL) {
       std::string option;
       
@@ -55,9 +68,29 @@ bool TextUI::LogInUsername(std::string role) {
         std::cout << "Please enter a valid option. Enter your option again (t/c/e): ";
         std::cin >> option;
       }
+      if (option == "c") {
+        std::string username;
+        long phoneNum;
+        double accountBalance;
+        
+        std::cout << "Username: ";
+        std::cin >> username;
+        std::cout << "Phone Number: ";
+        std::cin >> phoneNum;
+        std::cout << "Add money to account: ";
+        std::cin >> accountBalance;
+        
+        MakeNewUser(username, phoneNum, accountBalance, "Seller")
+        return username
+      }
+      if (option == "e") {
+        break;
+      }
+    }
+    else {
+      return username;
     }
   }
-  return true;
 }
 
 void TextUI::ViewProductsForSale() {
