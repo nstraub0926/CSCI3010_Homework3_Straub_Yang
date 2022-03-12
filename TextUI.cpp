@@ -24,7 +24,29 @@ bool TextUI::LogInUsername(std::string role) {
       std::string option;
 
       std::cout << "The username is not found in the user list." << std::endl
-                << "Try another username ? (t)" << std::endl
+                << "Create a new account? (c)" << std::endl
+                << "Exit the program? (e)" << std::endl
+                << "Please enter an option (t/c/e): ";
+      std::cin >> option;
+      while (option != "t" && option != "c" && option != "e") {
+        std::cout << "Please enter a valid option. Enter your option again (t/c/e): ";
+        std::cin >> option;
+      }
+      if (option == "c") {
+        std::string;
+        long 
+        MakeNewUser(std::string name, long phoneNum, double accountBalance, std::string userType)
+      }
+    }
+    else {
+    
+    }
+  }
+  if (role == "seller") {
+    if (GetSeller(username) == NULL) {
+      std::string option;
+      
+      std::cout << "The username is not found in the user list." << std::endl
                 << "Create a new account? (c)" << std::endl
                 << "Exit the program? (e)" << std::endl
                 << "Please enter an option (t/c/e): ";
