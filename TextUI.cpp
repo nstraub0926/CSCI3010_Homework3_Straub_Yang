@@ -28,30 +28,24 @@ std::string TextUI::LogInUsername(std::string role) {
                 << "Exit the program? (e)" << std::endl
                 << "Please enter an option (c/e): ";
       std::cin >> option;
-      while (option != "t" && option != "c" && option != "e") {
-        std::cout << "Please enter a valid option. Enter your option again (t/c/e): ";
+      while (option != "c" && option != "e") {
+        std::cout << "Please enter a valid option. Enter your option again (c/e): ";
         std::cin >> option;
       }
       if (option == "c") {
-        std::string username;
         long phoneNum;
         double accountBalance;
 
-        std::cout << "Username: ";
-        std::cin >> username;
         std::cout << "Phone Number: ";
         std::cin >> phoneNum;
         std::cout << "Add money to account: ";
         std::cin >> accountBalance;
 
         MakeNewUser(username, phoneNum, accountBalance, "Buyer");
-        return username;
       }
       if (option == "e") {
         throw std::exception();
       }
-    } else {
-      return username;
     }
   } else {
     if (GetSeller(username) == NULL) {
@@ -60,35 +54,29 @@ std::string TextUI::LogInUsername(std::string role) {
       std::cout << "The username is not found in the user list." << std::endl
                 << "Create a new account? (c)" << std::endl
                 << "Exit the program? (e)" << std::endl
-                << "Please enter an option (t/c/e): ";
+                << "Please enter an option (c/e): ";
       std::cin >> option;
-      while (option != "t" && option != "c" && option != "e") {
-        std::cout << "Please enter a valid option. Enter your option again (t/c/e): ";
+      while (option != "c" && option != "e") {
+        std::cout << "Please enter a valid option. Enter your option again (c/e): ";
         std::cin >> option;
       }
       if (option == "c") {
-        std::string username;
         long phoneNum;
         double accountBalance;
 
-        std::cout << "Username: ";
-        std::cin >> username;
         std::cout << "Phone Number: ";
         std::cin >> phoneNum;
         std::cout << "Add money to account: ";
         std::cin >> accountBalance;
 
         MakeNewUser(username, phoneNum, accountBalance, "Seller");
-        return username;
       }
       if (option == "e") {
         throw std::exception();
       }
-    } else {
-      return username;
     }
   }
-  return "";
+  return username;
 }
 
 void TextUI::ViewProductsForSale() {
