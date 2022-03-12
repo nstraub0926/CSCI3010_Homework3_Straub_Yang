@@ -13,7 +13,7 @@ class TextUI {
     return instance;
   };
   std::string DisplayRoleChoice();
-  bool LogInUsername(std::string role);
+  std::string LogInUsername(std::string role);
   void DisplayForSeller();
   void DisplayForBuyer();
   void ViewProductsForSale();
