@@ -17,8 +17,8 @@ class TextUI {
   std::string DisplayRoleChoice();
   void LoadInData(std::string filename);
   std::string LogInUsername(std::string role);
-  void DisplayForSeller();
-  void DisplayForBuyer();
+  void DisplayForSeller(std::string name);
+  void DisplayForBuyer(std::string name);
   void ViewProductsForSale();
   void ViewHistoryProducts();
   Seller* GetSeller(std::string name);
