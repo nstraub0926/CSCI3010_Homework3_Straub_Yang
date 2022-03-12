@@ -15,6 +15,8 @@ std::string TextUI::DisplayRoleChoice() {
 }
 
 void TextUI::DisplayForBuyer(std::string name) {
+  Buyer *b = GetBuyer(name);
+  
   std::string option;
   std::cout << "Welcome buyer! Please choose from the following list of buyer options: " << std::endl;
   std::cout << "1. View/Bid-On Products" << std::endl;
@@ -38,7 +40,7 @@ void TextUI::DisplayForBuyer(std::string name) {
      std::cout << "Messages" << std::endl;
   }
   if (option == 3) {
-    
+    std::cout << "Your account balance is: $" << b->GetAccountBalance() << std::endl;
   }
   if (option == 4) {
   
