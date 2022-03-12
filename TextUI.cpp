@@ -14,6 +14,30 @@ std::string TextUI::DisplayRoleChoice() {
   return role;
 }
 
+void TextUI::LoadInData(std::string filename) {
+  fstream file(filename, std::ios::in)
+  std::string line;
+  if (file.is_open()) {
+    while (getline(file, line)) {
+      stringstream str(line);
+      std::string userType;
+      getline(str, userType, ',');
+      std::string username;
+      getline(str, username, ',');
+      std::string address;
+      getline(str, address, ',');
+      std::string phoneNum;
+      getline(str, phoneNum, ',');
+      std::string accountBalance;
+      getline(str, accountBalance, ',');
+      std::string avgRating;
+      getline(str, avgRating, ',');
+      std::string orderCount;
+      getline(str, orderCount, ',');
+    }
+  }
+}
+
 std::string TextUI::LogInUsername(std::string role) {
   std::string username;
 
