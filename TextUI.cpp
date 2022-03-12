@@ -14,6 +14,13 @@ std::string TextUI::DisplayRoleChoice() {
   return role;
 }
 
+void TextUI::LoadInData(std::string filename) {
+  ifstream fin;
+  fin.open(filename);
+  std::string line;
+  while
+}
+
 std::string TextUI::LogInUsername(std::string role) {
   std::string username;
 
