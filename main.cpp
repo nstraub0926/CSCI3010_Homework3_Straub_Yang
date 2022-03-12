@@ -21,7 +21,8 @@ int main() {
     }
 
     if (role == "buyer") {
-      t.GetBuyer(username);
+      // t.GetBuyer(username);
+      t.DisplayForBuyer(username);
     } else {
       t.GetSeller(username);
     }

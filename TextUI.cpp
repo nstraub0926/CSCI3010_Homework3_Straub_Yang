@@ -42,7 +42,7 @@ std::string TextUI::DisplayRoleChoice() {
 }
 
 void TextUI::DisplayForBuyer(std::string name) {
-  Buyer *b = GetBuyer(name);
+  Buyer* b = GetBuyer(name);
 
   std::string option;
   std::cout << "Welcome buyer! Please choose from the following list of buyer options: " << std::endl;
@@ -54,35 +54,29 @@ void TextUI::DisplayForBuyer(std::string name) {
   std::cout << "6. View Purchased Products" << std::endl;
   std::cout << "7. Exit the program?" << std::endl;
   std::cin >> option;
-  
-  while (option != '1' && option != '2' && option != '3' && option != '4' && option != '5' && option != '6' && option != '7') {
+
+  while (option != "1" && option != "2" && option != "3" && option != "4" && option != "5" && option != "6" && option != "7") {
     std::cout << "Please enter a valid option. Enter your option again (1-7): ";
     std::cin >> option;
   }
-  
-  if (option == 1) {
+
+  if (option == "1") {
     std::cout << "Here's a list of all currently biddable products: " << std::endl;
   }
-  if (option == 2) {
-     std::cout << "Messages" << std::endl;
+  if (option == "2") {
+    std::cout << "Messages" << std::endl;
   }
-  if (option == 3) {
-
+  if (option == "3") {
     std::cout << "Your account balance is: $" << b->GetAccountBalance() << std::endl;
   }
-  if (option == 4) {
-
+  if (option == "4") {
   }
-  if (option == 5) {
-  
+  if (option == "5") {
   }
-  if (option == 6) {
-  
+  if (option == "6") {
   }
-  if (option == 7) {
-  
+  if (option == "7") {
   }
-  
 }
 
 void TextUI::LoadInUserData(std::string filename) {
