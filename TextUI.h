@@ -15,7 +15,8 @@ class TextUI {
     return instance;
   };
   std::string DisplayRoleChoice();
-  void LoadInData(std::string filename);
+  void LoadInUserData(std::string filename);
+  void LoadInBidsData(std::string filename);
   std::string LogInUsername(std::string role);
   void DisplayForSeller();
   void DisplayForBuyer();
@@ -37,6 +38,7 @@ class TextUI {
  private:
   TextUI();
   static int id;
+  std::map<std::string, std::vector<std::string> > _productCategories;
   std::map<std::string, Seller*> _sellers;  // <username, pointer to the seller>
   std::map<std::string, Buyer*> _buyers;    // <username, pointer to the buyer>
   std::map<int, Product*> _products;        // <product id, pointer to the product>

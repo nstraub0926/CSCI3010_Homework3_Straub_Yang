@@ -1,6 +1,33 @@
 #include "TextUI.h"
 
-TextUI::TextUI() {}
+TextUI::TextUI() {
+  std::vector<std::string> subcategories;
+  subcategories.push_back("Camera");
+  subcategories.push_back("Television");
+  subcategories.push_back("Phone");
+  _productCategories.insert(std::make_pair("Electronics", subcategories));
+  subcategories.clear();
+  subcategories.push_back("Monitors");
+  subcategories.push_back("Mouse");
+  subcategories.push_back("Keyboard");
+  _productCategories.insert(std::make_pair("Computers", subcategories));
+  subcategories.clear();
+  subcategories.push_back("Basketball");
+  subcategories.push_back("Football");
+  subcategories.push_back("Baseball");
+  _productCategories.insert(std::make_pair("Sports", subcategories));
+  subcategories.clear();
+  subcategories.push_back("MenClothing");
+  subcategories.push_back("WomenClothing");
+  subcategories.push_back("Necklaces");
+  _productCategories.insert(std::make_pair("Clothing", subcategories));
+  subcategories.clear();
+  subcategories.push_back("Textbooks");
+  subcategories.push_back("Novels");
+  subcategories.push_back("Cookbooks");
+  _productCategories.insert(std::make_pair("Books", subcategories));
+  subcategories.clear();
+}
 
 std::string TextUI::DisplayRoleChoice() {
   std::string role;
@@ -14,7 +41,7 @@ std::string TextUI::DisplayRoleChoice() {
   return role;
 }
 
-void TextUI::LoadInData(std::string filename) {
+void TextUI::LoadInUserData(std::string filename) {
   std::fstream file(filename, std::ios::in);
   std::string line;
   if (file.is_open()) {
@@ -35,6 +62,45 @@ void TextUI::LoadInData(std::string filename) {
       std::string orderCount;
       getline(str, orderCount, ',');
       MakeNewUser(username, address, stol(phoneNum), stod(accountBalance), userType);
+    }
+  }
+}
+
+void TextUI::LoadInBidsData(std::string filename) {
+  std::fstream file(filename, std::ios::in);
+  std::string line;
+  if (file.is_open()) {
+    while (getline(file, line)) {
+      std::stringstream str(line);
+      std::string productName;
+      getline(str, productName, ',');
+      std::string subcategory;
+      getline(str, subcategory, ',');
+      std::string seller;
+      getline(str, seller, ',');
+      std::string buyer;
+      getline(str, buyer, ',');
+      std::string quality;
+      getline(str, quality, ',');
+      std::string basePrice;
+      getline(str, basePrice, ',');
+      std::string bid;
+      getline(str, bid, ',');
+      if (subcategory == "Camera") _historyOrders.push_back(ProductFactory::AddCamera(productName, stod(basePrice), quality, seller, std::make_pair(stod(bid), buyer)));
+      if (subcategory == "Television") _historyOrders.push_back(ProductFactory::AddTelevision(productName, stod(basePrice), quality, seller, std::make_pair(stod(bid), buyer)));
+      if (subcategory == "Phone") _historyOrders.push_back(ProductFactory::AddPhone(productName, stod(basePrice), quality, seller, std::make_pair(stod(bid), buyer)));
+      if (subcategory == "Monitors") _historyOrders.push_back(ProductFactory::AddMonitors(productName, stod(basePrice), quality, seller, std::make_pair(stod(bid), buyer)));
+      if (subcategory == "Mouse") _historyOrders.push_back(ProductFactory::AddMouse(productName, stod(basePrice), quality, seller, std::make_pair(stod(bid), buyer)));
+      if (subcategory == "Keyboard") _historyOrders.push_back(ProductFactory::AddKeyboard(productName, stod(basePrice), quality, seller, std::make_pair(stod(bid), buyer)));
+      if (subcategory == "Basketball") _historyOrders.push_back(ProductFactory::AddBasketball(productName, stod(basePrice), quality, seller, std::make_pair(stod(bid), buyer)));
+      if (subcategory == "Football") _historyOrders.push_back(ProductFactory::AddFootball(productName, stod(basePrice), quality, seller, std::make_pair(stod(bid), buyer)));
+      if (subcategory == "Baseball") _historyOrders.push_back(ProductFactory::AddBaseball(productName, stod(basePrice), quality, seller, std::make_pair(stod(bid), buyer)));
+      if (subcategory == "MenClothing") _historyOrders.push_back(ProductFactory::AddMenClothing(productName, stod(basePrice), quality, seller, std::make_pair(stod(bid), buyer)));
+      if (subcategory == "WomenClothing") _historyOrders.push_back(ProductFactory::AddWomenClothing(productName, stod(basePrice), quality, seller, std::make_pair(stod(bid), buyer)));
+      if (subcategory == "Necklaces") _historyOrders.push_back(ProductFactory::AddNecklaces(productName, stod(basePrice), quality, seller, std::make_pair(stod(bid), buyer)));
+      if (subcategory == "Textbooks") _historyOrders.push_back(ProductFactory::AddTextbooks(productName, stod(basePrice), quality, seller, std::make_pair(stod(bid), buyer)));
+      if (subcategory == "Novels") _historyOrders.push_back(ProductFactory::AddNovels(productName, stod(basePrice), quality, seller, std::make_pair(stod(bid), buyer)));
+      if (subcategory == "Cookbooks") _historyOrders.push_back(ProductFactory::AddCookbooks(productName, stod(basePrice), quality, seller, std::make_pair(stod(bid), buyer)));
     }
   }
 }
