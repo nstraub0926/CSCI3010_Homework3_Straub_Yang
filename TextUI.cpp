@@ -168,7 +168,7 @@ void TextUI::DisplayForBuyer(std::string name) {
   std::cout << "4. Update User Info" << std::endl;
   std::cout << "5. View Bid History" << std::endl;
   std::cout << "6. View Purchased Products" << std::endl;
-  std::cout << "7. Exit the program?" << std::endl;
+  std::cout << "7. Log out" << std::endl;
   std::cin >> option;
 
   while (option != "1" && option != "2" && option != "3" && option != "4" && option != "5" && option != "6" && option != "7") {
@@ -207,7 +207,7 @@ void TextUI::DisplayForSeller(std::string name) {
   std::cout << "5. Update user info" << std::endl;
   std::cout << "6. View product list" << std::endl;
   std::cout << "7. Close bid on a product" << std::endl;
-  std::cout << "8. Exit the program" << std::endl;
+  std::cout << "8. Log out" << std::endl;
   std::string option;
   std::cin >> option;
   while (option != "1" && option != "2" && option != "3" && option != "4" && option != "5" && option != "6" && option != "7" && option != "8") {
@@ -264,11 +264,11 @@ void TextUI::DisplayForSeller(std::string name) {
     std::cout << "The base price of your product: ";
     std::string basePrice;
     std::cin >> basePrice;
-    std::cout << "The quality of your product (New, Used-VeryGood, Used-good, Used-okay): ";
+    std::cout << "The quality of your product (new, used-verygood, used-good, used-okay): ";
     std::string quality;
     std::cin >> quality;
-    if (quality != "New" && quality != "Used-VeryGood" && quality != "Used-good" && quality != "Used-okay") {
-      std::cout << "Please enter a valid quality. Enter the quality again (New, Used-VeryGood, Used-good, Used-okay): ";
+    if (quality != "New" && quality != "used-verygood" && quality != "used-good" && quality != "used-okay") {
+      std::cout << "Please enter a valid quality. Enter the quality again (new, used-verygood, used-good, used-okay): ";
       std::cin >> quality;
     }
     if (optionCategory == "1") {
@@ -329,6 +329,15 @@ void TextUI::DisplayForSeller(std::string name) {
     std::cout << "Your product " << productName << " is added to the list for sale!" << std::endl;
   }
   if (option == "2") {
+    std::string replyTo;
+    s->ReadMessage(replyTo);
+    if (replyTo != "") {
+      std::cout << "Please write the content of your message here:" << std::endl;
+      std::string content;
+      std::cin >> content;
+      SendMessage(s->GetUsername(), replyTo, "buyer", content);
+      std::cout << "The message is sent to " << replyTo << "!" << std::endl;
+    }
   }
   if (option == "3") {
   }
@@ -356,6 +365,17 @@ void TextUI::CheckMessagebox(std::string role, std::string name) {
     }
   }
   std::cout << std::endl;
+}
+
+void TextUI::SendMessage(std::string sender, std::string receiver, std::string receiverRole, std::string content) {
+  Message m(sender, receiver, content);
+  if (receiverRole == "buyer") {
+    Buyer* b = GetBuyer(receiver);
+    b->ReceiveMessage(m);
+  } else {
+    Seller* s = GetSeller(receiver);
+    s->ReceiveMessage(m);
+  }
 }
 
 void TextUI::ViewProductsForSale() {

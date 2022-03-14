@@ -20,8 +20,8 @@ class User {
   double GetAccountBalance() { return _accountBalance; };
   void UpdateAccountBalance(double newBalance) { _accountBalance += newBalance; };
   bool MessageboxIsEmpty() { return _messagebox.empty(); };
-  void ReadMessage();
-  bool SendMessage(std::string sendTo, std::string content);
+  void ReadMessage(std::string& replyTo);
+  void ReceiveMessage(Message message);
   double GetRate() { return _rateTotal / _rateCount; };
   void AddNewRate(double newRate) {
     _rateTotal += newRate;
