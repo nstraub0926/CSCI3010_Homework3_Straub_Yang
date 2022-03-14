@@ -351,6 +351,19 @@ void TextUI::DisplayForSeller(std::string name) {
     std::cout << "Your current balance is: " << s->GetAccountBalance() << std::endl;
   }
   if (option == "4") {
+    std::string userToRate = s->GetUserToRate();
+    if (userToRate != "") {
+      std::cout << "How would you like to rate " << userToRate << "? (0-5): ";
+      std::string rate;
+      std::cin >> rate;
+      while (rate != "0" && rate != "1" && rate != "2" && rate != "3" && rate != "4" && rate != "5") {
+        std::cout << "Please enter a valid rate. Enter the rate again (0-5): ";
+        std::cin >> rate;
+      }
+      Buyer* b = GetBuyer(userToRate);
+      b->AddNewRate(stod(rate));
+      std::cout << "You just rated " << userToRate << "!" << std::endl;
+    }
   }
   if (option == "5") {
   }

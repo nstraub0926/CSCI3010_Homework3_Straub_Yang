@@ -21,13 +21,13 @@ class User {
   void UpdateAccountBalance(double newBalance) { _accountBalance += newBalance; };
   bool MessageboxIsEmpty() { return _messagebox.empty(); };
   void ReadMessage(std::string& replyTo);
-  void ReceiveMessage(Message message);
+  void ReceiveMessage(Message message) { _messagebox.push_back(message); };
+  std::string GetUserToRate();
   double GetRate() { return _rateTotal / _rateCount; };
   void AddNewRate(double newRate) {
     _rateTotal += newRate;
     _rateCount++;
   };
-  void RateUser(std::string username, double rate);
 
  private:
   std::string _username;
@@ -35,6 +35,7 @@ class User {
   long _phoneNum;
   double _accountBalance;
   std::vector<Message> _messagebox;
+  std::vector<std::string> _userToRate;
   double _rateTotal;
   int _rateCount;
 };

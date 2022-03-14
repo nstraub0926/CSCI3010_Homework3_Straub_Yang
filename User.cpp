@@ -34,8 +34,28 @@ void User::ReadMessage(std::string& replyTo) {
   _messagebox.erase(_messagebox.begin() + (stoi(option) - 1));
 }
 
-void User::ReceiveMessage(Message message) {
-  _messagebox.push_back(message);
+std::string User::GetUserToRate() {
+  int size = _userToRate.size();
+  if (size == 0) {
+    std::cout << "There is no user to rate." << std::endl;
+    return "";
+  }
+
+  std::cout << "Please choose a user to rate:" << std::endl;
+  for (int i = 0; i < size; i++) {
+    std::cout << i + 1 << ". " << _userToRate[i] << " ";
+  }
+  std::cout << std::endl;
+  std::cout << "Please choose an option (1-" << size << "): ";
+  std::string option;
+  std::cin >> option;
+  while (stoi(option) > size || stoi(option) < 1) {
+    std::cout << "Please enter a valid option. Enter the option again (1-" << size << "): ";
+    std::cin >> option;
+  }
+  std::string userToRate = _userToRate[stoi(option) - 1];
+  _userToRate.erase(_userToRate.begin() + (stoi(option) - 1));
+  return userToRate;
 }
 
 void Seller::AddProductForSale(int productID, Product* product) {
