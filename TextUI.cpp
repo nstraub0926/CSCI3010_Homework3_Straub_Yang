@@ -366,6 +366,38 @@ void TextUI::DisplayForSeller(std::string name) {
     }
   }
   if (option == "5") {
+    std::cout << "Which one would you like to change?" << std::endl;
+    std::cout << "1. Name 2. Phone number 3. Address" << std::endl;
+    std::cout << "Please enter an option (1-3): ";
+    std::string optionChangeInfo;
+    std::cin >> optionChangeInfo;
+    while (optionChangeInfo != "1" && optionChangeInfo != "2" && optionChangeInfo != "3") {
+      std::cout << "Please enter a valid option. Enter the option again (1-3): ";
+      std::cin >> optionChangeInfo;
+    }
+    if (optionChangeInfo == "1") {
+      std::cout << "New name: ";
+      std::string newName;
+      std::cin >> newName;
+      _sellers.erase(s->GetUsername());
+      s->UpdateUsername(newName);
+      _sellers.insert(std::make_pair(newName, s));
+      std::cout << "Your name has been changed to \"" << s->GetUsername() << "\"!" << std::endl;
+    }
+    if (optionChangeInfo == "2") {
+      std::cout << "New phone number: ";
+      std::string newPhoneNum;
+      std::cin >> newPhoneNum;
+      s->UpdatePhoneNum(stol(newPhoneNum));
+      std::cout << "Your name has been changed to \"" << s->GetPhoneNum() << "\"!" << std::endl;
+    }
+    if (optionChangeInfo == "3") {
+      std::cout << "New address: ";
+      std::string newAddress;
+      std::cin >> newAddress;
+      s->UpdateAddress(newAddress);
+      std::cout << "Your name has been changed to \"" << s->GetAddress() << "\"!" << std::endl;
+    }
   }
   if (option == "6") {
   }
