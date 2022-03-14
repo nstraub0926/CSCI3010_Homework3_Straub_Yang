@@ -110,77 +110,58 @@ std::string TextUI::LogInUsername(std::string role) {
 
   std::cout << "Username: ";
   std::cin >> username;
-  if (role == "buyer") {
-    if (GetBuyer(username) == NULL) {
-      std::string option;
-
-      std::cout << "The username is not found in the user list." << std::endl
-                << "Create a new account? (c)" << std::endl
-                << "Exit the program? (e)" << std::endl
-                << "Please enter an option (c/e): ";
-      std::cin >> option;
-      while (option != "c" && option != "e") {
-        std::cout << "Please enter a valid option. Enter your option again (c/e): ";
-        std::cin >> option;
+  try {
+    if (role == "seller") {
+      if (GetSeller(username) == NULL) {
+        CreateNewAccount(role, username);
       }
-      if (option == "c") {
-        std::string address;
-        long phoneNum;
-        double accountBalance;
-
-        std::cout << "Address: ";
-        std::cin >> address;
-        std::cout << "Phone Number: ";
-        std::cin >> phoneNum;
-        std::cout << "Add money to account: ";
-        std::cin >> accountBalance;
-
-        MakeNewUser(username, address, phoneNum, accountBalance, 0.0, 0, "buyer");
-      }
-      if (option == "e") {
-        throw std::exception();
+    } else {
+      if (GetBuyer(username) == NULL) {
+        CreateNewAccount(role, username);
       }
     }
-  } else {
-    if (GetSeller(username) == NULL) {
-      std::string option;
-
-      std::cout << "The username is not found in the user list." << std::endl
-                << "Create a new account? (c)" << std::endl
-                << "Exit the program? (e)" << std::endl
-                << "Please enter an option (c/e): ";
-      std::cin >> option;
-      while (option != "c" && option != "e") {
-        std::cout << "Please enter a valid option. Enter your option again (c/e): ";
-        std::cin >> option;
-      }
-      if (option == "c") {
-        std::string address;
-        long phoneNum;
-        double accountBalance;
-
-        std::cout << "Address: ";
-        std::cin >> address;
-        std::cout << "Phone Number: ";
-        std::cin >> phoneNum;
-        std::cout << "Add money to account: ";
-        std::cin >> accountBalance;
-
-        MakeNewUser(username, address, phoneNum, accountBalance, 0.0, 0, "seller");
-      }
-      if (option == "e") {
-        throw std::exception();
-      }
-    }
+  } catch (std::exception&) {
+    throw std::exception();
   }
   return username;
+}
+
+void TextUI::CreateNewAccount(std::string role, std::string username) {
+  std::string option;
+
+  std::cout << "The username is not found in the " << role << " list." << std::endl
+            << "Create a new account? (c)" << std::endl
+            << "Exit the program? (e)" << std::endl
+            << "Please enter an option (c/e): ";
+  std::cin >> option;
+  while (option != "c" && option != "e") {
+    std::cout << "Please enter a valid option. Enter your option again (c/e): ";
+    std::cin >> option;
+  }
+  if (option == "c") {
+    std::string address;
+    long phoneNum;
+    double accountBalance;
+
+    std::cout << "Address: ";
+    std::cin >> address;
+    std::cout << "Phone Number: ";
+    std::cin >> phoneNum;
+    std::cout << "Add money to account: ";
+    std::cin >> accountBalance;
+
+    MakeNewUser(username, address, phoneNum, accountBalance, 0.0, 0, role);
+  }
+  if (option == "e") {
+    throw std::exception();
+  }
 }
 
 void TextUI::DisplayForBuyer(std::string name) {
   Buyer* b = GetBuyer(name);
 
   std::string option;
-  std::cout << "Welcome buyer! Please choose from the following list of buyer options: " << std::endl;
+  std::cout << "Please choose from the following list of buyer options: " << std::endl;
   std::cout << "1. View/Bid-On Products" << std::endl;
   std::cout << "2. View/Send Messages" << std::endl;
   std::cout << "3. Check Account Balance" << std::endl;
@@ -223,7 +204,7 @@ void TextUI::DisplayForSeller(std::string name) {
   }
 
   std::string option;
-  std::cout << "Welcome seller! Please choose from the following list of buyer options: " << std::endl;
+  std::cout << "Please choose from the following list of seller options: " << std::endl;
   std::cout << "1. Post a product for sale" << std::endl;
   std::cout << "2. View/Send messages" << std::endl;
   std::cout << "3. Check account balance" << std::endl;
@@ -256,6 +237,19 @@ void TextUI::DisplayForSeller(std::string name) {
   if (option == "8") {
     throw std::exception();
   }
+}
+
+void TextUI::CheckMessagebox(std::string role, std::string name) {
+  if (role == "buyer") {
+    if (!GetBuyer(name)->MessageboxIsEmpty()) {
+      std::cout << "You have new message(s)!";
+    }
+  } else {
+    if (!GetSeller(name)->MessageboxIsEmpty()) {
+      std::cout << "You have new message(s)!";
+    }
+  }
+  std::cout << std::endl;
 }
 
 void TextUI::ViewProductsForSale() {

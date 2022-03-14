@@ -22,10 +22,14 @@ int main() {
 
     try {
       if (role == "buyer") {
+        std::cout << "Welcome buyer! ";
+        t.CheckMessagebox("buyer", username);
         while (1) {
           t.DisplayForBuyer(username);
         }
       } else {
+        std::cout << "Welcome seller! ";
+        t.CheckMessagebox("seller", username);
         while (1) {
           t.DisplayForSeller(username);
         }
