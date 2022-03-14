@@ -197,13 +197,8 @@ void TextUI::DisplayForBuyer(std::string name) {
 }
 
 void TextUI::DisplayForSeller(std::string name) {
-  Seller* b = GetSeller(name);
+  Seller* s = GetSeller(name);
 
-  if (!b->MessageboxIsEmpty()) {
-    std::cout << "You have new message(s)!" << std::endl;
-  }
-
-  std::string option;
   std::cout << "Please choose from the following list of seller options: " << std::endl;
   std::cout << "1. Post a product for sale" << std::endl;
   std::cout << "2. View/Send messages" << std::endl;
@@ -213,14 +208,125 @@ void TextUI::DisplayForSeller(std::string name) {
   std::cout << "6. View product list" << std::endl;
   std::cout << "7. Close bid on a product" << std::endl;
   std::cout << "8. Exit the program" << std::endl;
+  std::string option;
   std::cin >> option;
-
   while (option != "1" && option != "2" && option != "3" && option != "4" && option != "5" && option != "6" && option != "7" && option != "8") {
     std::cout << "Please enter a valid option. Enter your option again (1-8): ";
     std::cin >> option;
   }
 
   if (option == "1") {
+    std::cout << "Please choose one of the following categories of your product." << std::endl;
+    int index = 1;
+    for (auto i = _productCategories.begin(); i != _productCategories.end(); i++) {
+      std::cout << index << ". " << i->first << " ";
+      index++;
+    }
+    std::cout << std::endl
+              << "Please enter your option (1-5): ";
+    std::string optionCategory;
+    std::cin >> optionCategory;
+    while (optionCategory != "1" && optionCategory != "2" && optionCategory != "3" && optionCategory != "4" && optionCategory != "5") {
+      std::cout << "Please enter a valid option. Enter your option again (1-5): ";
+      std::cin >> optionCategory;
+    }
+    std::string category;
+    if (optionCategory == "1") {
+      category = "Books";
+    }
+    if (optionCategory == "2") {
+      category = "Clothing";
+    }
+    if (optionCategory == "3") {
+      category = "Computers";
+    }
+    if (optionCategory == "4") {
+      category = "Electronics";
+    }
+    if (optionCategory == "5") {
+      category = "Sports";
+    }
+    std::cout << "Please choose one of the following subcategories of your product." << std::endl;
+    for (int i = 0; i < 3; i++) {
+      std::cout << i + 1 << ". " << _productCategories[category][i] << " ";
+    }
+    std::cout << std::endl
+              << "Please enter your option (1-3): ";
+    std::string optionSubcategory;
+    std::cin >> optionSubcategory;
+    while (optionSubcategory != "1" && optionSubcategory != "2" && optionSubcategory != "3") {
+      std::cout << "Please enter a valid option. Enter your option again (1-3): ";
+      std::cin >> optionSubcategory;
+    }
+    std::cout << "The name of your product: ";
+    std::string productName;
+    std::cin >> productName;
+    std::cout << "The base price of your product: ";
+    std::string basePrice;
+    std::cin >> basePrice;
+    std::cout << "The quality of your product (New, Used-VeryGood, Used-good, Used-okay): ";
+    std::string quality;
+    std::cin >> quality;
+    if (quality != "New" && quality != "Used-VeryGood" && quality != "Used-good" && quality != "Used-okay") {
+      std::cout << "Please enter a valid quality. Enter the quality again (New, Used-VeryGood, Used-good, Used-okay): ";
+      std::cin >> quality;
+    }
+    if (optionCategory == "1") {
+      if (optionSubcategory == "1") {
+        AddNewProduct(ProductFactory::AddTextbooks(productName, stod(basePrice), quality, s->GetUsername()), s);
+      }
+      if (optionSubcategory == "2") {
+        AddNewProduct(ProductFactory::AddNovels(productName, stod(basePrice), quality, s->GetUsername()), s);
+      }
+      if (optionSubcategory == "3") {
+        AddNewProduct(ProductFactory::AddCookbooks(productName, stod(basePrice), quality, s->GetUsername()), s);
+      }
+    }
+    if (optionCategory == "2") {
+      if (optionSubcategory == "1") {
+        AddNewProduct(ProductFactory::AddMenClothing(productName, stod(basePrice), quality, s->GetUsername()), s);
+      }
+      if (optionSubcategory == "2") {
+        AddNewProduct(ProductFactory::AddWomenClothing(productName, stod(basePrice), quality, s->GetUsername()), s);
+      }
+      if (optionSubcategory == "3") {
+        AddNewProduct(ProductFactory::AddNecklaces(productName, stod(basePrice), quality, s->GetUsername()), s);
+      }
+    }
+    if (optionCategory == "3") {
+      if (optionSubcategory == "1") {
+        AddNewProduct(ProductFactory::AddMonitors(productName, stod(basePrice), quality, s->GetUsername()), s);
+      }
+      if (optionSubcategory == "2") {
+        AddNewProduct(ProductFactory::AddMouse(productName, stod(basePrice), quality, s->GetUsername()), s);
+      }
+      if (optionSubcategory == "3") {
+        AddNewProduct(ProductFactory::AddKeyboard(productName, stod(basePrice), quality, s->GetUsername()), s);
+      }
+    }
+    if (optionCategory == "4") {
+      if (optionSubcategory == "1") {
+        AddNewProduct(ProductFactory::AddCamera(productName, stod(basePrice), quality, s->GetUsername()), s);
+      }
+      if (optionSubcategory == "2") {
+        AddNewProduct(ProductFactory::AddTelevision(productName, stod(basePrice), quality, s->GetUsername()), s);
+      }
+      if (optionSubcategory == "3") {
+        AddNewProduct(ProductFactory::AddPhone(productName, stod(basePrice), quality, s->GetUsername()), s);
+      }
+    }
+    if (optionCategory == "5") {
+      if (optionSubcategory == "1") {
+        AddNewProduct(ProductFactory::AddBasketball(productName, stod(basePrice), quality, s->GetUsername()), s);
+      }
+      if (optionSubcategory == "2") {
+        AddNewProduct(ProductFactory::AddFootball(productName, stod(basePrice), quality, s->GetUsername()), s);
+      }
+      if (optionSubcategory == "3") {
+        AddNewProduct(ProductFactory::AddBaseball(productName, stod(basePrice), quality, s->GetUsername()), s);
+      }
+    }
+    std::cout << "Your product " << productName << " is added to the list for sale!" << std::endl;
   }
   if (option == "2") {
   }

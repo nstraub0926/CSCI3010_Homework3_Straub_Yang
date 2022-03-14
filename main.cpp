@@ -38,5 +38,6 @@ int main() {
       break;
     }
   }
+  t.ViewProductsForSale();
   std::cout << "Thank you for choosing BidToBuy. We expect your next visit." << std::endl;
 }
