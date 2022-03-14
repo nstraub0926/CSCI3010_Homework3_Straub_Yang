@@ -22,7 +22,7 @@ int main() {
       break;
     }
     if (role == "buyer") {
-      std::cout << "Welcome buyer! ";
+      std::cout << "Welcome " << username << "! ";
       t.CheckMessagebox("buyer", username);
       while (1) {
         try {
@@ -32,7 +32,7 @@ int main() {
         }
       }
     } else {
-      std::cout << "Welcome seller! ";
+      std::cout << "Welcome " << username << "! ";
       t.CheckMessagebox("seller", username);
       while (1) {
         try {
