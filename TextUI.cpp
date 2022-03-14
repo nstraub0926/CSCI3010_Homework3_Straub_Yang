@@ -194,6 +194,42 @@ void TextUI::DisplayForBuyer(std::string name) {
     std::cout << "Your account balance is: $" << b->GetAccountBalance() << std::endl;
   }
   if (option == "4") {
+    std::cout << "Which one would you like to change?" << std::endl;
+    std::cout << "1. Name 2. Phone number 3. Address" << std::endl;
+    std::cout << "Please enter an option (1-3): ";
+    std::string optionChangeInfo;
+    std::cin >> optionChangeInfo;
+    while (optionChangeInfo != "1" && optionChangeInfo != "2" && optionChangeInfo != "3") {
+      std::cout << "Please enter a valid option. Enter the option again (1-3): ";
+      std::cin >> optionChangeInfo;
+    }
+    if (optionChangeInfo == "1") {
+      std::cout << "New name: ";
+      std::string newName;
+      std::cin >> newName;
+      while (GetBuyer(newName) != NULL) {
+        std::cout << "The username has been used by another user. Please try a new name: ";
+        std::cin >> newName;
+      }
+      _buyers.erase(b->GetUsername());
+      b->UpdateUsername(newName);
+      _buyers.insert(std::make_pair(newName, b));
+      std::cout << "Your name has been changed to \"" << b->GetUsername() << "\"!" << std::endl;
+    }
+    if (optionChangeInfo == "2") {
+      std::cout << "New phone number: ";
+      std::string newPhoneNum;
+      std::cin >> newPhoneNum;
+      b->UpdatePhoneNum(stol(newPhoneNum));
+      std::cout << "Your name has been changed to \"" << b->GetPhoneNum() << "\"!" << std::endl;
+    }
+    if (optionChangeInfo == "3") {
+      std::cout << "New address: ";
+      std::string newAddress;
+      std::cin >> newAddress;
+      b->UpdateAddress(newAddress);
+      std::cout << "Your name has been changed to \"" << b->GetAddress() << "\"!" << std::endl;
+    }
   }
   if (option == "5") {
   }
