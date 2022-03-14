@@ -348,6 +348,7 @@ void TextUI::DisplayForSeller(std::string name) {
     }
   }
   if (option == "3") {
+    std::cout << "Your current balance is: " << s->GetAccountBalance() << std::endl;
   }
   if (option == "4") {
   }
