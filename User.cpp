@@ -7,7 +7,11 @@ void User::ReadMessage(std::string& replyTo) {
     std::cout << i + 1 << ". From " << _messagebox[i].GetSender() << std::endl;
   }
   std::cout << "Which message do you want to read? Or enter (e) to exit." << std::endl;
-  std::cout << "Please enter an option (1-" << size << "/e): ";
+  if (size == 1) {
+    std::cout << "Please enter an option (1/e): ";
+  } else {
+    std::cout << "Please enter an option (1-" << size << "/e): ";
+  }
   std::string option;
   std::cin >> option;
   if (option == "e") {
