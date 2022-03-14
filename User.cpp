@@ -68,7 +68,7 @@ void Seller::AddProductForSale(int productID, Product* product) {
 
 void Seller::ViewProductList() {
   for (std::map<int, Product*>::iterator i = _productlist.begin(); i != _productlist.end(); i++) {
-    std::cout << "product id: " << i->first << ", product name: " << i->second->GetProductName() << std::endl;
+    std::cout << "product id: " << i->first << ", product name: " << i->second->GetProductName() << ", base price: " << i->second->GetBasePrice() << ", current highest bid: " << i->second->GetHighestBidInfo().first << std::endl;
   }
 }
 

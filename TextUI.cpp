@@ -400,6 +400,7 @@ void TextUI::DisplayForSeller(std::string name) {
     }
   }
   if (option == "6") {
+    s->ViewProductList();
   }
   if (option == "7") {
   }

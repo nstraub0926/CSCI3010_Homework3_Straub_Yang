@@ -12,7 +12,7 @@ class Product {
   bool GetStatus() { return _status; };
   void SetStatus(bool status) { _status = status; };
   double GetBasePrice() { return _basePrice; };
-  std::pair<double, std::string> GetHighestBidInfo() { return _bidList.top(); };
+  std::pair<double, std::string> GetHighestBidInfo() { return _bidList.empty() ? std::make_pair<double, std::string>(0, "") : _bidList.top(); };
   void SetCurrentBid(double newBid, std::string buyer);
   std::string GetQuality() { return _quality; };
 
