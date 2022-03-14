@@ -180,7 +180,15 @@ void TextUI::DisplayForBuyer(std::string name) {
     std::cout << "Here's a list of all currently biddable products: " << std::endl;
   }
   if (option == "2") {
-    std::cout << "Messages" << std::endl;
+    std::string replyTo;
+    b->ReadMessage(replyTo);
+    if (replyTo != "") {
+      std::cout << "Please write the content of your message here:" << std::endl;
+      std::string content;
+      std::cin >> content;
+      SendMessage(b->GetUsername(), replyTo, "seller", content);
+      std::cout << "The message is sent to " << replyTo << "!" << std::endl;
+    }
   }
   if (option == "3") {
     std::cout << "Your account balance is: $" << b->GetAccountBalance() << std::endl;
