@@ -3,6 +3,9 @@
 void User::ReadMessage(std::string& replyTo) {
   int size = _messagebox.size();
   std::cout << "You have " << size << " message(s)." << std::endl;
+  if (size == 0) {
+    return;
+  }
   for (int i = 0; i < size; i++) {
     std::cout << i + 1 << ". From " << _messagebox[i].GetSender() << std::endl;
   }
