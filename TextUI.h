@@ -18,13 +18,13 @@ class TextUI {
   void LoadInUserData(std::string filename);
   void LoadInBidsData(std::string filename);
   std::string LogInUsername(std::string role);
-  void DisplayForSeller(std::string name);
   void DisplayForBuyer(std::string name);
+  void DisplayForSeller(std::string name);
   void ViewProductsForSale();
   void ViewHistoryProducts();
   Seller* GetSeller(std::string name);
   Buyer* GetBuyer(std::string name);
-  bool MakeNewUser(std::string name, std::string address, long phoneNum, double accountBalance, std::string userType);
+  bool MakeNewUser(std::string name, std::string address, long phoneNum, double accountBalance, double rateTotal, int rateCount, std::string userType);
   bool AddNewProduct(Product* p, Seller* seller);
   bool AddBidToProduct(int id, double bid, Buyer* buyer);
   static int GetID() {

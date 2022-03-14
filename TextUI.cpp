@@ -41,44 +41,6 @@ std::string TextUI::DisplayRoleChoice() {
   return role;
 }
 
-void TextUI::DisplayForBuyer(std::string name) {
-  Buyer* b = GetBuyer(name);
-
-  std::string option;
-  std::cout << "Welcome buyer! Please choose from the following list of buyer options: " << std::endl;
-  std::cout << "1. View/Bid-On Products" << std::endl;
-  std::cout << "2. View/Send Messages" << std::endl;
-  std::cout << "3. Check Account Balance" << std::endl;
-  std::cout << "4. Update User Info" << std::endl;
-  std::cout << "5. View Bid History" << std::endl;
-  std::cout << "6. View Purchased Products" << std::endl;
-  std::cout << "7. Exit the program?" << std::endl;
-  std::cin >> option;
-
-  while (option != "1" && option != "2" && option != "3" && option != "4" && option != "5" && option != "6" && option != "7") {
-    std::cout << "Please enter a valid option. Enter your option again (1-7): ";
-    std::cin >> option;
-  }
-
-  if (option == "1") {
-    std::cout << "Here's a list of all currently biddable products: " << std::endl;
-  }
-  if (option == "2") {
-    std::cout << "Messages" << std::endl;
-  }
-  if (option == "3") {
-    std::cout << "Your account balance is: $" << b->GetAccountBalance() << std::endl;
-  }
-  if (option == "4") {
-  }
-  if (option == "5") {
-  }
-  if (option == "6") {
-  }
-  if (option == "7") {
-  }
-}
-
 void TextUI::LoadInUserData(std::string filename) {
   std::fstream file(filename, std::ios::in);
   std::string line;
@@ -95,11 +57,11 @@ void TextUI::LoadInUserData(std::string filename) {
       getline(str, phoneNum, ',');
       std::string accountBalance;
       getline(str, accountBalance, ',');
-      std::string avgRating;
-      getline(str, avgRating, ',');
-      std::string orderCount;
-      getline(str, orderCount, ',');
-      MakeNewUser(username, address, stol(phoneNum), stod(accountBalance), userType);
+      std::string rateTotal;
+      getline(str, rateTotal, ',');
+      std::string rateCount;
+      getline(str, rateCount, ',');
+      MakeNewUser(username, address, stol(phoneNum), stod(accountBalance), stol(rateTotal), stoi(rateCount), userType);
     }
   }
 }
@@ -173,7 +135,7 @@ std::string TextUI::LogInUsername(std::string role) {
         std::cout << "Add money to account: ";
         std::cin >> accountBalance;
 
-        MakeNewUser(username, address, phoneNum, accountBalance, "Buyer");
+        MakeNewUser(username, address, phoneNum, accountBalance, 0.0, 0, "buyer");
       }
       if (option == "e") {
         throw std::exception();
@@ -204,7 +166,7 @@ std::string TextUI::LogInUsername(std::string role) {
         std::cout << "Add money to account: ";
         std::cin >> accountBalance;
 
-        MakeNewUser(username, address, phoneNum, accountBalance, "Seller");
+        MakeNewUser(username, address, phoneNum, accountBalance, 0.0, 0, "seller");
       }
       if (option == "e") {
         throw std::exception();
@@ -212,6 +174,88 @@ std::string TextUI::LogInUsername(std::string role) {
     }
   }
   return username;
+}
+
+void TextUI::DisplayForBuyer(std::string name) {
+  Buyer* b = GetBuyer(name);
+
+  std::string option;
+  std::cout << "Welcome buyer! Please choose from the following list of buyer options: " << std::endl;
+  std::cout << "1. View/Bid-On Products" << std::endl;
+  std::cout << "2. View/Send Messages" << std::endl;
+  std::cout << "3. Check Account Balance" << std::endl;
+  std::cout << "4. Update User Info" << std::endl;
+  std::cout << "5. View Bid History" << std::endl;
+  std::cout << "6. View Purchased Products" << std::endl;
+  std::cout << "7. Exit the program?" << std::endl;
+  std::cin >> option;
+
+  while (option != "1" && option != "2" && option != "3" && option != "4" && option != "5" && option != "6" && option != "7") {
+    std::cout << "Please enter a valid option. Enter your option again (1-7): ";
+    std::cin >> option;
+  }
+
+  if (option == "1") {
+    std::cout << "Here's a list of all currently biddable products: " << std::endl;
+  }
+  if (option == "2") {
+    std::cout << "Messages" << std::endl;
+  }
+  if (option == "3") {
+    std::cout << "Your account balance is: $" << b->GetAccountBalance() << std::endl;
+  }
+  if (option == "4") {
+  }
+  if (option == "5") {
+  }
+  if (option == "6") {
+  }
+  if (option == "7") {
+    throw std::exception();
+  }
+}
+
+void TextUI::DisplayForSeller(std::string name) {
+  Seller* b = GetSeller(name);
+
+  if (!b->MessageboxIsEmpty()) {
+    std::cout << "You have new message(s)!" << std::endl;
+  }
+
+  std::string option;
+  std::cout << "Welcome seller! Please choose from the following list of buyer options: " << std::endl;
+  std::cout << "1. Post a product for sale" << std::endl;
+  std::cout << "2. View/Send messages" << std::endl;
+  std::cout << "3. Check account balance" << std::endl;
+  std::cout << "4. Rate a buyer" << std::endl;
+  std::cout << "5. Update user info" << std::endl;
+  std::cout << "6. View product list" << std::endl;
+  std::cout << "7. Close bid on a product" << std::endl;
+  std::cout << "8. Exit the program" << std::endl;
+  std::cin >> option;
+
+  while (option != "1" && option != "2" && option != "3" && option != "4" && option != "5" && option != "6" && option != "7" && option != "8") {
+    std::cout << "Please enter a valid option. Enter your option again (1-8): ";
+    std::cin >> option;
+  }
+
+  if (option == "1") {
+  }
+  if (option == "2") {
+  }
+  if (option == "3") {
+  }
+  if (option == "4") {
+  }
+  if (option == "5") {
+  }
+  if (option == "6") {
+  }
+  if (option == "7") {
+  }
+  if (option == "8") {
+    throw std::exception();
+  }
 }
 
 void TextUI::ViewProductsForSale() {
@@ -236,12 +280,12 @@ Buyer* TextUI::GetBuyer(std::string name) {
   }
 }
 
-bool TextUI::MakeNewUser(std::string name, std::string address, long phoneNum, double accountBalance, std::string userType) {
+bool TextUI::MakeNewUser(std::string name, std::string address, long phoneNum, double accountBalance, double rateTotal, int rateCount, std::string userType) {
   if (userType == "seller") {
-    _sellers.insert(std::make_pair(name, new Seller(name, address, phoneNum, accountBalance)));
+    _sellers.insert(std::make_pair(name, new Seller(name, address, phoneNum, accountBalance, rateTotal, rateCount)));
     return true;
   } else if (userType == "buyer") {
-    _buyers.insert(std::make_pair(name, new Buyer(name, address, phoneNum, accountBalance)));
+    _buyers.insert(std::make_pair(name, new Buyer(name, address, phoneNum, accountBalance, rateTotal, rateCount)));
     return true;
   } else {
     return false;

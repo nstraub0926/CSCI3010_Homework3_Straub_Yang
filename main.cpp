@@ -20,12 +20,19 @@ int main() {
       break;
     }
 
-    if (role == "buyer") {
-      // t.GetBuyer(username);
-      t.DisplayForBuyer(username);
-    } else {
-      t.GetSeller(username);
+    try {
+      if (role == "buyer") {
+        while (1) {
+          t.DisplayForBuyer(username);
+        }
+      } else {
+        while (1) {
+          t.DisplayForSeller(username);
+        }
+      }
+    } catch (std::exception&) {
+      break;
     }
-    break;
   }
+  std::cout << "Thank you for choosing BidToBuy. We expect your next visit." << std::endl;
 }
