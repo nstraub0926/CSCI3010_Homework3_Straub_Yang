@@ -275,7 +275,7 @@ void TextUI::DisplayForSeller(std::string name) {
     std::cout << "The quality of your product (new, used-verygood, used-good, used-okay): ";
     std::string quality;
     std::cin >> quality;
-    if (quality != "New" && quality != "used-verygood" && quality != "used-good" && quality != "used-okay") {
+    if (quality != "new" && quality != "used-verygood" && quality != "used-good" && quality != "used-okay") {
       std::cout << "Please enter a valid quality. Enter the quality again (new, used-verygood, used-good, used-okay): ";
       std::cin >> quality;
     }
@@ -379,6 +379,10 @@ void TextUI::DisplayForSeller(std::string name) {
       std::cout << "New name: ";
       std::string newName;
       std::cin >> newName;
+      while (GetSeller(newName) != NULL) {
+        std::cout << "The username has been used by the other user. Please try a new name: ";
+        std::cin >> newName;
+      }
       _sellers.erase(s->GetUsername());
       s->UpdateUsername(newName);
       _sellers.insert(std::make_pair(newName, s));
