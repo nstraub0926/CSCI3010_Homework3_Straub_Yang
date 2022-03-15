@@ -183,53 +183,51 @@ void TextUI::DisplayForBuyer(std::string name) {
       for (auto i = _products.begin(); i != _products.end(); i++) {
         std::cout << "Product ID: " << i->first << " | Name: " << i->second->GetProductName() << " | Quality: " << i->second->GetQuality() << " | Base Price: " << i->second->GetBasePrice() << " | Highest Bid: " << i->second->GetHighestBidInfo().first << std::endl;
       }
-      std::string productBid;
       std::cout << "Select item to bid on via Product ID (or select (e) to escape back to main page)" << std::endl;
-      std::cin >> productBid;
-      while (productBid != "e" && stoi(productBid) > _products.size()) {
+      std::string productID;
+      std::cin >> productID;
+      while (productID != "e" && _products.find(stoi(productID)) == _products.end()) {
         std::cout << "Please enter a valid option. Enter the option again (Product ID or (e) to exit): ";
-        std::cin >> productBid;
+        std::cin >> productID;
       }
-      if (productBid == "e") {
+      if (productID == "e") {
         return;
       }
-      std::string bidPrice;
       std::cout << "Please make a bid on the chosen product (bid > current highest bid OR base price && bid < user balance): ";
+      std::string bidPrice;
       std::cin >> bidPrice;
-      if (_products[stoi(productBid)]->GetHighestBidInfo().first == 0) {
-        while (stod(bidPrice) <= _products[stoi(productBid)]->GetBasePrice()) {
-          std::cout << "New bid price must exceed the base price (i.e newBid > " << _products[stoi(productBid)]->GetBasePrice() << ")" << std::endl;
-          std::cout << "Please make a bid on the chosen product (bid must be > base price): ";
+      if (_products[stoi(productID)]->GetHighestBidInfo().first == 0) {
+        while (stod(bidPrice) <= _products[stoi(productID)]->GetBasePrice() || stod(bidPrice) >= b->GetAccountBalance()) {
+          if (stod(bidPrice) <= _products[stoi(productID)]->GetBasePrice()) {
+            std::cout << "New bid price must exceed the base price (i.e newBid > " << _products[stoi(productID)]->GetBasePrice() << ")" << std::endl;
+            std::cout << "Please make a bid on the chosen product (bid must be greater than the base price): ";
+          } else {
+            std::cout << "New bid price must not exceed your account balance (i.e newBid < " << b->GetAccountBalance() << ")" << std::endl;
+            std::cout << "Please make a bid on the chosen product (bid must be less than your account balance): ";
+          }
           std::cin >> bidPrice;
         }
-        while (stod(bidPrice) >= b->GetAccountBalance()) {
-          std::cout << "New bid price must not exceed your account baalnce (i.e newBid < " << b->GetAccountBalance() << ")" << std::endl;
-          std::cout << "Please make a bid on the chosen product (bid must be < account balance): ";
+      } else {
+        while (stod(bidPrice) <= _products[stoi(productID)]->GetHighestBidInfo().first || stod(bidPrice) >= b->GetAccountBalance()) {
+          if (stod(bidPrice) <= _products[stoi(productID)]->GetHighestBidInfo().first) {
+            std::cout << "New bid price must exceed the current highest bid (i.e newBid > " << _products[stoi(productID)]->GetHighestBidInfo().first << ")" << std::endl;
+            std::cout << "Please make a bid on the chosen product (bid must be greater than the current highest bid): ";
+          } else {
+            std::cout << "New bid price must not exceed your account balance (i.e newBid < " << b->GetAccountBalance() << ")" << std::endl;
+            std::cout << "Please make a bid on the chosen product (bid must be less than your account balance): ";
+          }
           std::cin >> bidPrice;
         }
       }
-      else {
-        while (stod(bidPrice) <= _products[stoi(productBid)]->GetHighestBidInfo().first) {
-          std::cout << "New bid price must exceed the current highest bid (i.e newBid > " << _products[stoi(productBid)]->GetHighestBidInfo().first << ")" << std::endl;
-          std::cout << "Please make a bid on the chosen product (bid must be > current highest bid): ";
-          std::cin >> bidPrice;
-        }
-        while (stod(bidPrice) >= b->GetAccountBalance()) {
-          std::cout << "New bid price must not exceed your account baalnce (i.e newBid < " << b->GetAccountBalance() << ")" << std::endl;
-          std::cout << "Please make a bid on the chosen product (bid must be < account balance): ";
-          std::cin >> bidPrice;
-        }
-      }
-      b->AddBidToProduct(_products[stoi(productBid)]->GetProductName(), stod(bidPrice));
-      _products[stoi(productBid)]->SetCurrentBid(stod(bidPrice),b->GetUsername());
-    }
-    else {
+      b->AddBidToProduct(_products[stoi(productID)]->GetProductName(), stod(bidPrice));
+      _products[stoi(productID)]->SetCurrentBid(stod(bidPrice), b->GetUsername());
+    } else {
       std::cout << "There are currently no products to bid on, please check back for new product listings!" << std::endl;
     }
   }
   if (option == "2") {
     std::string replyTo;
-    int productID;
+    int productID = -1;
     b->ReadMessage(replyTo, productID);
     if (replyTo != "") {
       std::cout << "Please write the content of your message here:" << std::endl;
@@ -238,7 +236,24 @@ void TextUI::DisplayForBuyer(std::string name) {
       std::getline(std::cin, content);
       if (productID > 0) {
         SendMessage(b->GetUsername(), replyTo, "seller", content, productID);
-
+        Product* p = _products[productID];
+        Seller* s = GetSeller(replyTo);
+        double bid = p->GetHighestBidInfo().first;
+        double deliverFee = p->IsDelivered() ? p->GetHighestBidInfo().first * 0.05 : 0;
+        while (bid + deliverFee > b->GetAccountBalance()) {
+          std::cout << "Your account balance is not enough to purchase the product. Please save more money to your account." << std::endl;
+          std::cout << "How much do you want to save to your account: ";
+          std::string money;
+          std::cin >> money;
+          b->UpdateAccountBalance(stod(money));
+        }
+        b->UpdateAccountBalance((bid + deliverFee) * -1);
+        b->AddToHistoryOrders(p);
+        s->UpdateAccountBalance(bid);
+        s->AddToHistoryProducts(productID);
+        p->SetBuyer(b->GetUsername());
+        _products.erase(productID);
+        _historyOrders.push_back(p);
       } else {
         SendMessage(b->GetUsername(), replyTo, "seller", content);
       }
@@ -246,10 +261,22 @@ void TextUI::DisplayForBuyer(std::string name) {
     }
   }
   if (option == "3") {
-    std::cout << "Your account balance is: $" << b->GetAccountBalance() << std::endl;
-    std::cout << "\n";
+    std::cout << "Your current balance is: " << b->GetAccountBalance() << std::endl;
   }
   if (option == "4") {
+    std::string userToRate = b->GetUserToRate();
+    if (userToRate != "") {
+      std::cout << "How would you like to rate " << userToRate << "? (0-5): ";
+      std::string rate;
+      std::cin >> rate;
+      while (rate != "0" && rate != "1" && rate != "2" && rate != "3" && rate != "4" && rate != "5") {
+        std::cout << "Please enter a valid rate. Enter the rate again (0-5): ";
+        std::cin >> rate;
+      }
+      Seller* s = GetSeller(userToRate);
+      s->AddNewRate(stod(rate));
+      std::cout << "You just rated " << userToRate << "!" << std::endl;
+    }
   }
   if (option == "5") {
     std::cout << "Which one would you like to change?" << std::endl;
@@ -279,32 +306,33 @@ void TextUI::DisplayForBuyer(std::string name) {
       std::string newPhoneNum;
       std::cin >> newPhoneNum;
       b->UpdatePhoneNum(stol(newPhoneNum));
-      std::cout << "Your name has been changed to \"" << b->GetPhoneNum() << "\"!" << std::endl;
+      std::cout << "Your phone number has been changed to \"" << b->GetPhoneNum() << "\"!" << std::endl;
     }
     if (optionChangeInfo == "3") {
       std::cout << "New address: ";
       std::string newAddress;
-      std::cin >> newAddress;
+      std::getline(std::cin, newAddress);
+      std::getline(std::cin, newAddress);
       b->UpdateAddress(newAddress);
-      std::cout << "Your name has been changed to \"" << b->GetAddress() << "\"!" << std::endl;
+      std::cout << "Your address has been changed to \"" << b->GetAddress() << "\"!" << std::endl;
     }
   }
   if (option == "6") {
-    std::map<std::string, std::vector<double>> allBids = b->GetBidsHistory();
+    std::map<std::string, std::vector<double> > allBids = b->GetBidsHistory();
     for (auto i = allBids.begin(); i != allBids.end(); i++) {
       std::cout << "Product Name: " << i->first << " | Bid Prices: ";
-      for (auto j = 0; j < i->second.size(); j++) {
+      int size = i->second.size();
+      for (int j = 0; j < size; j++) {
         std::cout << i->second[j];
-        if (j != i->second.size()-1) {
+        if (j != size - 1) {
           std::cout << ", ";
         }
-        else {
-          std::cout << "\n";
-        }
       }
+      std::cout << std::endl;
     }
   }
   if (option == "7") {
+    b->ViewHistoryOrders();
   }
   if (option == "8") {
     throw std::exception();
@@ -448,16 +476,15 @@ void TextUI::DisplayForSeller(std::string name) {
     std::string replyTo;
     int productID = -1;
     s->ReadMessage(replyTo, productID);
+    if (productID > 0) {
+      return;
+    }
     if (replyTo != "") {
       std::cout << "Please write the content of your message here:" << std::endl;
       std::string content;
       std::getline(std::cin, content);
       std::getline(std::cin, content);
-      if (productID > 0) {
-        SendMessage(s->GetUsername(), replyTo, "buyer", content);
-      } else {
-        SendMessage(s->GetUsername(), replyTo, "buyer", content);
-      }
+      SendMessage(s->GetUsername(), replyTo, "buyer", content);
       std::cout << "The message is sent to " << replyTo << "!" << std::endl;
     }
   }
@@ -543,12 +570,8 @@ void TextUI::DisplayForSeller(std::string name) {
       std::cin >> deliveryOption;
     }
     Product* p = s->GetProductInfo(stoi(id));
-    p->SetCurrentBid(10.0, "Nathan_Straub");
-    p->SetStatus(false);
-    double highestBid;
     if (p->GetHighestBidInfo().first != 0) {
-      highestBid = p->GetHighestBidInfo().first;
-      std::vector<std::string> buyers = p->CloseOnBid();
+      std::vector<std::string> buyers = p->ExtractBuyers();
       std::string messageContent;
       if (deliveryOption == "pickup") {
         std::string address = s->GetAddress();
@@ -559,6 +582,7 @@ void TextUI::DisplayForSeller(std::string name) {
         }
         messageContent = "Congratulations! You just won the bid on " + p->GetProductName() + "! My address is: " + address + ", please come to pick up.";
       } else if (deliveryOption == "delivery") {
+        p->SetDelivery();
         messageContent = "Contratulations! You just won the bid on " + p->GetProductName() + "! Please message me back your address.";
       }
       SendMessage(s->GetUsername(), buyers[0], "buyer", messageContent, stoi(id));
@@ -654,16 +678,5 @@ bool TextUI::AddNewProduct(Product* p, Seller* seller) {
     return false;
   }
 }
-
-/*bool TextUI::AddBidToProduct(int id, double bid, Buyer* buyer) {
-  if (_products.find(id) != _products.end()) {
-    buyer->AddBidToProduct(_products[id], bid);
-    _products[id]->SetCurrentBid(bid, buyer->GetUsername());
-    return true;
-  } else {
-    std::cout << "The product id is not in the list." << std::endl;
-    return false;
-  }
-}*/
 
 int TextUI::id = 0;

@@ -45,9 +45,9 @@ class Seller : public User {
   Seller(std::string name, std::string address, long phoneNum, double accountBalance, double rateTotal, int rateCount) : User(name, address, phoneNum, accountBalance, rateTotal, rateCount){};
   void AddProductForSale(int productID, Product* product);
   void ViewProductList();
-  void SetProductStatus(int productID, bool status);
   int GetProductlistSize() { return _productlist.size(); };
   Product* GetProductInfo(int productID);
+  void AddToHistoryProducts(int productID);
 
  private:
   std::map<int, Product*> _productlist;
@@ -58,9 +58,11 @@ class Buyer : public User {
  public:
   Buyer(std::string name, std::string address, long phoneNum, double accountBalance, double rateTotal, int rateCount) : User(name, address, phoneNum, accountBalance, rateTotal, rateCount){};
   void AddBidToProduct(std::string, double bid);
-  std::map<std::string, std::vector<double>> GetBidsHistory() { return _bidsHistory; }
+  std::map<std::string, std::vector<double> > GetBidsHistory() { return _bidsHistory; }
+  void ViewHistoryOrders();
+  void AddToHistoryOrders(Product* p) { _historyOrders.push_back(p); };
 
  private:
-  std::map<std::string, std::vector<double>> _bidsHistory;
+  std::map<std::string, std::vector<double> > _bidsHistory;
   std::vector<Product*> _historyOrders;
 };

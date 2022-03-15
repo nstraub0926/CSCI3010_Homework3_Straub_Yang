@@ -9,22 +9,23 @@ class Product {
   Product(std::string name, double basePrice, std::string quality, std::string seller);
   Product(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid);
   std::string GetProductName() { return _name; };
-  bool GetStatus() { return _status; };
-  void SetStatus(bool status) { _status = status; };
   double GetBasePrice() { return _basePrice; };
   std::pair<double, std::string> GetHighestBidInfo() { return _bidList.empty() ? std::make_pair<double, std::string>(0, "") : _bidList.top(); };
-  std::vector<std::string> CloseOnBid();
+  std::vector<std::string> ExtractBuyers();
   void SetCurrentBid(double newBid, std::string buyer);
   std::string GetQuality() { return _quality; };
+  void SetDelivery() { _delivery = true; };
+  bool IsDelivered() { return _delivery; };
+  void SetBuyer(std::string buyer) { _buyer = buyer; };
 
  private:
   std::string _name;
-  bool _status;
   double _basePrice;
   std::string _quality;
   std::string _seller;
   std::string _buyer;
   std::priority_queue<std::pair<double, std::string> > _bidList;
+  bool _delivery;
 };
 
 class Electronics : public Product {

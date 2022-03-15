@@ -9,7 +9,7 @@ void User::ReadMessage(std::string& replyTo, int& productID) {
   for (int i = 0; i < size; i++) {
     std::cout << i + 1 << ". From " << _messagebox[i].GetSender();
     if (_messagebox[i].IsConfirmationMessage()) {
-      std::cout << ", this is a confirmation message for purchasing product id " << _messagebox[i].GetProductID() << "." << std::endl;
+      std::cout << ", this is a confirmation message for purchasing a product (product id " << _messagebox[i].GetProductID() << ")." << std::endl;
     }
   }
   std::cout << "Which message do you want to read? Or enter (e) to exit." << std::endl;
@@ -79,7 +79,7 @@ void Seller::AddProductForSale(int productID, Product* product) {
 
 void Seller::ViewProductList() {
   for (std::map<int, Product*>::iterator i = _productlist.begin(); i != _productlist.end(); i++) {
-    std::cout << "product id: " << i->first << ", product name: " << i->second->GetProductName() << ", base price: " << i->second->GetBasePrice() << ", current highest bid: " << i->second->GetHighestBidInfo().first << std::endl;
+    std::cout << "Product id: " << i->first << ", product name: " << i->second->GetProductName() << ", base price: " << i->second->GetBasePrice() << ", current highest bid: " << i->second->GetHighestBidInfo().first << std::endl;
   }
 }
 
@@ -91,6 +91,19 @@ Product* Seller::GetProductInfo(int productID) {
   }
 }
 
+void Seller::AddToHistoryProducts(int productID) {
+  Product* p = _productlist[productID];
+  _productlist.erase(productID);
+  _historyProducts.push_back(p);
+}
+
 void Buyer::AddBidToProduct(std::string name, double bid) {
   _bidsHistory[name].push_back(bid);
+}
+
+void Buyer::ViewHistoryOrders() {
+  int size = _historyOrders.size();
+  for (int i = 0; i < size; i++) {
+    std::cout << "Product name: " << _historyOrders[i]->GetProductName() << ", bid: " << _historyOrders[i]->GetHighestBidInfo().first << std::endl;
+  }
 }

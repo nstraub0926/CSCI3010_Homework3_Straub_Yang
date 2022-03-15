@@ -10,8 +10,6 @@ int main() {
   TextUI& t = TextUI::GetInstance();
   t.LoadInUserData("Users.csv");
   t.LoadInBidsData("Bids.csv");
-  t.SendMessage("Nathan_Straub", "Peter_Yang", "seller", "test1");
-  t.SendMessage("Nathan_Straub", "Peter_Yang", "seller", "test2");
 
   while (1) {
     std::string role = t.DisplayRoleChoice();

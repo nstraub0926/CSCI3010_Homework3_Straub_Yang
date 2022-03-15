@@ -30,7 +30,6 @@ class TextUI {
   Buyer* GetBuyer(std::string name);
   bool MakeNewUser(std::string name, std::string address, long phoneNum, double accountBalance, double rateTotal, int rateCount, std::string userType);
   bool AddNewProduct(Product* p, Seller* seller);
-  bool AddBidToProduct(int id, double bid, Buyer* buyer);
   static int GetID() {
     id++;
     return id;
