@@ -23,6 +23,7 @@ class User {
   void ReadMessage(std::string& replyTo, int& productID);
   void ReceiveMessage(Message message) { _messagebox.push_back(message); };
   std::string GetUserToRate();
+  void AddUserToRate(std::string username) { _userToRate.push_back(username); };
   double GetRate() { return _rateTotal / _rateCount; };
   double GetRateTotal() { return _rateTotal; };
   int GetRateCount() { return _rateCount; };

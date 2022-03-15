@@ -249,8 +249,10 @@ void TextUI::DisplayForBuyer(std::string name) {
         }
         b->UpdateAccountBalance((bid + deliverFee) * -1);
         b->AddToHistoryOrders(p);
+        b->AddUserToRate(s->GetUsername());
         s->UpdateAccountBalance(bid);
         s->AddToHistoryProducts(productID);
+        s->AddUserToRate(b->GetUsername());
         p->SetBuyer(b->GetUsername());
         _products.erase(productID);
         _historyOrders.push_back(p);
@@ -401,7 +403,22 @@ void TextUI::DisplayForSeller(std::string name) {
       std::cout << "Please enter a valid option. Enter your option again (1-3): ";
       std::cin >> optionSubcategory;
     }
-    std::cout << "The name of your product: " << std::endl;
+    std::cout << "Do you want to view prices of similar products that were historically sold? (yes/no): ";
+    std::string viewHistoryOrdersOrNot;
+    std::cin >> viewHistoryOrdersOrNot;
+    while (viewHistoryOrdersOrNot != "yes" && viewHistoryOrdersOrNot != "no") {
+      std::cout << "Please enter a valid option. Enter the option again (yes/no): ";
+      std::cin >> viewHistoryOrdersOrNot;
+    }
+    if (viewHistoryOrdersOrNot == "yes") {
+      int size = _historyOrders.size();
+      for (int i = 0; i < size; i++) {
+        if (_historyOrders[i]->GetProductSubcategory() == _productCategories[category][stoi(optionSubcategory) - 1]) {
+          std::cout << "Product name: " << _historyOrders[i]->GetProductName() << ", bid: " << _historyOrders[i]->GetHighestBidInfo().first << std::endl;
+        }
+      }
+    }
+    std::cout << "The name of your product: ";
     std::string productName;
     std::getline(std::cin, productName);
     std::getline(std::cin, productName);
@@ -683,10 +700,10 @@ void TextUI::WriteToUserCSV() {
   std::ofstream f;
   f.open("Users.csv");
   for (auto i = _sellers.begin(); i != _sellers.end(); i++) {
-    f << "seller," << i->GetUsername() << "," << i->GetAddress() << "," << i->GetPhoneNum() << "," << i->GetAccountBalance() << "," << i->GetRateTotal() << "," << i->GetRateCount() << "\n";
+    f << "seller," << i->second->GetUsername() << "," << i->second->GetAddress() << "," << i->second->GetPhoneNum() << "," << i->second->GetAccountBalance() << "," << i->second->GetRateTotal() << "," << i->second->GetRateCount() << "\n";
   }
   for (auto i = _buyers.begin(); i != _buyers.end(); i++) {
-    f << "buyer," << i->GetUsername() << "," << i->GetAddress() << "," << i->GetPhoneNum() << "," << i->GetAccountBalance() << "," << i->GetRateTotal() << "," << i->GetRateCount() << "\n";
+    f << "buyer," << i->second->GetUsername() << "," << i->second->GetAddress() << "," << i->second->GetPhoneNum() << "," << i->second->GetAccountBalance() << "," << i->second->GetRateTotal() << "," << i->second->GetRateCount() << "\n";
   }
   f.close();
 }
