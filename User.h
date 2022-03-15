@@ -20,7 +20,7 @@ class User {
   double GetAccountBalance() { return _accountBalance; };
   void UpdateAccountBalance(double newBalance) { _accountBalance += newBalance; };
   bool MessageboxIsEmpty() { return _messagebox.empty(); };
-  void ReadMessage(std::string& replyTo);
+  void ReadMessage(std::string& replyTo, int& productID);
   void ReceiveMessage(Message message) { _messagebox.push_back(message); };
   std::string GetUserToRate();
   double GetRate() { return _rateTotal / _rateCount; };
@@ -46,6 +46,7 @@ class Seller : public User {
   void AddProductForSale(int productID, Product* product);
   void ViewProductList();
   void SetProductStatus(int productID, bool status);
+  int GetProductlistSize() { return _productlist.size(); };
   Product* GetProductInfo(int productID);
 
  private:
