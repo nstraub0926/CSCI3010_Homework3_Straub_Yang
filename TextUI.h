@@ -47,5 +47,6 @@ class TextUI {
   std::map<std::string, Seller*> _sellers;  // <username, pointer to the seller>
   std::map<std::string, Buyer*> _buyers;    // <username, pointer to the buyer>
   std::map<int, Product*> _products;        // <product id, pointer to the product>
+  std::map<int, Product*> _pendingProducts;
   std::vector<Product*> _historyOrders;
 };

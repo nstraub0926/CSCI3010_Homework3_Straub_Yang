@@ -14,8 +14,8 @@ class Product {
   std::vector<std::string*> ExtractBuyers();
   void SetCurrentBid(double newBid, std::string* buyer);
   std::string GetQuality() { return _quality; };
-  void SetDelivery() { _delivery = true; };
-  bool IsDelivered() { return _delivery; };
+  void SetToDeliver() { _delivery = true; };
+  bool IsToDeliver() { return _delivery; };
   std::string* GetSeller() { return _seller; };
   void SetBuyer(std::string* buyer) { _buyer = buyer; };
   std::string* GetBuyer() { return _buyer; };

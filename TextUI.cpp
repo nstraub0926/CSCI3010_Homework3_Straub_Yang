@@ -237,10 +237,10 @@ void TextUI::DisplayForBuyer(std::string name) {
       std::getline(std::cin, content);
       std::getline(std::cin, content);
       if (productID > 0) {
-        Product* p = _products[productID];
+        Product* p = _pendingProducts[productID];
         Seller* s = GetSeller(*replyTo);
         double bid = p->GetHighestBidInfo().first;
-        double deliverFee = p->IsDelivered() ? p->GetHighestBidInfo().first * 0.05 : 0;
+        double deliverFee = p->IsToDeliver() ? p->GetHighestBidInfo().first * 0.05 : 0;
         while (bid + deliverFee > b->GetAccountBalance()) {
           std::cout << "Your account balance is not enough to purchase the product. Please save more money to your account." << std::endl;
           std::cout << "How much do you want to save to your account: ";
@@ -255,7 +255,7 @@ void TextUI::DisplayForBuyer(std::string name) {
         s->AddToHistoryProducts(productID);
         s->AddUserToRate(b->GetUsername());
         p->SetBuyer(b->GetUsername());
-        _products.erase(productID);
+        _pendingProducts.erase(productID);
         _historyOrders.push_back(p);
       }
       SendMessage(b->GetUsername(), replyTo, "seller", content);
@@ -572,7 +572,7 @@ void TextUI::DisplayForSeller(std::string name) {
     std::cout << "Enter a product id: ";
     std::string id;
     std::cin >> id;
-    while (s->GetProductInfo(stoi(id)) == NULL) {
+    while (s->GetProductInfo(stoi(id)) == NULL && !s->GetProductInfo(stoi(id))->GetStatus()) {
       std::cout << "Please enter a valid product id. Enter the product id again: ";
       std::cin >> id;
     }
@@ -585,6 +585,8 @@ void TextUI::DisplayForSeller(std::string name) {
     }
     Product* p = s->GetProductInfo(stoi(id));
     p->SetStatus(false);
+    _products.erase(stoi(id));
+    _pendingProducts.insert(std::make_pair(stoi(id), p));
     if (p->GetHighestBidInfo().first != 0) {
       std::vector<std::string*> buyers = p->ExtractBuyers();
       std::string messageContent;
@@ -597,10 +599,11 @@ void TextUI::DisplayForSeller(std::string name) {
         }
         messageContent = "Congratulations! You just won the bid on " + p->GetProductName() + "! My address is: " + address + ", please come to pick up.";
       } else {
-        p->SetDelivery();
-        messageContent = "Contratulations! You just won the bid on " + p->GetProductName() + "! Please message me back your address.";
+        p->SetToDeliver();
+        messageContent = "Congratulations! You just won the bid on " + p->GetProductName() + "! Please message me back your address.";
       }
       SendMessage(s->GetUsername(), buyers[0], "buyer", messageContent, stoi(id));
+      std::cout << "The notification message is sent to " << *buyers[0] << "!" << std::endl;
       if (buyers.size() > 1) {
         int size = buyers.size();
         for (int i = 1; i < size; i++) {

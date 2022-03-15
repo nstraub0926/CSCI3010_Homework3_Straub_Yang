@@ -54,18 +54,31 @@ std::string* User::GetUserToRate() {
     std::cout << "There is no user to rate." << std::endl;
     return NULL;
   }
-
-  std::cout << "Please choose a user to rate:" << std::endl;
+  std::cout << "Please choose a user to rate, or enter (e) to exit:" << std::endl;
   for (int i = 0; i < size; i++) {
     std::cout << i + 1 << ". " << *_userToRate[i] << " ";
   }
   std::cout << std::endl;
-  std::cout << "Please choose an option (1-" << size << "): ";
+  if (size > 1) {
+    std::cout << "Please choose an option (1-" << size << "/e): ";
+  } else {
+    std::cout << "Please choose an option (1/e): ";
+  }
   std::string option;
   std::cin >> option;
+  if (option == "e") {
+    return NULL;
+  }
   while (stoi(option) > size || stoi(option) < 1) {
-    std::cout << "Please enter a valid option. Enter the option again (1-" << size << "): ";
+    if (size > 1) {
+      std::cout << "Please enter a valid option. Enter the option again (1-" << size << "/e): ";
+    } else {
+      std::cout << "Please enter a valid option. Enter the option again (1-e): ";
+    }
     std::cin >> option;
+    if (option == "e") {
+      return NULL;
+    }
   }
   std::string* userToRate = _userToRate[stoi(option) - 1];
   _userToRate.erase(_userToRate.begin() + (stoi(option) - 1));
@@ -78,7 +91,13 @@ void Seller::AddProductForSale(int productID, Product* product) {
 
 void Seller::ViewProductList() {
   for (std::map<int, Product*>::iterator i = _productlist.begin(); i != _productlist.end(); i++) {
-    std::cout << "Product id: " << i->first << ", product name: " << i->second->GetProductName() << ", base price: " << i->second->GetBasePrice() << ", current highest bid: " << i->second->GetHighestBidInfo().first << std::endl;
+    std::cout << "Product id: " << i->first << ", product name: " << i->second->GetProductName() << ", base price: " << i->second->GetBasePrice() << ", current highest bid: " << i->second->GetHighestBidInfo().first;
+    if (i->second->GetStatus()) {
+      std::cout << " , status: open";
+    } else {
+      std::cout << " , status: processing";
+    }
+    std::cout << std::endl;
   }
 }
 
