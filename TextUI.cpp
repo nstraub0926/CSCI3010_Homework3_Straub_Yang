@@ -679,4 +679,27 @@ bool TextUI::AddNewProduct(Product* p, Seller* seller) {
   }
 }
 
+void TextUI::WriteToUserCSV() {
+  std::ofstream f;
+  f.open("Users.csv");
+  for (auto i = _sellers.begin(); i != _sellers.end(); i++) {
+    f << "seller," << i->GetUsername() << "," << i->GetAddress() << "," << i->GetPhoneNum() << "," << i->GetAccountBalance() << "," << i->GetRateTotal() << "," << i->GetRateCount() << "\n";
+  }
+  for (auto i = _buyers.begin(); i != _buyers.end(); i++) {
+    f << "buyer," << i->GetUsername() << "," << i->GetAddress() << "," << i->GetPhoneNum() << "," << i->GetAccountBalance() << "," << i->GetRateTotal() << "," << i->GetRateCount() << "\n";
+  }
+  f.close();
+}
+
+void TextUI::WriteToBidsCSV() {
+  std::ofstream f;
+  f.open("Bids.csv");
+  int size = _historyOrders.size();
+  for (int i = 0; i < size; i++) {
+    Product* p = _historyOrders[i];
+    f << p->GetProductName() << "," << p->GetProductSubcategory() << "," << p->GetSeller() << "," << p->GetBuyer() << "," << p->GetQuality() << "," << p->GetBasePrice() << "," << p->GetHighestBidInfo().first << "\n";
+  }
+  f.close();
+}
+
 int TextUI::id = 0;

@@ -16,7 +16,11 @@ class Product {
   std::string GetQuality() { return _quality; };
   void SetDelivery() { _delivery = true; };
   bool IsDelivered() { return _delivery; };
+  std::string GetSeller() { return _seller; };
   void SetBuyer(std::string buyer) { _buyer = buyer; };
+  std::string GetBuyer() { return _buyer; };
+  void SetProductSubcategory(std::string subcategory) { _productSubcategory = subcategory; };
+  std::string GetProductSubcategory() { return _productSubcategory; };
 
  private:
   std::string _name;
@@ -26,6 +30,7 @@ class Product {
   std::string _buyer;
   std::priority_queue<std::pair<double, std::string> > _bidList;
   bool _delivery;
+  std::string _productSubcategory;
 };
 
 class Electronics : public Product {
@@ -36,20 +41,32 @@ class Electronics : public Product {
 
 class Camera : public Electronics {
  public:
-  Camera(std::string name, double basePrice, std::string quality, std::string seller) : Electronics(name, basePrice, quality, seller){};
-  Camera(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Electronics(name, basePrice, quality, seller, bid){};
+  Camera(std::string name, double basePrice, std::string quality, std::string seller) : Electronics(name, basePrice, quality, seller) {
+    SetProductSubcategory("Camera");
+  };
+  Camera(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Electronics(name, basePrice, quality, seller, bid) {
+    SetProductSubcategory("Camera");
+  };
 };
 
 class Television : public Electronics {
  public:
-  Television(std::string name, double basePrice, std::string quality, std::string seller) : Electronics(name, basePrice, quality, seller){};
-  Television(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Electronics(name, basePrice, quality, seller, bid){};
+  Television(std::string name, double basePrice, std::string quality, std::string seller) : Electronics(name, basePrice, quality, seller) {
+    SetProductSubcategory("Television");
+  };
+  Television(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Electronics(name, basePrice, quality, seller, bid) {
+    SetProductSubcategory("Television");
+  };
 };
 
 class Phone : public Electronics {
  public:
-  Phone(std::string name, double basePrice, std::string quality, std::string seller) : Electronics(name, basePrice, quality, seller){};
-  Phone(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Electronics(name, basePrice, quality, seller, bid){};
+  Phone(std::string name, double basePrice, std::string quality, std::string seller) : Electronics(name, basePrice, quality, seller) {
+    SetProductSubcategory("Phone");
+  };
+  Phone(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Electronics(name, basePrice, quality, seller, bid) {
+    SetProductSubcategory("Phone");
+  };
 };
 
 class Computers : public Product {
@@ -60,20 +77,32 @@ class Computers : public Product {
 
 class Monitors : public Computers {
  public:
-  Monitors(std::string name, double basePrice, std::string quality, std::string seller) : Computers(name, basePrice, quality, seller){};
-  Monitors(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Computers(name, basePrice, quality, seller, bid){};
+  Monitors(std::string name, double basePrice, std::string quality, std::string seller) : Computers(name, basePrice, quality, seller) {
+    SetProductSubcategory("Monitors");
+  };
+  Monitors(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Computers(name, basePrice, quality, seller, bid) {
+    SetProductSubcategory("Monitors");
+  };
 };
 
 class Mouse : public Computers {
  public:
-  Mouse(std::string name, double basePrice, std::string quality, std::string seller) : Computers(name, basePrice, quality, seller){};
-  Mouse(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Computers(name, basePrice, quality, seller, bid){};
+  Mouse(std::string name, double basePrice, std::string quality, std::string seller) : Computers(name, basePrice, quality, seller) {
+    SetProductSubcategory("Mouse");
+  };
+  Mouse(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Computers(name, basePrice, quality, seller, bid) {
+    SetProductSubcategory("Mouse");
+  };
 };
 
 class Keyboard : public Computers {
  public:
-  Keyboard(std::string name, double basePrice, std::string quality, std::string seller) : Computers(name, basePrice, quality, seller){};
-  Keyboard(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Computers(name, basePrice, quality, seller, bid){};
+  Keyboard(std::string name, double basePrice, std::string quality, std::string seller) : Computers(name, basePrice, quality, seller) {
+    SetProductSubcategory("Keyboard");
+  };
+  Keyboard(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Computers(name, basePrice, quality, seller, bid) {
+    SetProductSubcategory("Keyboard");
+  };
 };
 
 class Sports : public Product {
@@ -84,20 +113,32 @@ class Sports : public Product {
 
 class Basketball : public Sports {
  public:
-  Basketball(std::string name, double basePrice, std::string quality, std::string seller) : Sports(name, basePrice, quality, seller){};
-  Basketball(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Sports(name, basePrice, quality, seller, bid){};
+  Basketball(std::string name, double basePrice, std::string quality, std::string seller) : Sports(name, basePrice, quality, seller) {
+    SetProductSubcategory("Basketball");
+  };
+  Basketball(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Sports(name, basePrice, quality, seller, bid) {
+    SetProductSubcategory("Basketball");
+  };
 };
 
 class Football : public Sports {
  public:
-  Football(std::string name, double basePrice, std::string quality, std::string seller) : Sports(name, basePrice, quality, seller){};
-  Football(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Sports(name, basePrice, quality, seller, bid){};
+  Football(std::string name, double basePrice, std::string quality, std::string seller) : Sports(name, basePrice, quality, seller) {
+    SetProductSubcategory("Football");
+  };
+  Football(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Sports(name, basePrice, quality, seller, bid) {
+    SetProductSubcategory("Football");
+  };
 };
 
 class Baseball : public Sports {
  public:
-  Baseball(std::string name, double basePrice, std::string quality, std::string seller) : Sports(name, basePrice, quality, seller){};
-  Baseball(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Sports(name, basePrice, quality, seller, bid){};
+  Baseball(std::string name, double basePrice, std::string quality, std::string seller) : Sports(name, basePrice, quality, seller) {
+    SetProductSubcategory("Baseball");
+  };
+  Baseball(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Sports(name, basePrice, quality, seller, bid) {
+    SetProductSubcategory("Baseball");
+  };
 };
 
 class Clothing : public Product {
@@ -108,20 +149,32 @@ class Clothing : public Product {
 
 class MenClothing : public Clothing {
  public:
-  MenClothing(std::string name, double basePrice, std::string quality, std::string seller) : Clothing(name, basePrice, quality, seller){};
-  MenClothing(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Clothing(name, basePrice, quality, seller, bid){};
+  MenClothing(std::string name, double basePrice, std::string quality, std::string seller) : Clothing(name, basePrice, quality, seller) {
+    SetProductSubcategory("MenClothing");
+  };
+  MenClothing(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Clothing(name, basePrice, quality, seller, bid) {
+    SetProductSubcategory("MenClothing");
+  };
 };
 
 class WomenClothing : public Clothing {
  public:
-  WomenClothing(std::string name, double basePrice, std::string quality, std::string seller) : Clothing(name, basePrice, quality, seller){};
-  WomenClothing(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Clothing(name, basePrice, quality, seller, bid){};
+  WomenClothing(std::string name, double basePrice, std::string quality, std::string seller) : Clothing(name, basePrice, quality, seller) {
+    SetProductSubcategory("WomenClothing");
+  };
+  WomenClothing(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Clothing(name, basePrice, quality, seller, bid) {
+    SetProductSubcategory("WomenClothing");
+  };
 };
 
 class Necklaces : public Clothing {
  public:
-  Necklaces(std::string name, double basePrice, std::string quality, std::string seller) : Clothing(name, basePrice, quality, seller){};
-  Necklaces(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Clothing(name, basePrice, quality, seller, bid){};
+  Necklaces(std::string name, double basePrice, std::string quality, std::string seller) : Clothing(name, basePrice, quality, seller) {
+    SetProductSubcategory("Necklaces");
+  };
+  Necklaces(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Clothing(name, basePrice, quality, seller, bid) {
+    SetProductSubcategory("Necklaces");
+  };
 };
 
 class Books : public Product {
@@ -132,20 +185,32 @@ class Books : public Product {
 
 class Textbooks : public Books {
  public:
-  Textbooks(std::string name, double basePrice, std::string quality, std::string seller) : Books(name, basePrice, quality, seller){};
-  Textbooks(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Books(name, basePrice, quality, seller, bid){};
+  Textbooks(std::string name, double basePrice, std::string quality, std::string seller) : Books(name, basePrice, quality, seller) {
+    SetProductSubcategory("Textbooks");
+  };
+  Textbooks(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Books(name, basePrice, quality, seller, bid) {
+    SetProductSubcategory("Textbooks");
+  };
 };
 
 class Novels : public Books {
  public:
-  Novels(std::string name, double basePrice, std::string quality, std::string seller) : Books(name, basePrice, quality, seller){};
-  Novels(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Books(name, basePrice, quality, seller, bid){};
+  Novels(std::string name, double basePrice, std::string quality, std::string seller) : Books(name, basePrice, quality, seller) {
+    SetProductSubcategory("Novels");
+  };
+  Novels(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Books(name, basePrice, quality, seller, bid) {
+    SetProductSubcategory("Novels");
+  };
 };
 
 class Cookbooks : public Books {
  public:
-  Cookbooks(std::string name, double basePrice, std::string quality, std::string seller) : Books(name, basePrice, quality, seller){};
-  Cookbooks(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Books(name, basePrice, quality, seller, bid){};
+  Cookbooks(std::string name, double basePrice, std::string quality, std::string seller) : Books(name, basePrice, quality, seller) {
+    SetProductSubcategory("Cookbooks");
+  };
+  Cookbooks(std::string name, double basePrice, std::string quality, std::string seller, std::pair<double, std::string> bid) : Books(name, basePrice, quality, seller, bid) {
+    SetProductSubcategory("Cookbooks");
+  };
 };
 
 class ProductFactory {

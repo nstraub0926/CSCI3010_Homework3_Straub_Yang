@@ -24,6 +24,8 @@ class User {
   void ReceiveMessage(Message message) { _messagebox.push_back(message); };
   std::string GetUserToRate();
   double GetRate() { return _rateTotal / _rateCount; };
+  double GetRateTotal() { return _rateTotal; };
+  int GetRateCount() { return _rateCount; };
   void AddNewRate(double newRate) {
     _rateTotal += newRate;
     _rateCount++;
