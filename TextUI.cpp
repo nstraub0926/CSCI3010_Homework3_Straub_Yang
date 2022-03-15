@@ -180,10 +180,8 @@ void TextUI::DisplayForBuyer(std::string name) {
   if (option == "1") {
     if (_products.size() != 0) {
       std::cout << "Here's a list of all currently biddable products: " << std::endl;
-      for (auto i = _products.begin(); i != _products.end(); i++) {
-        if (i->second->GetStatus()) {
-          std::cout << "Product ID: " << i->first << " | Name: " << i->second->GetProductName() << " | Quality: " << i->second->GetQuality() << " | Base Price: " << i->second->GetBasePrice() << " | Highest Bid: " << i->second->GetHighestBidInfo().first << std::endl;
-        }
+      for (std::map<int, Product*>::iterator i = _products.begin(); i != _products.end(); i++) {
+        std::cout << "Product ID: " << i->first << " | Name: " << i->second->GetProductName() << " | Quality: " << i->second->GetQuality() << " | Base Price: " << i->second->GetBasePrice() << " | Highest Bid: " << i->second->GetHighestBidInfo().first << std::endl;
       }
       std::cout << "Select item to bid on via Product ID (or select (e) to escape back to main page)" << std::endl;
       std::string productID;
@@ -321,7 +319,7 @@ void TextUI::DisplayForBuyer(std::string name) {
   }
   if (option == "6") {
     std::map<std::string, std::vector<double> > allBids = b->GetBidsHistory();
-    for (auto i = allBids.begin(); i != allBids.end(); i++) {
+    for (std::map<std::string, std::vector<double> >::iterator i = allBids.begin(); i != allBids.end(); i++) {
       std::cout << "Product Name: " << i->first << " | Bid Prices: ";
       int size = i->second.size();
       for (int j = 0; j < size; j++) {
@@ -363,7 +361,7 @@ void TextUI::DisplayForSeller(std::string name) {
   if (option == "1") {
     std::cout << "Please choose one of the following categories of your product." << std::endl;
     int index = 1;
-    for (auto i = _productCategories.begin(); i != _productCategories.end(); i++) {
+    for (std::map<std::string, std::vector<std::string> >::iterator i = _productCategories.begin(); i != _productCategories.end(); i++) {
       std::cout << index << ". " << i->first << " ";
       index++;
     }
@@ -700,10 +698,10 @@ bool TextUI::AddNewProduct(Product* p, Seller* seller) {
 void TextUI::WriteToUsersCSV() {
   std::ofstream f;
   f.open("Users.csv");
-  for (auto i = _sellers.begin(); i != _sellers.end(); i++) {
+  for (std::map<std::string, Seller*>::iterator i = _sellers.begin(); i != _sellers.end(); i++) {
     f << "seller," << *(i->second->GetUsername()) << "," << i->second->GetAddress() << "," << i->second->GetPhoneNum() << "," << i->second->GetAccountBalance() << "," << i->second->GetRateTotal() << "," << i->second->GetRateCount() << "\n";
   }
-  for (auto i = _buyers.begin(); i != _buyers.end(); i++) {
+  for (std::map<std::string, Buyer*>::iterator i = _buyers.begin(); i != _buyers.end(); i++) {
     f << "buyer," << *(i->second->GetUsername()) << "," << i->second->GetAddress() << "," << i->second->GetPhoneNum() << "," << i->second->GetAccountBalance() << "," << i->second->GetRateTotal() << "," << i->second->GetRateCount() << "\n";
   }
   f.close();
