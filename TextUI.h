@@ -24,8 +24,8 @@ class TextUI {
   void ViewProductsForSale();
   void ViewHistoryProducts();
   void CheckMessagebox(std::string role, std::string name);
-  void SendMessage(std::string sender, std::string receiver, std::string receiverRole, std::string content);
-  void SendMessage(std::string sender, std::string receiver, std::string receiverRole, std::string content, int productID);
+  void SendMessage(std::string* sender, std::string* receiver, std::string receiverRole, std::string content);
+  void SendMessage(std::string* sender, std::string* receiver, std::string receiverRole, std::string content, int productID);
   Seller* GetSeller(std::string name);
   Buyer* GetBuyer(std::string name);
   bool MakeNewUser(std::string name, std::string address, long phoneNum, double accountBalance, double rateTotal, int rateCount, std::string userType);

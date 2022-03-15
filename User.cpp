@@ -1,16 +1,17 @@
 #include "User.h"
 
-void User::ReadMessage(std::string& replyTo, int& productID) {
+void User::ReadMessage(std::string* replyTo, int& productID) {
   int size = _messagebox.size();
   std::cout << "You have " << size << " message(s)." << std::endl;
   if (size == 0) {
     return;
   }
   for (int i = 0; i < size; i++) {
-    std::cout << i + 1 << ". From " << _messagebox[i].GetSender();
+    std::cout << i + 1 << ". From " << *_messagebox[i].GetSender();
     if (_messagebox[i].IsConfirmationMessage()) {
-      std::cout << ", this is a confirmation message for purchasing a product (product id " << _messagebox[i].GetProductID() << ")." << std::endl;
+      std::cout << ", this is a confirmation message for purchasing a product (product id " << _messagebox[i].GetProductID() << ").";
     }
+    std::cout << std::endl;
   }
   std::cout << "Which message do you want to read? Or enter (e) to exit." << std::endl;
   if (size == 1) {
@@ -27,7 +28,7 @@ void User::ReadMessage(std::string& replyTo, int& productID) {
     std::cout << "Please enter a valid option. Enter the option again (1-" << size << "): ";
     std::cin >> option;
   }
-  std::cout << "From: " << _messagebox[stoi(option) - 1].GetSender() << std::endl;
+  std::cout << "From: " << *_messagebox[stoi(option) - 1].GetSender() << std::endl;
   std::cout << _messagebox[stoi(option) - 1].GetContent() << std::endl;
   if (_messagebox[stoi(option) - 1].IsConfirmationMessage()) {
     replyTo = _messagebox[stoi(option) - 1].GetSender();
@@ -43,17 +44,17 @@ void User::ReadMessage(std::string& replyTo, int& productID) {
     if (replyOrNot == "yes") {
       replyTo = _messagebox[stoi(option) - 1].GetSender();
     } else {
-      replyTo = "";
+      replyTo = NULL;
     }
   }
   _messagebox.erase(_messagebox.begin() + (stoi(option) - 1));
 }
 
-std::string User::GetUserToRate() {
+std::string* User::GetUserToRate() {
   int size = _userToRate.size();
   if (size == 0) {
     std::cout << "There is no user to rate." << std::endl;
-    return "";
+    return NULL;
   }
 
   std::cout << "Please choose a user to rate:" << std::endl;
@@ -68,7 +69,7 @@ std::string User::GetUserToRate() {
     std::cout << "Please enter a valid option. Enter the option again (1-" << size << "): ";
     std::cin >> option;
   }
-  std::string userToRate = _userToRate[stoi(option) - 1];
+  std::string* userToRate = _userToRate[stoi(option) - 1];
   _userToRate.erase(_userToRate.begin() + (stoi(option) - 1));
   return userToRate;
 }

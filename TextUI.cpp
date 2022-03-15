@@ -226,10 +226,10 @@ void TextUI::DisplayForBuyer(std::string name) {
     }
   }
   if (option == "2") {
-    std::string replyTo;
+    std::string* replyTo = NULL;
     int productID = -1;
     b->ReadMessage(replyTo, productID);
-    if (replyTo != "") {
+    if (replyTo != NULL) {
       std::cout << "Please write the content of your message here:" << std::endl;
       std::string content;
       std::getline(std::cin, content);
@@ -237,7 +237,7 @@ void TextUI::DisplayForBuyer(std::string name) {
       if (productID > 0) {
         SendMessage(b->GetUsername(), replyTo, "seller", content, productID);
         Product* p = _products[productID];
-        Seller* s = GetSeller(replyTo);
+        Seller* s = GetSeller(*replyTo);
         double bid = p->GetHighestBidInfo().first;
         double deliverFee = p->IsDelivered() ? p->GetHighestBidInfo().first * 0.05 : 0;
         while (bid + deliverFee > b->GetAccountBalance()) {
@@ -266,18 +266,20 @@ void TextUI::DisplayForBuyer(std::string name) {
     std::cout << "Your current balance is: " << b->GetAccountBalance() << std::endl;
   }
   if (option == "4") {
-    std::string userToRate = b->GetUserToRate();
-    if (userToRate != "") {
-      std::cout << "How would you like to rate " << userToRate << "? (0-5): ";
+    std::string* userToRate = b->GetUserToRate();
+    if (userToRate != NULL) {
+      std::cout << "How would you like to rate " << *userToRate << "? (0-5): ";
       std::string rate;
       std::cin >> rate;
       while (rate != "0" && rate != "1" && rate != "2" && rate != "3" && rate != "4" && rate != "5") {
         std::cout << "Please enter a valid rate. Enter the rate again (0-5): ";
         std::cin >> rate;
       }
-      Seller* s = GetSeller(userToRate);
+      Seller* s = GetSeller(*userToRate);
       s->AddNewRate(stod(rate));
       std::cout << "You just rated " << userToRate << "!" << std::endl;
+    } else {
+      std::cout << "You have no user to rate." << std::endl;
     }
   }
   if (option == "5") {
@@ -298,10 +300,10 @@ void TextUI::DisplayForBuyer(std::string name) {
         std::cout << "The username has been used by another user. Please try a new name: ";
         std::cin >> newName;
       }
-      _buyers.erase(b->GetUsername());
+      _buyers.erase(*b->GetUsername());
       b->UpdateUsername(newName);
       _buyers.insert(std::make_pair(newName, b));
-      std::cout << "Your name has been changed to \"" << b->GetUsername() << "\"!" << std::endl;
+      std::cout << "Your name has been changed to \"" << *b->GetUsername() << "\"!" << std::endl;
     }
     if (optionChangeInfo == "2") {
       std::cout << "New phone number: ";
@@ -490,13 +492,10 @@ void TextUI::DisplayForSeller(std::string name) {
     std::cout << "Your product " << productName << " is added to the list for sale!" << std::endl;
   }
   if (option == "2") {
-    std::string replyTo;
+    std::string* replyTo = NULL;
     int productID = -1;
     s->ReadMessage(replyTo, productID);
-    if (productID > 0) {
-      return;
-    }
-    if (replyTo != "") {
+    if (replyTo != NULL) {
       std::cout << "Please write the content of your message here:" << std::endl;
       std::string content;
       std::getline(std::cin, content);
@@ -509,18 +508,20 @@ void TextUI::DisplayForSeller(std::string name) {
     std::cout << "Your current balance is: " << s->GetAccountBalance() << std::endl;
   }
   if (option == "4") {
-    std::string userToRate = s->GetUserToRate();
-    if (userToRate != "") {
-      std::cout << "How would you like to rate " << userToRate << "? (0-5): ";
+    std::string* userToRate = s->GetUserToRate();
+    if (userToRate != NULL) {
+      std::cout << "How would you like to rate " << *userToRate << "? (0-5): ";
       std::string rate;
       std::cin >> rate;
       while (rate != "0" && rate != "1" && rate != "2" && rate != "3" && rate != "4" && rate != "5") {
         std::cout << "Please enter a valid rate. Enter the rate again (0-5): ";
         std::cin >> rate;
       }
-      Buyer* b = GetBuyer(userToRate);
+      Buyer* b = GetBuyer(*userToRate);
       b->AddNewRate(stod(rate));
-      std::cout << "You just rated " << userToRate << "!" << std::endl;
+      std::cout << "You just rated " << *userToRate << "!" << std::endl;
+    } else {
+      std::cout << "You have no user to rate." << std::endl;
     }
   }
   if (option == "5") {
@@ -541,10 +542,10 @@ void TextUI::DisplayForSeller(std::string name) {
         std::cout << "The username has been used by the other user. Please try a new name: ";
         std::cin >> newName;
       }
-      _sellers.erase(s->GetUsername());
+      _sellers.erase(*s->GetUsername());
       s->UpdateUsername(newName);
       _sellers.insert(std::make_pair(newName, s));
-      std::cout << "Your name has been changed to \"" << s->GetUsername() << "\"!" << std::endl;
+      std::cout << "Your name has been changed to \"" << *s->GetUsername() << "\"!" << std::endl;
     }
     if (optionChangeInfo == "2") {
       std::cout << "New phone number: ";
@@ -588,7 +589,7 @@ void TextUI::DisplayForSeller(std::string name) {
     }
     Product* p = s->GetProductInfo(stoi(id));
     if (p->GetHighestBidInfo().first != 0) {
-      std::vector<std::string> buyers = p->ExtractBuyers();
+      std::vector<std::string*> buyers = p->ExtractBuyers();
       std::string messageContent;
       if (deliveryOption == "pickup") {
         std::string address = s->GetAddress();
@@ -629,24 +630,24 @@ void TextUI::CheckMessagebox(std::string role, std::string name) {
   std::cout << std::endl;
 }
 
-void TextUI::SendMessage(std::string sender, std::string receiver, std::string receiverRole, std::string content) {
+void TextUI::SendMessage(std::string* sender, std::string* receiver, std::string receiverRole, std::string content) {
   Message m(sender, receiver, content);
   if (receiverRole == "buyer") {
-    Buyer* b = GetBuyer(receiver);
+    Buyer* b = GetBuyer(*receiver);
     b->ReceiveMessage(m);
   } else {
-    Seller* s = GetSeller(receiver);
+    Seller* s = GetSeller(*receiver);
     s->ReceiveMessage(m);
   }
 }
 
-void TextUI::SendMessage(std::string sender, std::string receiver, std::string receiverRole, std::string content, int productID) {
+void TextUI::SendMessage(std::string* sender, std::string* receiver, std::string receiverRole, std::string content, int productID) {
   Message m(sender, receiver, content, productID);
   if (receiverRole == "buyer") {
-    Buyer* b = GetBuyer(receiver);
+    Buyer* b = GetBuyer(*receiver);
     b->ReceiveMessage(m);
   } else {
-    Seller* s = GetSeller(receiver);
+    Seller* s = GetSeller(*receiver);
     s->ReceiveMessage(m);
   }
 }
