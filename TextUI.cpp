@@ -181,12 +181,19 @@ void TextUI::DisplayForBuyer(std::string name) {
   }
   if (option == "2") {
     std::string replyTo;
-    b->ReadMessage(replyTo);
+    int productID;
+    b->ReadMessage(replyTo, productID);
     if (replyTo != "") {
       std::cout << "Please write the content of your message here:" << std::endl;
       std::string content;
-      std::cin >> content;
-      SendMessage(b->GetUsername(), replyTo, "seller", content);
+      std::getline(std::cin, content);
+      std::getline(std::cin, content);
+      if (productID > 0) {
+        SendMessage(b->GetUsername(), replyTo, "seller", content, productID);
+
+      } else {
+        SendMessage(b->GetUsername(), replyTo, "seller", content);
+      }
       std::cout << "The message is sent to " << replyTo << "!" << std::endl;
     }
   }
@@ -304,7 +311,8 @@ void TextUI::DisplayForSeller(std::string name) {
     }
     std::cout << "The name of your product: ";
     std::string productName;
-    std::cin >> productName;
+    std::getline(std::cin, productName);
+    std::getline(std::cin, productName);
     std::cout << "The base price of your product: ";
     std::string basePrice;
     std::cin >> basePrice;
@@ -374,12 +382,18 @@ void TextUI::DisplayForSeller(std::string name) {
   }
   if (option == "2") {
     std::string replyTo;
-    s->ReadMessage(replyTo);
+    int productID = -1;
+    s->ReadMessage(replyTo, productID);
     if (replyTo != "") {
       std::cout << "Please write the content of your message here:" << std::endl;
       std::string content;
-      std::cin >> content;
-      SendMessage(s->GetUsername(), replyTo, "buyer", content);
+      std::getline(std::cin, content);
+      std::getline(std::cin, content);
+      if (productID > 0) {
+        SendMessage(s->GetUsername(), replyTo, "buyer", content);
+      } else {
+        SendMessage(s->GetUsername(), replyTo, "buyer", content);
+      }
       std::cout << "The message is sent to " << replyTo << "!" << std::endl;
     }
   }
@@ -429,20 +443,68 @@ void TextUI::DisplayForSeller(std::string name) {
       std::string newPhoneNum;
       std::cin >> newPhoneNum;
       s->UpdatePhoneNum(stol(newPhoneNum));
-      std::cout << "Your name has been changed to \"" << s->GetPhoneNum() << "\"!" << std::endl;
+      std::cout << "Your phone number has been changed to \"" << s->GetPhoneNum() << "\"!" << std::endl;
     }
     if (optionChangeInfo == "3") {
       std::cout << "New address: ";
       std::string newAddress;
-      std::cin >> newAddress;
+      std::getline(std::cin, newAddress);
+      std::getline(std::cin, newAddress);
       s->UpdateAddress(newAddress);
-      std::cout << "Your name has been changed to \"" << s->GetAddress() << "\"!" << std::endl;
+      std::cout << "Your address has been changed to \"" << s->GetAddress() << "\"!" << std::endl;
     }
   }
   if (option == "6") {
     s->ViewProductList();
   }
   if (option == "7") {
+    if (s->GetProductlistSize() == 0) {
+      std::cout << "You have no product to close" << std::endl;
+      return;
+    }
+    std::cout << "Please choose a product to close:" << std::endl;
+    s->ViewProductList();
+    std::cout << "Enter a product id: ";
+    std::string id;
+    std::cin >> id;
+    while (s->GetProductInfo(stoi(id)) == NULL) {
+      std::cout << "Please enter a valid product id. Enter the product id again: ";
+      std::cin >> id;
+    }
+    std::cout << "Please choose how the buyer gets the product (delivery/pickup): ";
+    std::string deliveryOption;
+    std::cin >> deliveryOption;
+    while (deliveryOption != "delivery" && deliveryOption != "pickup") {
+      std::cout << "Please enter a valid option. Enter the option again (delivery/pickup): ";
+      std::cin >> deliveryOption;
+    }
+    Product* p = s->GetProductInfo(stoi(id));
+    p->SetCurrentBid(10.0, "Nathan_Straub");
+    p->SetStatus(false);
+    double highestBid;
+    if (p->GetHighestBidInfo().first != 0) {
+      highestBid = p->GetHighestBidInfo().first;
+      std::vector<std::string> buyers = p->CloseOnBid();
+      std::string messageContent;
+      if (deliveryOption == "pickup") {
+        std::string address = s->GetAddress();
+        if (s->GetAddress() == "") {
+          std::cout << "Please enter an address for the buyer to pickup: ";
+          std::getline(std::cin, address);
+          std::getline(std::cin, address);
+        }
+        messageContent = "Congratulations! You just won the bid on " + p->GetProductName() + "! My address is: " + address + ", please come to pick up.";
+      } else if (deliveryOption == "delivery") {
+        messageContent = "Contratulations! You just won the bid on " + p->GetProductName() + "! Please message me back your address.";
+      }
+      SendMessage(s->GetUsername(), buyers[0], "buyer", messageContent, stoi(id));
+      if (buyers.size() > 1) {
+        int size = buyers.size();
+        for (int i = 1; i < size; i++) {
+          SendMessage(s->GetUsername(), buyers[i], "buyer", "You have lost the bid on " + p->GetProductName() + ".");
+        }
+      }
+    }
   }
   if (option == "8") {
     throw std::exception();
@@ -464,6 +526,17 @@ void TextUI::CheckMessagebox(std::string role, std::string name) {
 
 void TextUI::SendMessage(std::string sender, std::string receiver, std::string receiverRole, std::string content) {
   Message m(sender, receiver, content);
+  if (receiverRole == "buyer") {
+    Buyer* b = GetBuyer(receiver);
+    b->ReceiveMessage(m);
+  } else {
+    Seller* s = GetSeller(receiver);
+    s->ReceiveMessage(m);
+  }
+}
+
+void TextUI::SendMessage(std::string sender, std::string receiver, std::string receiverRole, std::string content, int productID) {
+  Message m(sender, receiver, content, productID);
   if (receiverRole == "buyer") {
     Buyer* b = GetBuyer(receiver);
     b->ReceiveMessage(m);

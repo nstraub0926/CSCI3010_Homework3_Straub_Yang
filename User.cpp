@@ -1,13 +1,16 @@
 #include "User.h"
 
-void User::ReadMessage(std::string& replyTo) {
+void User::ReadMessage(std::string& replyTo, int& productID) {
   int size = _messagebox.size();
   std::cout << "You have " << size << " message(s)." << std::endl;
   if (size == 0) {
     return;
   }
   for (int i = 0; i < size; i++) {
-    std::cout << i + 1 << ". From " << _messagebox[i].GetSender() << std::endl;
+    std::cout << i + 1 << ". From " << _messagebox[i].GetSender();
+    if (_messagebox[i].IsConfirmationMessage()) {
+      std::cout << ", this is a confirmation message for purchasing product id " << _messagebox[i].GetProductID() << "." << std::endl;
+    }
   }
   std::cout << "Which message do you want to read? Or enter (e) to exit." << std::endl;
   if (size == 1) {
@@ -26,17 +29,22 @@ void User::ReadMessage(std::string& replyTo) {
   }
   std::cout << "From: " << _messagebox[stoi(option) - 1].GetSender() << std::endl;
   std::cout << _messagebox[stoi(option) - 1].GetContent() << std::endl;
-  std::cout << "Do you want to reply? (yes/no): ";
-  std::string replyOrNot;
-  std::cin >> replyOrNot;
-  while (replyOrNot != "yes" && replyOrNot != "no") {
-    std::cout << "Please enter a valid option. Enter the option again (yes/no): ";
-    std::cin >> replyOrNot;
-  }
-  if (replyOrNot == "yes") {
+  if (_messagebox[stoi(option) - 1].IsConfirmationMessage()) {
     replyTo = _messagebox[stoi(option) - 1].GetSender();
+    productID = _messagebox[stoi(option) - 1].GetProductID();
   } else {
-    replyTo = "";
+    std::cout << "Do you want to reply? (yes/no): ";
+    std::string replyOrNot;
+    std::cin >> replyOrNot;
+    while (replyOrNot != "yes" && replyOrNot != "no") {
+      std::cout << "Please enter a valid option. Enter the option again (yes/no): ";
+      std::cin >> replyOrNot;
+    }
+    if (replyOrNot == "yes") {
+      replyTo = _messagebox[stoi(option) - 1].GetSender();
+    } else {
+      replyTo = "";
+    }
   }
   _messagebox.erase(_messagebox.begin() + (stoi(option) - 1));
 }

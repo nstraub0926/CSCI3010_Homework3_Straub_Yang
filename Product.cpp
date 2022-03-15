@@ -11,6 +11,15 @@ Product::Product(std::string name, double basePrice, std::string quality, std::s
   _buyer = bid.second;
 };
 
+std::vector<std::string> Product::CloseOnBid() {
+  std::vector<std::string> output;
+  while (!_bidList.empty()) {
+    output.push_back(GetHighestBidInfo().second);
+    _bidList.pop();
+  }
+  return output;
+}
+
 void Product::SetCurrentBid(double newBid, std::string buyer) {
   _bidList.push(std::make_pair(newBid, buyer));
 }
