@@ -1,6 +1,6 @@
 #include "User.h"
 
-void User::ReadMessage(std::string* replyTo, int& productID) {
+void User::ReadMessage(std::string** replyTo, int& productID) {
   int size = _messagebox.size();
   std::cout << "You have " << size << " message(s)." << std::endl;
   if (size == 0) {
@@ -31,7 +31,7 @@ void User::ReadMessage(std::string* replyTo, int& productID) {
   std::cout << "From: " << *_messagebox[stoi(option) - 1].GetSender() << std::endl;
   std::cout << _messagebox[stoi(option) - 1].GetContent() << std::endl;
   if (_messagebox[stoi(option) - 1].IsConfirmationMessage()) {
-    replyTo = _messagebox[stoi(option) - 1].GetSender();
+    *replyTo = _messagebox[stoi(option) - 1].GetSender();
     productID = _messagebox[stoi(option) - 1].GetProductID();
   } else {
     std::cout << "Do you want to reply? (yes/no): ";
@@ -42,9 +42,7 @@ void User::ReadMessage(std::string* replyTo, int& productID) {
       std::cin >> replyOrNot;
     }
     if (replyOrNot == "yes") {
-      replyTo = _messagebox[stoi(option) - 1].GetSender();
-    } else {
-      replyTo = NULL;
+      *replyTo = _messagebox[stoi(option) - 1].GetSender();
     }
   }
   _messagebox.erase(_messagebox.begin() + (stoi(option) - 1));
@@ -59,7 +57,7 @@ std::string* User::GetUserToRate() {
 
   std::cout << "Please choose a user to rate:" << std::endl;
   for (int i = 0; i < size; i++) {
-    std::cout << i + 1 << ". " << _userToRate[i] << " ";
+    std::cout << i + 1 << ". " << *_userToRate[i] << " ";
   }
   std::cout << std::endl;
   std::cout << "Please choose an option (1-" << size << "): ";

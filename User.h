@@ -11,8 +11,7 @@
 class User {
  public:
   User(std::string name, std::string address, long phoneNum, double accountBalance, double rateTotal, int rateCount) : _address(address), _phoneNum(phoneNum), _accountBalance(accountBalance), _rateTotal(rateTotal), _rateCount(rateCount) {
-    std::string s = name;
-    _username = &s;
+    _username = new std::string(name);
   };
   std::string* GetUsername() { return _username; };
   void UpdateUsername(std::string newName) { *_username = newName; };
@@ -23,7 +22,7 @@ class User {
   double GetAccountBalance() { return _accountBalance; };
   void UpdateAccountBalance(double newBalance) { _accountBalance += newBalance; };
   bool MessageboxIsEmpty() { return _messagebox.empty(); };
-  void ReadMessage(std::string* replyTo, int& productID);
+  void ReadMessage(std::string** replyTo, int& productID);
   void ReceiveMessage(Message message) { _messagebox.push_back(message); };
   std::string* GetUserToRate();
   void AddUserToRate(std::string* username) { _userToRate.push_back(username); };

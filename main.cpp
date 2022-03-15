@@ -51,7 +51,7 @@ int main() {
       break;
     }
   }
-  t.WriteToUserCSV();
+  t.WriteToUsersCSV();
   t.WriteToBidsCSV();
   std::cout << "Thank you for choosing BidToBuy. Visit again soon!" << std::endl;
 }

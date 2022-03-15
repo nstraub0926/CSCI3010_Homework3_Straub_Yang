@@ -21,6 +21,8 @@ class Product {
   std::string* GetBuyer() { return _buyer; };
   void SetProductSubcategory(std::string subcategory) { _productSubcategory = subcategory; };
   std::string GetProductSubcategory() { return _productSubcategory; };
+  bool GetStatus() { return _status; };
+  void SetStatus(bool status) { _status = status; };
 
  private:
   std::string _name;
@@ -31,6 +33,7 @@ class Product {
   std::priority_queue<std::pair<double, std::string*> > _bidList;
   bool _delivery;
   std::string _productSubcategory;
+  bool _status;
 };
 
 class Electronics : public Product {

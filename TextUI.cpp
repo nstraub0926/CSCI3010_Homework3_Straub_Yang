@@ -181,12 +181,14 @@ void TextUI::DisplayForBuyer(std::string name) {
     if (_products.size() != 0) {
       std::cout << "Here's a list of all currently biddable products: " << std::endl;
       for (auto i = _products.begin(); i != _products.end(); i++) {
-        std::cout << "Product ID: " << i->first << " | Name: " << i->second->GetProductName() << " | Quality: " << i->second->GetQuality() << " | Base Price: " << i->second->GetBasePrice() << " | Highest Bid: " << i->second->GetHighestBidInfo().first << std::endl;
+        if (i->second->GetStatus()) {
+          std::cout << "Product ID: " << i->first << " | Name: " << i->second->GetProductName() << " | Quality: " << i->second->GetQuality() << " | Base Price: " << i->second->GetBasePrice() << " | Highest Bid: " << i->second->GetHighestBidInfo().first << std::endl;
+        }
       }
       std::cout << "Select item to bid on via Product ID (or select (e) to escape back to main page)" << std::endl;
       std::string productID;
       std::cin >> productID;
-      while (productID != "e" && _products.find(stoi(productID)) == _products.end()) {
+      while ((productID != "e" && _products.find(stoi(productID)) == _products.end()) || !_products.find(stoi(productID))->second->GetStatus()) {
         std::cout << "Please enter a valid option. Enter the option again (Product ID or (e) to exit): ";
         std::cin >> productID;
       }
@@ -228,14 +230,13 @@ void TextUI::DisplayForBuyer(std::string name) {
   if (option == "2") {
     std::string* replyTo = NULL;
     int productID = -1;
-    b->ReadMessage(replyTo, productID);
+    b->ReadMessage(&replyTo, productID);
     if (replyTo != NULL) {
       std::cout << "Please write the content of your message here:" << std::endl;
       std::string content;
       std::getline(std::cin, content);
       std::getline(std::cin, content);
       if (productID > 0) {
-        SendMessage(b->GetUsername(), replyTo, "seller", content, productID);
         Product* p = _products[productID];
         Seller* s = GetSeller(*replyTo);
         double bid = p->GetHighestBidInfo().first;
@@ -256,10 +257,9 @@ void TextUI::DisplayForBuyer(std::string name) {
         p->SetBuyer(b->GetUsername());
         _products.erase(productID);
         _historyOrders.push_back(p);
-      } else {
-        SendMessage(b->GetUsername(), replyTo, "seller", content);
       }
-      std::cout << "The message is sent to " << replyTo << "!" << std::endl;
+      SendMessage(b->GetUsername(), replyTo, "seller", content);
+      std::cout << "The message is sent to " << *replyTo << "!" << std::endl;
     }
   }
   if (option == "3") {
@@ -277,9 +277,7 @@ void TextUI::DisplayForBuyer(std::string name) {
       }
       Seller* s = GetSeller(*userToRate);
       s->AddNewRate(stod(rate));
-      std::cout << "You just rated " << userToRate << "!" << std::endl;
-    } else {
-      std::cout << "You have no user to rate." << std::endl;
+      std::cout << "You just rated " << *userToRate << "!" << std::endl;
     }
   }
   if (option == "5") {
@@ -494,14 +492,14 @@ void TextUI::DisplayForSeller(std::string name) {
   if (option == "2") {
     std::string* replyTo = NULL;
     int productID = -1;
-    s->ReadMessage(replyTo, productID);
+    s->ReadMessage(&replyTo, productID);
     if (replyTo != NULL) {
       std::cout << "Please write the content of your message here:" << std::endl;
       std::string content;
       std::getline(std::cin, content);
       std::getline(std::cin, content);
       SendMessage(s->GetUsername(), replyTo, "buyer", content);
-      std::cout << "The message is sent to " << replyTo << "!" << std::endl;
+      std::cout << "The message is sent to " << *replyTo << "!" << std::endl;
     }
   }
   if (option == "3") {
@@ -520,8 +518,6 @@ void TextUI::DisplayForSeller(std::string name) {
       Buyer* b = GetBuyer(*userToRate);
       b->AddNewRate(stod(rate));
       std::cout << "You just rated " << *userToRate << "!" << std::endl;
-    } else {
-      std::cout << "You have no user to rate." << std::endl;
     }
   }
   if (option == "5") {
@@ -588,6 +584,7 @@ void TextUI::DisplayForSeller(std::string name) {
       std::cin >> deliveryOption;
     }
     Product* p = s->GetProductInfo(stoi(id));
+    p->SetStatus(false);
     if (p->GetHighestBidInfo().first != 0) {
       std::vector<std::string*> buyers = p->ExtractBuyers();
       std::string messageContent;
@@ -599,7 +596,7 @@ void TextUI::DisplayForSeller(std::string name) {
           std::getline(std::cin, address);
         }
         messageContent = "Congratulations! You just won the bid on " + p->GetProductName() + "! My address is: " + address + ", please come to pick up.";
-      } else if (deliveryOption == "delivery") {
+      } else {
         p->SetDelivery();
         messageContent = "Contratulations! You just won the bid on " + p->GetProductName() + "! Please message me back your address.";
       }
@@ -697,14 +694,14 @@ bool TextUI::AddNewProduct(Product* p, Seller* seller) {
   }
 }
 
-void TextUI::WriteToUserCSV() {
+void TextUI::WriteToUsersCSV() {
   std::ofstream f;
   f.open("Users.csv");
   for (auto i = _sellers.begin(); i != _sellers.end(); i++) {
-    f << "seller," << i->second->GetUsername() << "," << i->second->GetAddress() << "," << i->second->GetPhoneNum() << "," << i->second->GetAccountBalance() << "," << i->second->GetRateTotal() << "," << i->second->GetRateCount() << "\n";
+    f << "seller," << *(i->second->GetUsername()) << "," << i->second->GetAddress() << "," << i->second->GetPhoneNum() << "," << i->second->GetAccountBalance() << "," << i->second->GetRateTotal() << "," << i->second->GetRateCount() << "\n";
   }
   for (auto i = _buyers.begin(); i != _buyers.end(); i++) {
-    f << "buyer," << i->second->GetUsername() << "," << i->second->GetAddress() << "," << i->second->GetPhoneNum() << "," << i->second->GetAccountBalance() << "," << i->second->GetRateTotal() << "," << i->second->GetRateCount() << "\n";
+    f << "buyer," << *(i->second->GetUsername()) << "," << i->second->GetAddress() << "," << i->second->GetPhoneNum() << "," << i->second->GetAccountBalance() << "," << i->second->GetRateTotal() << "," << i->second->GetRateCount() << "\n";
   }
   f.close();
 }
@@ -715,7 +712,7 @@ void TextUI::WriteToBidsCSV() {
   int size = _historyOrders.size();
   for (int i = 0; i < size; i++) {
     Product* p = _historyOrders[i];
-    f << p->GetProductName() << "," << p->GetProductSubcategory() << "," << p->GetSeller() << "," << p->GetBuyer() << "," << p->GetQuality() << "," << p->GetBasePrice() << "," << p->GetHighestBidInfo().first << "\n";
+    f << p->GetProductName() << "," << p->GetProductSubcategory() << "," << *(p->GetSeller()) << "," << *(p->GetBuyer()) << "," << p->GetQuality() << "," << p->GetBasePrice() << "," << p->GetHighestBidInfo().first << "\n";
   }
   f.close();
 }
