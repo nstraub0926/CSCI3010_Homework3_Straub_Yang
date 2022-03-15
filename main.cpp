@@ -53,5 +53,5 @@ int main() {
       break;
     }
   }
-  std::cout << "Thank you for choosing BidToBuy. We expect your next visit." << std::endl;
+  std::cout << "Thank you for choosing BidToBuy. Visit again soon!" << std::endl;
 }

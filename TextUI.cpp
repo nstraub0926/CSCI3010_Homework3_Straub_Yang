@@ -165,19 +165,67 @@ void TextUI::DisplayForBuyer(std::string name) {
   std::cout << "1. View/Bid-On Products" << std::endl;
   std::cout << "2. View/Send Messages" << std::endl;
   std::cout << "3. Check Account Balance" << std::endl;
-  std::cout << "4. Update User Info" << std::endl;
-  std::cout << "5. View Bid History" << std::endl;
-  std::cout << "6. View Purchased Products" << std::endl;
-  std::cout << "7. Log out" << std::endl;
+  std::cout << "4. Rate Seller" << std::endl;
+  std::cout << "5. Update User Info" << std::endl;
+  std::cout << "6. View Bid History" << std::endl;
+  std::cout << "7. View Purchased Products" << std::endl;
+  std::cout << "8. Log out" << std::endl;
   std::cin >> option;
 
-  while (option != "1" && option != "2" && option != "3" && option != "4" && option != "5" && option != "6" && option != "7") {
-    std::cout << "Please enter a valid option. Enter your option again (1-7): ";
+  while (option != "1" && option != "2" && option != "3" && option != "4" && option != "5" && option != "6" && option != "7" && option != "8") {
+    std::cout << "Please enter a valid option. Enter your option again (1-8): ";
     std::cin >> option;
   }
 
   if (option == "1") {
-    std::cout << "Here's a list of all currently biddable products: " << std::endl;
+    if (_products.size() != 0) {
+      std::cout << "Here's a list of all currently biddable products: " << std::endl;
+      for (auto i = _products.begin(); i != _products.end(); i++) {
+        std::cout << "Product ID: " << i->first << " | Name: " << i->second->GetProductName() << " | Quality: " << i->second->GetQuality() << " | Base Price: " << i->second->GetBasePrice() << " | Highest Bid: " << i->second->GetHighestBidInfo().first << std::endl;
+      }
+      std::string productBid;
+      std::cout << "Select item to bid on via Product ID (or select (e) to escape back to main page)" << std::endl;
+      std::cin >> productBid;
+      while (productBid != "e" && stoi(productBid) > _products.size()) {
+        std::cout << "Please enter a valid option. Enter the option again (Product ID or (e) to exit): ";
+        std::cin >> productBid;
+      }
+      if (productBid == "e") {
+        return;
+      }
+      std::string bidPrice;
+      std::cout << "Please make a bid on the chosen product (bid > current highest bid OR base price && bid < user balance): ";
+      std::cin >> bidPrice;
+      if (_products[stoi(productBid)]->GetHighestBidInfo().first == 0) {
+        while (stod(bidPrice) <= _products[stoi(productBid)]->GetBasePrice()) {
+          std::cout << "New bid price must exceed the base price (i.e newBid > " << _products[stoi(productBid)]->GetBasePrice() << ")" << std::endl;
+          std::cout << "Please make a bid on the chosen product (bid must be > base price): ";
+          std::cin >> bidPrice;
+        }
+        while (stod(bidPrice) >= b->GetAccountBalance()) {
+          std::cout << "New bid price must not exceed your account baalnce (i.e newBid < " << b->GetAccountBalance() << ")" << std::endl;
+          std::cout << "Please make a bid on the chosen product (bid must be < account balance): ";
+          std::cin >> bidPrice;
+        }
+      }
+      else {
+        while (stod(bidPrice) <= _products[stoi(productBid)]->GetHighestBidInfo().first) {
+          std::cout << "New bid price must exceed the current highest bid (i.e newBid > " << _products[stoi(productBid)]->GetHighestBidInfo().first << ")" << std::endl;
+          std::cout << "Please make a bid on the chosen product (bid must be > current highest bid): ";
+          std::cin >> bidPrice;
+        }
+        while (stod(bidPrice) >= b->GetAccountBalance()) {
+          std::cout << "New bid price must not exceed your account baalnce (i.e newBid < " << b->GetAccountBalance() << ")" << std::endl;
+          std::cout << "Please make a bid on the chosen product (bid must be < account balance): ";
+          std::cin >> bidPrice;
+        }
+      }
+      b->AddBidToProduct(_products[stoi(productBid)]->GetProductName(), stod(bidPrice));
+      _products[stoi(productBid)]->SetCurrentBid(stod(bidPrice),b->GetUsername());
+    }
+    else {
+      std::cout << "There are currently no products to bid on, please check back for new product listings!" << std::endl;
+    }
   }
   if (option == "2") {
     std::string replyTo;
@@ -192,10 +240,13 @@ void TextUI::DisplayForBuyer(std::string name) {
   }
   if (option == "3") {
     std::cout << "Your account balance is: $" << b->GetAccountBalance() << std::endl;
+    std::cout << "\n";
   }
   if (option == "4") {
+  }
+  if (option == "5") {
     std::cout << "Which one would you like to change?" << std::endl;
-    std::cout << "1. Name 2. Phone number 3. Address" << std::endl;
+    std::cout << "1. Username 2. Phone number 3. Address" << std::endl;
     std::cout << "Please enter an option (1-3): ";
     std::string optionChangeInfo;
     std::cin >> optionChangeInfo;
@@ -204,7 +255,7 @@ void TextUI::DisplayForBuyer(std::string name) {
       std::cin >> optionChangeInfo;
     }
     if (optionChangeInfo == "1") {
-      std::cout << "New name: ";
+      std::cout << "New username: ";
       std::string newName;
       std::cin >> newName;
       while (GetBuyer(newName) != NULL) {
@@ -231,11 +282,24 @@ void TextUI::DisplayForBuyer(std::string name) {
       std::cout << "Your name has been changed to \"" << b->GetAddress() << "\"!" << std::endl;
     }
   }
-  if (option == "5") {
-  }
   if (option == "6") {
+    std::map<std::string, std::vector<double>> allBids = b->GetBidsHistory();
+    for (auto i = allBids.begin(); i != allBids.end(); i++) {
+      std::cout << "Product Name: " << i->first << " | Bid Prices: ";
+      for (auto j = 0; j < i->second.size(); j++) {
+        std::cout << i->second[j];
+        if (j != i->second.size()-1) {
+          std::cout << ", ";
+        }
+        else {
+          std::cout << "\n";
+        }
+      }
+    }
   }
   if (option == "7") {
+  }
+  if (option == "8") {
     throw std::exception();
   }
 }
@@ -266,8 +330,8 @@ void TextUI::DisplayForSeller(std::string name) {
       std::cout << index << ". " << i->first << " ";
       index++;
     }
-    std::cout << std::endl
-              << "Please enter your option (1-5): ";
+    std::cout << std::endl;
+    std::cout << "Please enter your option (1-5): ";
     std::string optionCategory;
     std::cin >> optionCategory;
     while (optionCategory != "1" && optionCategory != "2" && optionCategory != "3" && optionCategory != "4" && optionCategory != "5") {
@@ -294,18 +358,18 @@ void TextUI::DisplayForSeller(std::string name) {
     for (int i = 0; i < 3; i++) {
       std::cout << i + 1 << ". " << _productCategories[category][i] << " ";
     }
-    std::cout << std::endl
-              << "Please enter your option (1-3): ";
+    std::cout << std::endl;
+    std::cout << "Please enter your option (1-3): ";
     std::string optionSubcategory;
     std::cin >> optionSubcategory;
     while (optionSubcategory != "1" && optionSubcategory != "2" && optionSubcategory != "3") {
       std::cout << "Please enter a valid option. Enter your option again (1-3): ";
       std::cin >> optionSubcategory;
     }
-    std::cout << "The name of your product: ";
+    std::cout << "The name of your product: " << std::endl;
     std::string productName;
     std::cin >> productName;
-    std::cout << "The base price of your product: ";
+    std::cout << "The base price of your product: " << std::endl;
     std::string basePrice;
     std::cin >> basePrice;
     std::cout << "The quality of your product (new, used-verygood, used-good, used-okay): ";
@@ -518,7 +582,7 @@ bool TextUI::AddNewProduct(Product* p, Seller* seller) {
   }
 }
 
-bool TextUI::AddBidToProduct(int id, double bid, Buyer* buyer) {
+/*bool TextUI::AddBidToProduct(int id, double bid, Buyer* buyer) {
   if (_products.find(id) != _products.end()) {
     buyer->AddBidToProduct(_products[id], bid);
     _products[id]->SetCurrentBid(bid, buyer->GetUsername());
@@ -527,6 +591,6 @@ bool TextUI::AddBidToProduct(int id, double bid, Buyer* buyer) {
     std::cout << "The product id is not in the list." << std::endl;
     return false;
   }
-}
+}*/
 
 int TextUI::id = 0;

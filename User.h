@@ -56,9 +56,10 @@ class Seller : public User {
 class Buyer : public User {
  public:
   Buyer(std::string name, std::string address, long phoneNum, double accountBalance, double rateTotal, int rateCount) : User(name, address, phoneNum, accountBalance, rateTotal, rateCount){};
-  void AddBidToProduct(Product* product, double bid);
+  void AddBidToProduct(std::string, double bid);
+  std::map<std::string, std::vector<double>> GetBidsHistory() { return _bidsHistory; }
 
  private:
-  std::map<Product*, double> _bidsOverview;
+  std::map<std::string, std::vector<double>> _bidsHistory;
   std::vector<Product*> _historyOrders;
 };

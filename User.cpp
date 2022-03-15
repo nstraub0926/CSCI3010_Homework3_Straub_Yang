@@ -83,6 +83,6 @@ Product* Seller::GetProductInfo(int productID) {
   }
 }
 
-void Buyer::AddBidToProduct(Product* product, double bid) {
-  _bidsOverview.insert(std::make_pair(product, bid));
+void Buyer::AddBidToProduct(std::string name, double bid) {
+  _bidsHistory[name].push_back(bid);
 }
