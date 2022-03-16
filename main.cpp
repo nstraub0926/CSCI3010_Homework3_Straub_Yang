@@ -6,6 +6,11 @@
 // Peter Yang
 // Nathan Straub
 
+/*
+ * Homework 3
+ * This is a program that simulates eBay in CLI program.
+ */
+
 int main() {
   TextUI& t = TextUI::GetInstance(); // singleton instance for displaying UI
   t.LoadInUserData("Users.csv"); // load in user data
@@ -23,20 +28,24 @@ int main() {
       std::cout << std::endl;
       std::cout << "Welcome " << username << "! ";
       t.CheckMessagebox("buyer", username);
+      Buyer* b = t.GetBuyer(username);
       while (1) { // always display buyer menu options until option 8 is selected
         try {
-          t.DisplayForBuyer(username);
+          t.DisplayForBuyer(b);
         } catch (std::exception&) {
           break;
         }
       }
-    } else { // seller subroute
+    }
+    else { // seller subroute
       std::cout << std::endl;
       std::cout << "Welcome " << username << "! ";
       t.CheckMessagebox("seller", username);
+      
+      Seller* s = t.GetSeller(username);
       while (1) { // always display seller menu options until option 8 is selected
         try {
-          t.DisplayForSeller(username);
+          t.DisplayForSeller(s);
         } catch (std::exception&) {
           break;
         }

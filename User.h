@@ -11,7 +11,7 @@
 class User {
  public:
   User(std::string name, std::string address, long phoneNum, double accountBalance, double rateTotal, int rateCount) : _username(name), _address(address), _phoneNum(phoneNum), _accountBalance(accountBalance), _rateTotal(rateTotal), _rateCount(rateCount){};
-  std::string GetUsername() { return _username; };
+  std::string* GetUsername() { return &_username; };
   void UpdateUsername(std::string newName) { _username = newName; };
   std::string GetAddress() { return _address; };
   void UpdateAddress(std::string newAddress) { _address = newAddress; };
@@ -20,10 +20,10 @@ class User {
   double GetAccountBalance() { return _accountBalance; };
   void UpdateAccountBalance(double newBalance) { _accountBalance += newBalance; };
   bool MessageboxIsEmpty() { return _messagebox.empty(); };
-  void ReadMessage(std::string& replyTo, int& productID);
+  void ReadMessage(std::string** replyTo, int& productID);
   void ReceiveMessage(Message message) { _messagebox.push_back(message); };
-  std::string GetUserToRate();
-  void AddUserToRate(std::string username) { _userToRate.push_back(username); };
+  std::string* GetUserToRate();
+  void AddUserToRate(std::string* username) { _userToRate.push_back(username); };
   double GetRate() { return _rateTotal / _rateCount; };
   double GetRateTotal() { return _rateTotal; };
   int GetRateCount() { return _rateCount; };
@@ -38,7 +38,7 @@ class User {
   long _phoneNum;
   double _accountBalance;
   std::vector<Message> _messagebox;
-  std::vector<std::string> _userToRate;
+  std::vector<std::string*> _userToRate;
   double _rateTotal;
   int _rateCount;
 };
