@@ -35,6 +35,10 @@ TextUI::TextUI() {
   subcategories.clear();
 }
 
+/*
+ * When the user executes the program, ask the user to choose a role to log in.
+ */
+
 // initial login page, prompts user to sign in as a buyer/seller
 std::string TextUI::DisplayRoleChoice() {
   std::string role;
@@ -126,21 +130,6 @@ void TextUI::LoadInBidsData(std::string filename) {
 }
 
 /*
- * When the user executes the program, ask the user to choose a role to log in.
- */
-std::string TextUI::DisplayRoleChoice() {
-  std::string role;
-
-  std::cout << "Welcome to BidToBuy. Choose a role to log in (buyer/seller): ";
-  std::cin >> role;
-  while (role != "buyer" && role != "seller") {
-    std::cout << "Please enter a valid input. Choose a role to log in (buyer/seller): ";
-    std::cin >> role;
-  }
-  return role;
-}
-
-/*
  * Ask the user to log in with their username. If it is not is user list, ask if they want to create a new account.
  * @param role The role of the user. Either buyer or seller.
  * @return A username that is in the list.
@@ -212,8 +201,8 @@ void TextUI::CreateNewAccount(std::string role, std::string username) {
  */
 
 // populated menu options for users that are of type buyer
-void TextUI::DisplayForBuyer(std::string name) {
-  Buyer* b = GetBuyer(name);
+void TextUI::DisplayForBuyer(Buyer* b) {
+  //Buyer* b = GetBuyer(name);
 
   std::cout << "\n";
   std::string option;
@@ -296,7 +285,7 @@ void TextUI::DisplayForBuyer(std::string name) {
         Product* p = _pendingProducts[productID];
         Seller* s = GetSeller(*replyTo);
         double bid = p->GetHighestBidInfo().first;
-        double deliverFee = p->IsDelivered() ? p->GetHighestBidInfo().first * 0.05 : 0;
+        double deliverFee = p->IsToDeliver() ? p->GetHighestBidInfo().first * 0.05 : 0;
         while (bid + deliverFee > b->GetAccountBalance()) { // if cost price exceeds buyer's bid plus delivery fee charges, user is prompted to add more $ to account
           std::cout << "Your account balance is not enough to purchase the product. Please save more money to your account." << std::endl;
           std::cout << "How much do you want to save to your account: ";
@@ -322,7 +311,7 @@ void TextUI::DisplayForBuyer(std::string name) {
     std::cout << "Your current balance is: " << b->GetAccountBalance() << std::endl;
   }
   if (option == "4") { // used to rate sellers
-    std::string userToRate = b->GetUserToRate();
+    std::string* userToRate = b->GetUserToRate();
     if (userToRate != NULL) { // only allows ratings of sellers that have sold products to given user
       std::cout << "How would you like to rate " << *userToRate << "? (0-5): ";
       std::string rate;
