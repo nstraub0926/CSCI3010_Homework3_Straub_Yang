@@ -1,5 +1,7 @@
 #include "User.h"
 
+// displays 0 messages for empty messagebox, else iterates through all possible messages to read 
+// and asks for user to choose which message to respond to via an option number
 void User::ReadMessage(std::string& replyTo, int& productID) {
   int size = _messagebox.size();
   std::cout << "You have " << size << " message(s)." << std::endl;
@@ -49,6 +51,8 @@ void User::ReadMessage(std::string& replyTo, int& productID) {
   _messagebox.erase(_messagebox.begin() + (stoi(option) - 1));
 }
 
+// returns will NULL print statement if there are no completed purchases made by user, else iterates through 
+// all potential user's to rate and requests the user rate one based off their option number
 std::string User::GetUserToRate() {
   int size = _userToRate.size();
   if (size == 0) {
@@ -83,6 +87,7 @@ void Seller::ViewProductList() {
   }
 }
 
+// returns seller's biddable product info, parameter being passed in is the product's ID
 Product* Seller::GetProductInfo(int productID) {
   if (_productlist.find(productID) != _productlist.end()) {
     return _productlist[productID];
@@ -91,16 +96,19 @@ Product* Seller::GetProductInfo(int productID) {
   }
 }
 
+// adding a product to a seller's history list
 void Seller::AddToHistoryProducts(int productID) {
   Product* p = _productlist[productID];
   _productlist.erase(productID);
   _historyProducts.push_back(p);
 }
 
+// pushes all bids made by user to bidsHistory vector
 void Buyer::AddBidToProduct(std::string name, double bid) {
   _bidsHistory[name].push_back(bid);
 }
 
+// iterates through all completed orders and displays product name and final bid
 void Buyer::ViewHistoryOrders() {
   int size = _historyOrders.size();
   for (int i = 0; i < size; i++) {
