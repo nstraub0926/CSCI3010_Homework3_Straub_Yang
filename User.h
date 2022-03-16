@@ -10,11 +10,9 @@
 
 class User {
  public:
-  User(std::string name, std::string address, long phoneNum, double accountBalance, double rateTotal, int rateCount) : _address(address), _phoneNum(phoneNum), _accountBalance(accountBalance), _rateTotal(rateTotal), _rateCount(rateCount) {
-    _username = new std::string(name);
-  };
-  std::string* GetUsername() { return _username; };
-  void UpdateUsername(std::string newName) { *_username = newName; };
+  User(std::string name, std::string address, long phoneNum, double accountBalance, double rateTotal, int rateCount) : _username(name), _address(address), _phoneNum(phoneNum), _accountBalance(accountBalance), _rateTotal(rateTotal), _rateCount(rateCount){};
+  std::string* GetUsername() { return &_username; };
+  void UpdateUsername(std::string newName) { _username = newName; };
   std::string GetAddress() { return _address; };
   void UpdateAddress(std::string newAddress) { _address = newAddress; };
   long GetPhoneNum() { return _phoneNum; };
@@ -35,7 +33,7 @@ class User {
   };
 
  private:
-  std::string* _username;
+  std::string _username;
   std::string _address;
   long _phoneNum;
   double _accountBalance;

@@ -1,0 +1,396 @@
+peteryang@Macbook-Pro: CSCI3010_Homework3_Straub_Yang % ./main
+Welcome to BidToBuy. Choose a role to log in (buyer/seller): seller
+Username: Peter
+Welcome Peter! 
+Please choose from the following list of seller options: 
+1. Post a product for sale
+2. View/Send messages
+3. Check account balance
+4. Rate a buyer
+5. Update user info
+6. View product list
+7. Close bid on a product
+8. Log out
+1
+Please choose one of the following categories of your product.
+1. Books 2. Clothing 3. Computers 4. Electronics 5. Sports 
+Please enter your option (1-5): 4
+Please choose one of the following subcategories of your product.
+1. Camera 2. Television 3. Phone 
+Please enter your option (1-3): 1
+Do you want to view prices of similar products that were historically sold? (yes/no): yes
+Product name: Nixon Camera Lens, bid: 10.5
+Product name: Camera 123, bid: 20
+The name of your product: Canon 760D
+The base price of your product: 30
+The quality of your product (new, used-verygood, used-good, used-okay): used-verygood
+Your product Canon 760D is added to the list for sale!
+Please choose from the following list of seller options: 
+1. Post a product for sale
+2. View/Send messages
+3. Check account balance
+4. Rate a buyer
+5. Update user info
+6. View product list
+7. Close bid on a product
+8. Log out
+2
+You have 0 message(s).
+Please choose from the following list of seller options: 
+1. Post a product for sale
+2. View/Send messages
+3. Check account balance
+4. Rate a buyer
+5. Update user info
+6. View product list
+7. Close bid on a product
+8. Log out
+3
+Your current balance is: 70.3
+Please choose from the following list of seller options: 
+1. Post a product for sale
+2. View/Send messages
+3. Check account balance
+4. Rate a buyer
+5. Update user info
+6. View product list
+7. Close bid on a product
+8. Log out
+4
+There is no user to rate.
+Please choose from the following list of seller options: 
+1. Post a product for sale
+2. View/Send messages
+3. Check account balance
+4. Rate a buyer
+5. Update user info
+6. View product list
+7. Close bid on a product
+8. Log out
+5
+Which one would you like to change?
+1. Name 2. Phone number 3. Address
+Please enter an option (1-3): 1
+New name: Peter_Yang
+Your name has been changed to "Peter_Yang"!
+Please choose from the following list of seller options: 
+1. Post a product for sale
+2. View/Send messages
+3. Check account balance
+4. Rate a buyer
+5. Update user info
+6. View product list
+7. Close bid on a product
+8. Log out
+6
+Product id: 1, product name: Canon 760D, base price: 30, current highest bid: 0, status: open
+Please choose from the following list of seller options: 
+1. Post a product for sale
+2. View/Send messages
+3. Check account balance
+4. Rate a buyer
+5. Update user info
+6. View product list
+7. Close bid on a product
+8. Log out
+8
+Do you want to log in with another username? (yes/no): yes
+Welcome to BidToBuy. Choose a role to log in (buyer/seller): buyer
+Username: Nathan
+Welcome Nathan! 
+Please choose from the following list of buyer options: 
+1. View/Bid-On Products
+2. View/Send Messages
+3. Check Account Balance
+4. Rate Seller
+5. Update User Info
+6. View Bid History
+7. View Purchased Products
+8. Log out
+1
+Here's a list of all currently biddable products: 
+Product ID: 1 | Name: Canon 760D | Quality: used-verygood | Base Price: 30 | Highest Bid: 0
+Select item to bid on via Product ID (or select (e) to escape back to main page)
+1
+Please make a bid on the chosen product (bid > current highest bid OR base price && bid < user balance): 35
+Please choose from the following list of buyer options: 
+1. View/Bid-On Products
+2. View/Send Messages
+3. Check Account Balance
+4. Rate Seller
+5. Update User Info
+6. View Bid History
+7. View Purchased Products
+8. Log out
+2
+You have 0 message(s).
+Please choose from the following list of buyer options: 
+1. View/Bid-On Products
+2. View/Send Messages
+3. Check Account Balance
+4. Rate Seller
+5. Update User Info
+6. View Bid History
+7. View Purchased Products
+8. Log out
+3
+Your current balance is: 79.3
+Please choose from the following list of buyer options: 
+1. View/Bid-On Products
+2. View/Send Messages
+3. Check Account Balance
+4. Rate Seller
+5. Update User Info
+6. View Bid History
+7. View Purchased Products
+8. Log out
+4
+There is no user to rate.
+Please choose from the following list of buyer options: 
+1. View/Bid-On Products
+2. View/Send Messages
+3. Check Account Balance
+4. Rate Seller
+5. Update User Info
+6. View Bid History
+7. View Purchased Products
+8. Log out
+5
+Which one would you like to change?
+1. Username 2. Phone number 3. Address
+Please enter an option (1-3): 1
+New username: Nathan_Straub
+Your name has been changed to "Nathan_Straub"!
+Please choose from the following list of buyer options: 
+1. View/Bid-On Products
+2. View/Send Messages
+3. Check Account Balance
+4. Rate Seller
+5. Update User Info
+6. View Bid History
+7. View Purchased Products
+8. Log out
+6
+Product Name: Canon 760D | Bid Prices: 35
+Please choose from the following list of buyer options: 
+1. View/Bid-On Products
+2. View/Send Messages
+3. Check Account Balance
+4. Rate Seller
+5. Update User Info
+6. View Bid History
+7. View Purchased Products
+8. Log out
+7
+Please choose from the following list of buyer options: 
+1. View/Bid-On Products
+2. View/Send Messages
+3. Check Account Balance
+4. Rate Seller
+5. Update User Info
+6. View Bid History
+7. View Purchased Products
+8. Log out
+8
+Do you want to log in with another username? (yes/no): yes
+Welcome to BidToBuy. Choose a role to log in (buyer/seller): seller
+Username: Peter_Yang
+Welcome Peter_Yang! 
+Please choose from the following list of seller options: 
+1. Post a product for sale
+2. View/Send messages
+3. Check account balance
+4. Rate a buyer
+5. Update user info
+6. View product list
+7. Close bid on a product
+8. Log out
+7
+Please choose a product to close:
+Product id: 1, product name: Canon 760D, base price: 30, current highest bid: 35, status: open
+Enter a product id: 1
+Please choose how the buyer gets the product (delivery/pickup): delivery
+The notification message is sent to Nathan_Straub!
+Please choose from the following list of seller options: 
+1. Post a product for sale
+2. View/Send messages
+3. Check account balance
+4. Rate a buyer
+5. Update user info
+6. View product list
+7. Close bid on a product
+8. Log out
+8
+Do you want to log in with another username? (yes/no): yes
+Welcome to BidToBuy. Choose a role to log in (buyer/seller): buyer
+Username: Nathan_Straub
+Welcome Nathan_Straub! You have new message(s)!
+Please choose from the following list of buyer options: 
+1. View/Bid-On Products
+2. View/Send Messages
+3. Check Account Balance
+4. Rate Seller
+5. Update User Info
+6. View Bid History
+7. View Purchased Products
+8. Log out
+2
+You have 1 message(s).
+1. From Peter_Yang, this is a confirmation message for purchasing a product (product id 1).
+Which message do you want to read? Or enter (e) to exit.
+Please enter an option (1/e): 1
+From: Peter_Yang
+Congratulations! You just won the bid on Canon 760D! Please message me back your address.
+Please write the content of your message here:
+123 Baseline, Boulder, CO
+The message is sent to Peter_Yang!
+Please choose from the following list of buyer options: 
+1. View/Bid-On Products
+2. View/Send Messages
+3. Check Account Balance
+4. Rate Seller
+5. Update User Info
+6. View Bid History
+7. View Purchased Products
+8. Log out
+3
+Your current balance is: 42.55
+Please choose from the following list of buyer options: 
+1. View/Bid-On Products
+2. View/Send Messages
+3. Check Account Balance
+4. Rate Seller
+5. Update User Info
+6. View Bid History
+7. View Purchased Products
+8. Log out
+4
+Please choose a user to rate, or enter (e) to exit:
+1. Peter_Yang 
+Please choose an option (1/e): 1
+How would you like to rate Peter_Yang? (0-5): 5
+You just rated Peter_Yang!
+Please choose from the following list of buyer options: 
+1. View/Bid-On Products
+2. View/Send Messages
+3. Check Account Balance
+4. Rate Seller
+5. Update User Info
+6. View Bid History
+7. View Purchased Products
+8. Log out
+7
+Product name: Canon 760D, bid: 35
+Please choose from the following list of buyer options: 
+1. View/Bid-On Products
+2. View/Send Messages
+3. Check Account Balance
+4. Rate Seller
+5. Update User Info
+6. View Bid History
+7. View Purchased Products
+8. Log out
+8
+Do you want to log in with another username? (yes/no): yes
+Welcome to BidToBuy. Choose a role to log in (buyer/seller): seller
+Username: Peter_Yang
+Welcome Peter_Yang! You have new message(s)!
+Please choose from the following list of seller options: 
+1. Post a product for sale
+2. View/Send messages
+3. Check account balance
+4. Rate a buyer
+5. Update user info
+6. View product list
+7. Close bid on a product
+8. Log out
+2
+You have 1 message(s).
+1. From Nathan_Straub
+Which message do you want to read? Or enter (e) to exit.
+Please enter an option (1/e): 1
+From: Nathan_Straub
+123 Baseline, Boulder, CO
+Do you want to reply? (yes/no): yes
+Please write the content of your message here:
+I will send the product to your as soon as possible!
+The message is sent to Nathan_Straub!
+Please choose from the following list of seller options: 
+1. Post a product for sale
+2. View/Send messages
+3. Check account balance
+4. Rate a buyer
+5. Update user info
+6. View product list
+7. Close bid on a product
+8. Log out
+3
+Your current balance is: 105.3
+Please choose from the following list of seller options: 
+1. Post a product for sale
+2. View/Send messages
+3. Check account balance
+4. Rate a buyer
+5. Update user info
+6. View product list
+7. Close bid on a product
+8. Log out
+4
+Please choose a user to rate, or enter (e) to exit:
+1. Nathan_Straub 
+Please choose an option (1/e): 1
+How would you like to rate Nathan_Straub? (0-5): 5
+You just rated Nathan_Straub!
+Please choose from the following list of seller options: 
+1. Post a product for sale
+2. View/Send messages
+3. Check account balance
+4. Rate a buyer
+5. Update user info
+6. View product list
+7. Close bid on a product
+8. Log out
+6
+Please choose from the following list of seller options: 
+1. Post a product for sale
+2. View/Send messages
+3. Check account balance
+4. Rate a buyer
+5. Update user info
+6. View product list
+7. Close bid on a product
+8. Log out
+8
+Do you want to log in with another username? (yes/no): yes
+Welcome to BidToBuy. Choose a role to log in (buyer/seller): buyer
+Username: Nathan_Straub
+Welcome Nathan_Straub! You have new message(s)!
+Please choose from the following list of buyer options: 
+1. View/Bid-On Products
+2. View/Send Messages
+3. Check Account Balance
+4. Rate Seller
+5. Update User Info
+6. View Bid History
+7. View Purchased Products
+8. Log out
+2
+You have 1 message(s).
+1. From Peter_Yang
+Which message do you want to read? Or enter (e) to exit.
+Please enter an option (1/e): 1
+From: Peter_Yang
+I will send the product to your as soon as possible!
+Do you want to reply? (yes/no): no
+Please choose from the following list of buyer options: 
+1. View/Bid-On Products
+2. View/Send Messages
+3. Check Account Balance
+4. Rate Seller
+5. Update User Info
+6. View Bid History
+7. View Purchased Products
+8. Log out
+8
+Do you want to log in with another username? (yes/no): no
+Thank you for choosing BidToBuy. Visit again soon!

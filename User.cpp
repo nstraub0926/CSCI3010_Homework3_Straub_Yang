@@ -93,9 +93,9 @@ void Seller::ViewProductList() {
   for (std::map<int, Product*>::iterator i = _productlist.begin(); i != _productlist.end(); i++) {
     std::cout << "Product id: " << i->first << ", product name: " << i->second->GetProductName() << ", base price: " << i->second->GetBasePrice() << ", current highest bid: " << i->second->GetHighestBidInfo().first;
     if (i->second->GetStatus()) {
-      std::cout << " , status: open";
+      std::cout << ", status: open";
     } else {
-      std::cout << " , status: processing";
+      std::cout << ", status: processing";
     }
     std::cout << std::endl;
   }

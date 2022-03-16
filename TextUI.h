@@ -19,8 +19,8 @@ class TextUI {
   void LoadInBidsData(std::string filename);
   std::string LogInUsername(std::string role);
   void CreateNewAccount(std::string role, std::string username);
-  void DisplayForBuyer(std::string name);
-  void DisplayForSeller(std::string name);
+  void DisplayForBuyer(Buyer* b);
+  void DisplayForSeller(Seller* s);
   void ViewProductsForSale();
   void ViewHistoryProducts();
   void CheckMessagebox(std::string role, std::string name);

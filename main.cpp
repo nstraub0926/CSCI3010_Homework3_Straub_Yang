@@ -22,9 +22,10 @@ int main() {
     if (role == "buyer") {
       std::cout << "Welcome " << username << "! ";
       t.CheckMessagebox("buyer", username);
+      Buyer* b = t.GetBuyer(username);
       while (1) {
         try {
-          t.DisplayForBuyer(username);
+          t.DisplayForBuyer(b);
         } catch (std::exception&) {
           break;
         }
@@ -32,9 +33,10 @@ int main() {
     } else {
       std::cout << "Welcome " << username << "! ";
       t.CheckMessagebox("seller", username);
+      Seller* s = t.GetSeller(username);
       while (1) {
         try {
-          t.DisplayForSeller(username);
+          t.DisplayForSeller(s);
         } catch (std::exception&) {
           break;
         }

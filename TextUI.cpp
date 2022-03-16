@@ -157,10 +157,7 @@ void TextUI::CreateNewAccount(std::string role, std::string username) {
   }
 }
 
-void TextUI::DisplayForBuyer(std::string name) {
-  Buyer* b = GetBuyer(name);
-
-  std::string option;
+void TextUI::DisplayForBuyer(Buyer* b) {
   std::cout << "Please choose from the following list of buyer options: " << std::endl;
   std::cout << "1. View/Bid-On Products" << std::endl;
   std::cout << "2. View/Send Messages" << std::endl;
@@ -170,8 +167,8 @@ void TextUI::DisplayForBuyer(std::string name) {
   std::cout << "6. View Bid History" << std::endl;
   std::cout << "7. View Purchased Products" << std::endl;
   std::cout << "8. Log out" << std::endl;
+  std::string option;
   std::cin >> option;
-
   while (option != "1" && option != "2" && option != "3" && option != "4" && option != "5" && option != "6" && option != "7" && option != "8") {
     std::cout << "Please enter a valid option. Enter your option again (1-8): ";
     std::cin >> option;
@@ -339,9 +336,7 @@ void TextUI::DisplayForBuyer(std::string name) {
   }
 }
 
-void TextUI::DisplayForSeller(std::string name) {
-  Seller* s = GetSeller(name);
-
+void TextUI::DisplayForSeller(Seller* s) {
   std::cout << "Please choose from the following list of seller options: " << std::endl;
   std::cout << "1. Post a product for sale" << std::endl;
   std::cout << "2. View/Send messages" << std::endl;
