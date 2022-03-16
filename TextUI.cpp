@@ -7,31 +7,31 @@
 
 // Constructor loads factory of subcategorial products, combines and pushes 3 subcategories for each main product category
 TextUI::TextUI() {
-  std::vector<std::string> subcategories; 
+  std::vector<std::string> subcategories;
   subcategories.push_back("Camera");
   subcategories.push_back("Television");
   subcategories.push_back("Phone");
-  _productCategories.insert(std::make_pair("Electronics", subcategories)); // pushes a mapping of all Electronics subcategories to product factory
+  _productCategories.insert(std::make_pair("Electronics", subcategories));  // pushes a mapping of all Electronics subcategories to product factory
   subcategories.clear();
   subcategories.push_back("Monitors");
   subcategories.push_back("Mouse");
   subcategories.push_back("Keyboard");
-  _productCategories.insert(std::make_pair("Computers", subcategories)); // pushes a mapping of all Computers subcategories to product factory
+  _productCategories.insert(std::make_pair("Computers", subcategories));  // pushes a mapping of all Computers subcategories to product factory
   subcategories.clear();
   subcategories.push_back("Basketball");
   subcategories.push_back("Football");
   subcategories.push_back("Baseball");
-  _productCategories.insert(std::make_pair("Sports", subcategories)); // pushes a mapping of all Sports subcategories to product factory
+  _productCategories.insert(std::make_pair("Sports", subcategories));  // pushes a mapping of all Sports subcategories to product factory
   subcategories.clear();
   subcategories.push_back("MenClothing");
   subcategories.push_back("WomenClothing");
   subcategories.push_back("Necklaces");
-  _productCategories.insert(std::make_pair("Clothing", subcategories)); // pushes a mapping of all Clothing subcategories to product factory
+  _productCategories.insert(std::make_pair("Clothing", subcategories));  // pushes a mapping of all Clothing subcategories to product factory
   subcategories.clear();
   subcategories.push_back("Textbooks");
   subcategories.push_back("Novels");
   subcategories.push_back("Cookbooks");
-  _productCategories.insert(std::make_pair("Books", subcategories)); // pushes a mapping of all Books subcategories to product factory
+  _productCategories.insert(std::make_pair("Books", subcategories));  // pushes a mapping of all Books subcategories to product factory
   subcategories.clear();
 }
 
@@ -42,7 +42,7 @@ std::string TextUI::DisplayRoleChoice() {
   std::cout << "Welcome to BidToBuy. Choose a role to log in (buyer/seller): ";
   std::cin >> role;
   while (role != "buyer" && role != "seller") {
-    std::cout << "Please enter a valid input. Choose a role to log in (buyer/seller): "; // invalid buyer/seller selections will enter while loop until correct choice is made
+    std::cout << "Please enter a valid input. Choose a role to log in (buyer/seller): ";  // invalid buyer/seller selections will enter while loop until correct choice is made
     std::cin >> role;
   }
   return role;
@@ -74,7 +74,7 @@ void TextUI::LoadInUserData(std::string filename) {
       getline(str, rateTotal, ',');
       std::string rateCount;
       getline(str, rateCount, ',');
-      MakeNewUser(username, address, stol(phoneNum), stod(accountBalance), stol(rateTotal), stoi(rateCount), userType); // instantiates a new user with getline info read in from Users.csv
+      MakeNewUser(username, address, stol(phoneNum), stod(accountBalance), stol(rateTotal), stoi(rateCount), userType);  // instantiates a new user with getline info read in from Users.csv
     }
   }
 }
@@ -83,7 +83,7 @@ void TextUI::LoadInUserData(std::string filename) {
  * Read Bids.csv to load in the data of historical orders at the beginning of the program.
  */
 
-// loads in history of bids, gets product name, subcategory, seller, buyer, quality, base price, 
+// loads in history of bids, gets product name, subcategory, seller, buyer, quality, base price,
 // and current highest bid fields and pushes new factorized product to history orders vector
 void TextUI::LoadInBidsData(std::string filename) {
   std::fstream file(filename, std::ios::in);
@@ -105,7 +105,7 @@ void TextUI::LoadInBidsData(std::string filename) {
       getline(str, basePrice, ',');
       std::string bid;
       getline(str, bid, ',');
-      // conditionals to properly sort products based on subcategory placement 
+      // conditionals to properly sort products based on subcategory placement
       if (subcategory == "Camera") _historyOrders.push_back(ProductFactory::AddCamera(productName, stod(basePrice), quality, seller, std::make_pair(stod(bid), buyer)));
       if (subcategory == "Television") _historyOrders.push_back(ProductFactory::AddTelevision(productName, stod(basePrice), quality, seller, std::make_pair(stod(bid), buyer)));
       if (subcategory == "Phone") _historyOrders.push_back(ProductFactory::AddPhone(productName, stod(basePrice), quality, seller, std::make_pair(stod(bid), buyer)));
@@ -152,18 +152,18 @@ std::string TextUI::LogInUsername(std::string role) {
   std::cin >> username;
   try {
     if (role == "seller") {
-      if (GetSeller(username) == NULL) { // if seller's username isn't recognized, user is given the option to create a new account or close the program
+      if (GetSeller(username) == NULL) {  // if seller's username isn't recognized, user is given the option to create a new account or close the program
         CreateNewAccount(role, username);
       }
     } else {
-      if (GetBuyer(username) == NULL) { // if buyer's username isn't recognized, user is given the option to create a new account or close the program
+      if (GetBuyer(username) == NULL) {  // if buyer's username isn't recognized, user is given the option to create a new account or close the program
         CreateNewAccount(role, username);
       }
     }
   } catch (std::exception&) {
-    throw std::exception(); // excpetion thrown when trying to exit module
+    throw std::exception();  // excpetion thrown when trying to exit module
   }
-  return username; // username is passed to display functions in order to easily access information pertaining to the user
+  return username;  // username is passed to display functions in order to easily access information pertaining to the user
 }
 
 /*
@@ -181,11 +181,11 @@ void TextUI::CreateNewAccount(std::string role, std::string username) {
             << "Exit the program? (e)" << std::endl
             << "Please enter an option (c/e): ";
   std::cin >> option;
-  while (option != "c" && option != "e") { // only accepts c and e entries
+  while (option != "c" && option != "e") {  // only accepts c and e entries
     std::cout << "Please enter a valid option. Enter your option again (c/e): ";
     std::cin >> option;
   }
-  if (option == "c") { // prompts user for address, phone number, and base account balance info
+  if (option == "c") {  // prompts user for address, phone number, and base account balance info
     std::string address;
     long phoneNum;
     double accountBalance;
@@ -201,7 +201,7 @@ void TextUI::CreateNewAccount(std::string role, std::string username) {
     // saves input username from initial prompting
     MakeNewUser(username, address, phoneNum, accountBalance, 0.0, 0, role);
   }
-  if (option == "e") { // throws error when option is = (e)
+  if (option == "e") {  // throws error when option is = (e)
     throw std::exception();
   }
 }
@@ -212,20 +212,18 @@ void TextUI::CreateNewAccount(std::string role, std::string username) {
  */
 
 // populated menu options for users that are of type buyer
-void TextUI::DisplayForBuyer(std::string name) {
-  Buyer* b = GetBuyer(name);
-
+void TextUI::DisplayForBuyer(Buyer* b) {
   std::cout << "\n";
   std::string option;
   std::cout << "Please choose from the following list of buyer options: " << std::endl;
-  std::cout << "1. View/Bid-On Products" << std::endl; // displays all possible products to bid on with option to bid if user chooses too (exit and return to main page otherwise)
-  std::cout << "2. View/Send Messages" << std::endl; // populates messages when seller closes a bid, message from buyer to sender required when delivery method is selected
-  std::cout << "3. Check Account Balance" << std::endl; // accesses buyer's account balance field and is printed to the screen
-  std::cout << "4. Rate Seller" << std::endl; // populates a list of sellers to rate (only sellers that have closed bids with the given user are shown)
-  std::cout << "5. Update User Info" << std::endl; // buyer can update any of the following fields: username, address, or phone number
-  std::cout << "6. View Bid History" << std::endl; // a mapped vector stores all bids the current buyer has made and displays this history to the user
-  std::cout << "7. View Purchased Products" << std::endl; // anytime a seller closes a bid, the product sold is pushed to the history orders vector and is displayed using this selection
-  std::cout << "8. Log out" << std::endl; // logs buyer out of their account with an option to sign in using a different username
+  std::cout << "1. View/Bid-On Products" << std::endl;     // displays all possible products to bid on with option to bid if user chooses too (exit and return to main page otherwise)
+  std::cout << "2. View/Send Messages" << std::endl;       // populates messages when seller closes a bid, message from buyer to sender required when delivery method is selected
+  std::cout << "3. Check Account Balance" << std::endl;    // accesses buyer's account balance field and is printed to the screen
+  std::cout << "4. Rate Seller" << std::endl;              // populates a list of sellers to rate (only sellers that have closed bids with the given user are shown)
+  std::cout << "5. Update User Info" << std::endl;         // buyer can update any of the following fields: username, address, or phone number
+  std::cout << "6. View Bid History" << std::endl;         // a mapped vector stores all bids the current buyer has made and displays this history to the user
+  std::cout << "7. View Purchased Products" << std::endl;  // anytime a seller closes a bid, the product sold is pushed to the history orders vector and is displayed using this selection
+  std::cout << "8. Log out" << std::endl;                  // logs buyer out of their account with an option to sign in using a different username
   std::cin >> option;
   std::cout << "\n";
 
@@ -236,30 +234,30 @@ void TextUI::DisplayForBuyer(std::string name) {
   }
 
   if (option == "1") {
-    if (_products.size() != 0) { // conditional checking if any products are currently being sold
+    if (_products.size() != 0) {  // conditional checking if any products are currently being sold
       std::cout << "Here's a list of all currently biddable products: " << std::endl;
       for (std::map<int, Product*>::iterator i = _products.begin(); i != _products.end(); i++) {
         std::cout << "Product ID: " << i->first << " | Name: " << i->second->GetProductName() << " | Quality: " << i->second->GetQuality() << " | Base Price: " << i->second->GetBasePrice() << " | Highest Bid: " << i->second->GetHighestBidInfo().first << std::endl;
       }
-      std::cout << "Select item to bid on via Product ID (or select (e) to escape back to main page)" << std::endl; // options to bid on any of the products listed or exit to the main page
+      std::cout << "Select item to bid on via Product ID (or select (e) to escape back to main page)" << std::endl;  // options to bid on any of the products listed or exit to the main page
       std::string productID;
       std::cin >> productID;
       while ((productID != "e" && _products.find(stoi(productID)) == _products.end()) || !_products.find(stoi(productID))->second->GetStatus()) {
         std::cout << "Please enter a valid option. Enter the option again (Product ID or (e) to exit): ";
         std::cin >> productID;
       }
-      if (productID == "e") { // returns to main display page
+      if (productID == "e") {  // returns to main display page
         return;
       }
       std::cout << "Please make a bid on the chosen product (bid > current highest bid OR base price && bid < user balance): ";
       std::string bidPrice;
       std::cin >> bidPrice;
-      if (_products[stoi(productID)]->GetHighestBidInfo().first == 0) { // conditionals checking that bid amount is greater than base price (when no bids have been made prior) and that the buyer can adequately pay for the product
+      if (_products[stoi(productID)]->GetHighestBidInfo().first == 0) {  // conditionals checking that bid amount is greater than base price (when no bids have been made prior) and that the buyer can adequately pay for the product
         while (stod(bidPrice) <= _products[stoi(productID)]->GetBasePrice() || stod(bidPrice) >= b->GetAccountBalance()) {
-          if (stod(bidPrice) <= _products[stoi(productID)]->GetBasePrice()) { // bid price is too low
+          if (stod(bidPrice) <= _products[stoi(productID)]->GetBasePrice()) {  // bid price is too low
             std::cout << "New bid price must exceed the base price (i.e newBid > " << _products[stoi(productID)]->GetBasePrice() << ")" << std::endl;
             std::cout << "Please make a bid on the chosen product (bid must be greater than the base price): ";
-          } else { // bid price is too high
+          } else {  // bid price is too high
             std::cout << "New bid price must not exceed your account balance (i.e newBid < " << b->GetAccountBalance() << ")" << std::endl;
             std::cout << "Please make a bid on the chosen product (bid must be less than your account balance): ";
           }
@@ -267,67 +265,67 @@ void TextUI::DisplayForBuyer(std::string name) {
         }
       } else {
         while (stod(bidPrice) <= _products[stoi(productID)]->GetHighestBidInfo().first || stod(bidPrice) >= b->GetAccountBalance()) {
-          if (stod(bidPrice) <= _products[stoi(productID)]->GetHighestBidInfo().first) { // bid price is too low
+          if (stod(bidPrice) <= _products[stoi(productID)]->GetHighestBidInfo().first) {  // bid price is too low
             std::cout << "New bid price must exceed the current highest bid (i.e newBid > " << _products[stoi(productID)]->GetHighestBidInfo().first << ")" << std::endl;
             std::cout << "Please make a bid on the chosen product (bid must be greater than the current highest bid): ";
-          } else { // bid price is too high
+          } else {  // bid price is too high
             std::cout << "New bid price must not exceed your account balance (i.e newBid < " << b->GetAccountBalance() << ")" << std::endl;
             std::cout << "Please make a bid on the chosen product (bid must be less than your account balance): ";
           }
           std::cin >> bidPrice;
         }
       }
-      b->AddBidToProduct(_products[stoi(productID)]->GetProductName(), stod(bidPrice)); // add bid to product if all prior conditionals are met
-      _products[stoi(productID)]->SetCurrentBid(stod(bidPrice), b->GetUsername()); // sets the currently highest bid to the most recent
-    } else { // doesn't print any products if there aren't any currently being sold
+      b->AddBidToProduct(_products[stoi(productID)]->GetProductName(), stod(bidPrice));  // add bid to product if all prior conditionals are met
+      _products[stoi(productID)]->SetCurrentBid(stod(bidPrice), b->GetUsername());       // sets the currently highest bid to the most recent
+    } else {                                                                             // doesn't print any products if there aren't any currently being sold
       std::cout << "There are currently no products to bid on, please check back for new product listings!" << std::endl;
     }
   }
   if (option == "2") {
     std::string* replyTo = NULL;
     int productID = -1;
-    b->ReadMessage(&replyTo, productID); // if message box is empty, no actions to be done; otherwise, user is prompted whether or not they want to respond to any of their messages
-    if (replyTo != NULL) { // replyTo is NULL if user doesn't want to reply or is a pointer linking to the seller
+    b->ReadMessage(&replyTo, productID);  // if message box is empty, no actions to be done; otherwise, user is prompted whether or not they want to respond to any of their messages
+    if (replyTo != NULL) {                // replyTo is NULL if user doesn't want to reply or is a pointer linking to the seller
       std::cout << "Please write the content of your message here:" << std::endl;
-      std::string content; // write message content (typically requires an address)
+      std::string content;  // write message content (typically requires an address)
       std::getline(std::cin, content);
       std::getline(std::cin, content);
       if (productID > 0) {
         Product* p = _pendingProducts[productID];
         Seller* s = GetSeller(*replyTo);
         double bid = p->GetHighestBidInfo().first;
-        double deliverFee = p->IsDelivered() ? p->GetHighestBidInfo().first * 0.05 : 0;
-        while (bid + deliverFee > b->GetAccountBalance()) { // if cost price exceeds buyer's bid plus delivery fee charges, user is prompted to add more $ to account
+        double deliverFee = p->IsToDeliver() ? p->GetHighestBidInfo().first * 0.05 : 0;
+        while (bid + deliverFee > b->GetAccountBalance()) {  // if cost price exceeds buyer's bid plus delivery fee charges, user is prompted to add more $ to account
           std::cout << "Your account balance is not enough to purchase the product. Please save more money to your account." << std::endl;
           std::cout << "How much do you want to save to your account: ";
           std::string money;
           std::cin >> money;
           b->UpdateAccountBalance(stod(money));
         }
-        b->UpdateAccountBalance((bid + deliverFee) * -1); // price of bid + delivery fee (if applicable) are subtracted from buyer's account
-        b->AddToHistoryOrders(p); // order is added to order history
-        b->AddUserToRate(s->GetUsername()); // another message for the buyer, asking to review the seller
-        s->UpdateAccountBalance(bid); // cost of product is added to seller's account
-        s->AddToHistoryProducts(productID); // added to seller's product history
-        s->AddUserToRate(b->GetUsername()); // another message for the seller, asking to review the buyer
-        p->SetBuyer(b->GetUsername()); // product's buyer is set relative to the product
-        _pendingProducts.erase(productID); // product is taken down from active selling list
+        b->UpdateAccountBalance((bid + deliverFee) * -1);  // price of bid + delivery fee (if applicable) are subtracted from buyer's account
+        b->AddToHistoryOrders(p);                          // order is added to order history
+        b->AddUserToRate(s->GetUsername());                // another message for the buyer, asking to review the seller
+        s->UpdateAccountBalance(bid);                      // cost of product is added to seller's account
+        s->AddToHistoryProducts(productID);                // added to seller's product history
+        s->AddUserToRate(b->GetUsername());                // another message for the seller, asking to review the buyer
+        p->SetBuyer(b->GetUsername());                     // product's buyer is set relative to the product
+        _pendingProducts.erase(productID);                 // product is taken down from active selling list
         _historyOrders.push_back(p);
       }
       SendMessage(b->GetUsername(), replyTo, "seller", content);
       std::cout << "The message is sent to " << *replyTo << "!" << std::endl;
     }
   }
-  if (option == "3") { // prints account balance
+  if (option == "3") {  // prints account balance
     std::cout << "Your current balance is: " << b->GetAccountBalance() << std::endl;
   }
-  if (option == "4") { // used to rate sellers
-    std::string userToRate = b->GetUserToRate();
-    if (userToRate != NULL) { // only allows ratings of sellers that have sold products to given user
+  if (option == "4") {  // used to rate sellers
+    std::string* userToRate = b->GetUserToRate();
+    if (userToRate != NULL) {  // only allows ratings of sellers that have sold products to given user
       std::cout << "How would you like to rate " << *userToRate << "? (0-5): ";
       std::string rate;
       std::cin >> rate;
-      while (rate != "0" && rate != "1" && rate != "2" && rate != "3" && rate != "4" && rate != "5") { // rating must be between 0-5
+      while (rate != "0" && rate != "1" && rate != "2" && rate != "3" && rate != "4" && rate != "5") {  // rating must be between 0-5
         std::cout << "Please enter a valid rate. Enter the rate again (0-5): ";
         std::cin >> rate;
       }
@@ -336,17 +334,17 @@ void TextUI::DisplayForBuyer(std::string name) {
       std::cout << "You just rated " << *userToRate << "!" << std::endl;
     }
   }
-  if (option == "5") { // three user info changes prompted to the user
+  if (option == "5") {  // three user info changes prompted to the user
     std::cout << "Which one would you like to change?" << std::endl;
     std::cout << "1. Username 2. Phone number 3. Address" << std::endl;
     std::cout << "Please enter an option (1-3): ";
     std::string optionChangeInfo;
     std::cin >> optionChangeInfo;
-    while (optionChangeInfo != "1" && optionChangeInfo != "2" && optionChangeInfo != "3") { // in case bad selections are made
+    while (optionChangeInfo != "1" && optionChangeInfo != "2" && optionChangeInfo != "3") {  // in case bad selections are made
       std::cout << "Please enter a valid option. Enter the option again (1-3): ";
       std::cin >> optionChangeInfo;
     }
-    if (optionChangeInfo == "1") { // changing username, involves pointers to match previous username entitites to the newly changed username
+    if (optionChangeInfo == "1") {  // changing username, involves pointers to match previous username entitites to the newly changed username
       std::cout << "New username: ";
       std::string newName;
       std::cin >> newName;
@@ -359,14 +357,14 @@ void TextUI::DisplayForBuyer(std::string name) {
       _buyers.insert(std::make_pair(newName, b));
       std::cout << "Your name has been changed to \"" << *b->GetUsername() << "\"!" << std::endl;
     }
-    if (optionChangeInfo == "2") { // changing buyer's phone number
+    if (optionChangeInfo == "2") {  // changing buyer's phone number
       std::cout << "New phone number: ";
       std::string newPhoneNum;
       std::cin >> newPhoneNum;
       b->UpdatePhoneNum(stol(newPhoneNum));
       std::cout << "Your phone number has been changed to \"" << b->GetPhoneNum() << "\"!" << std::endl;
     }
-    if (optionChangeInfo == "3") { // changing buyer's address, in most cases we are changing an already NULL value
+    if (optionChangeInfo == "3") {  // changing buyer's address, in most cases we are changing an already NULL value
       std::cout << "New address: ";
       std::string newAddress;
       std::getline(std::cin, newAddress);
@@ -377,10 +375,10 @@ void TextUI::DisplayForBuyer(std::string name) {
   }
   if (option == "6") {
     std::map<std::string, std::vector<double> > allBids = b->GetBidsHistory();
-    for (std::map<std::string, std::vector<double> >::iterator i = allBids.begin(); i != allBids.end(); i++) { // product history is listed by name of product and iterates through a vector of all possible bids made on that product
+    for (std::map<std::string, std::vector<double> >::iterator i = allBids.begin(); i != allBids.end(); i++) {  // product history is listed by name of product and iterates through a vector of all possible bids made on that product
       std::cout << "Product Name: " << i->first << " | Bid Prices: ";
       int size = i->second.size();
-      for (int j = 0; j < size; j++) { // prints history of all bids made on any given product
+      for (int j = 0; j < size; j++) {  // prints history of all bids made on any given product
         std::cout << i->second[j];
         if (j != size - 1) {
           std::cout << ", ";
@@ -389,15 +387,14 @@ void TextUI::DisplayForBuyer(std::string name) {
       std::cout << std::endl;
     }
   }
-  if (option == "7") { // displays all transaction orders that have been completed
+  if (option == "7") {  // displays all transaction orders that have been completed
     b->ViewHistoryOrders();
   }
-  if (option == "8") { // exit exception
+  if (option == "8") {  // exit exception
     throw std::exception();
   }
 }
 
-  
 /*
  * The text UI that will be displayed to the user when they log in as a seller.
  * It also executes the options that the user makes when running the program.
@@ -407,14 +404,14 @@ void TextUI::DisplayForBuyer(std::string name) {
 void TextUI::DisplayForSeller(Seller* s) {
   std::cout << "\n";
   std::cout << "Please choose from the following list of seller options: " << std::endl;
-  std::cout << "1. Post a product for sale" << std::endl; // allows seller to post new products for buyers to view and bid on
-  std::cout << "2. View/Send messages" << std::endl; // option to view messages/replies that have been sent back to the seller
-  std::cout << "3. Check account balance" << std::endl; // checks seller's account baalnce
-  std::cout << "4. Rate a buyer" << std::endl; // once transaction is complete, seller is able to rate the buyers of their products
-  std::cout << "5. Update user info" << std::endl; // update private fields inclduing username, address, and phone number
-  std::cout << "6. View product list" << std::endl; // view all currently biddable products posted by given seller
-  std::cout << "7. Close bid on a product" << std::endl; // closes the bidablity of any product currently being listed and send winner/loosers of the bid according messages
-  std::cout << "8. Log out" << std::endl; // logs the seller out, with options to log in using a different username
+  std::cout << "1. Post a product for sale" << std::endl;  // allows seller to post new products for buyers to view and bid on
+  std::cout << "2. View/Send messages" << std::endl;       // option to view messages/replies that have been sent back to the seller
+  std::cout << "3. Check account balance" << std::endl;    // checks seller's account baalnce
+  std::cout << "4. Rate a buyer" << std::endl;             // once transaction is complete, seller is able to rate the buyers of their products
+  std::cout << "5. Update user info" << std::endl;         // update private fields inclduing username, address, and phone number
+  std::cout << "6. View product list" << std::endl;        // view all currently biddable products posted by given seller
+  std::cout << "7. Close bid on a product" << std::endl;   // closes the bidablity of any product currently being listed and send winner/loosers of the bid according messages
+  std::cout << "8. Log out" << std::endl;                  // logs the seller out, with options to log in using a different username
   std::string option;
   std::cin >> option;
   std::cout << "\n";
@@ -424,7 +421,7 @@ void TextUI::DisplayForSeller(Seller* s) {
     std::cin >> option;
   }
 
-  // method used to post products (sorted by catergory and subcategory) for buyers to view and select from 
+  // method used to post products (sorted by catergory and subcategory) for buyers to view and select from
   if (option == "1") {
     std::cout << "Please choose one of the following categories of your product." << std::endl;
     int index = 1;
@@ -563,7 +560,7 @@ void TextUI::DisplayForSeller(Seller* s) {
     std::string* replyTo = NULL;
     int productID = -1;
     s->ReadMessage(&replyTo, productID);
-    if (replyTo != NULL) { // reply to field isn't empty, meaning that content needs to be written to send to buyer
+    if (replyTo != NULL) {  // reply to field isn't empty, meaning that content needs to be written to send to buyer
       std::cout << "Please write the content of your message here:" << std::endl;
       std::string content;
       std::getline(std::cin, content);
@@ -677,7 +674,7 @@ void TextUI::DisplayForSeller(Seller* s) {
           std::getline(std::cin, address);
           s->UpdateAddress(address);
         }
-        // message content contains statement that buyer won the bid 
+        // message content contains statement that buyer won the bid
         messageContent = "Congratulations! You just won the bid on " + p->GetProductName() + "! My address is: " + address + ", please come to pick up.";
       } else {
         p->SetToDeliver();

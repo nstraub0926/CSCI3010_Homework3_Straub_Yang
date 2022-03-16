@@ -8,7 +8,7 @@
  * @param productID The output parameter that contains a product ID.
  */
 
-// displays 0 messages for empty messagebox, else iterates through all possible messages to read 
+// displays 0 messages for empty messagebox, else iterates through all possible messages to read
 // and asks for user to choose which message to respond to via an option number
 void User::ReadMessage(std::string** replyTo, int& productID) {
   int size = _messagebox.size();
@@ -63,7 +63,7 @@ void User::ReadMessage(std::string** replyTo, int& productID) {
  * @return The pointer of a username.
  */
 
-// returns will NULL print statement if there are no completed purchases made by user, else iterates through 
+// returns will NULL print statement if there are no completed purchases made by user, else iterates through
 // all potential user's to rate and requests the user rate one based off their option number
 std::string* User::GetUserToRate() {
   int size = _userToRate.size();
