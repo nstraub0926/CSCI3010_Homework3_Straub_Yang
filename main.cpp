@@ -61,12 +61,7 @@ int main() {
       break;
     }
   }
-<<<<<<< HEAD
   t.WriteToUsersCSV();  // write all changes to data members back to Users.csv file
   t.WriteToBidsCSV();   // write all additional product sales to Bids.csv file
-=======
-  t.WriteToUsersCSV(); // write all changes to data members back to Users.csv file
-  t.WriteToBidsCSV(); // write all additional product sales to Bids.csv file
->>>>>>> 5853e037276157532670c18908abdb9cc41ec63d
   std::cout << "Thank you for choosing BidToBuy. Visit again soon!" << std::endl;
 }
