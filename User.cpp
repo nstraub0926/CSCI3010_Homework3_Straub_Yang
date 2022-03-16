@@ -1,5 +1,12 @@
 #include "User.h"
 
+/*
+ * The method that helps the user read the messages they have.
+ * If the user wants to reply any of the messages, replyTo will contains the name of the sender.
+ * If the message is a confirmation message, it will pass the product ID to the parameter productID.
+ * @param replyTo The output parameter that points to the pointer of the sender's name.
+ * @param productID The output parameter that contains a product ID.
+ */
 void User::ReadMessage(std::string** replyTo, int& productID) {
   int size = _messagebox.size();
   std::cout << "You have " << size << " message(s)." << std::endl;
@@ -48,6 +55,10 @@ void User::ReadMessage(std::string** replyTo, int& productID) {
   _messagebox.erase(_messagebox.begin() + (stoi(option) - 1));
 }
 
+/*
+ * The method that returns a pointer of a username that is waiting to be rated.
+ * @return The pointer of a username.
+ */
 std::string* User::GetUserToRate() {
   int size = _userToRate.size();
   if (size == 0) {
@@ -85,10 +96,18 @@ std::string* User::GetUserToRate() {
   return userToRate;
 }
 
+/*
+ * The method that pushes a product to the seller's product list.
+ * @param productID The ID of the proudct.
+ * @param product The pointer of an instance of the product class.
+ */
 void Seller::AddProductForSale(int productID, Product* product) {
   _productlist.insert(std::make_pair(productID, product));
 }
 
+/*
+ * The method that prints the list of the products that are open or still in process.
+ */
 void Seller::ViewProductList() {
   for (std::map<int, Product*>::iterator i = _productlist.begin(); i != _productlist.end(); i++) {
     std::cout << "Product id: " << i->first << ", product name: " << i->second->GetProductName() << ", base price: " << i->second->GetBasePrice() << ", current highest bid: " << i->second->GetHighestBidInfo().first;
@@ -101,6 +120,11 @@ void Seller::ViewProductList() {
   }
 }
 
+/*
+ * The method that returns the pointer of a product instance with the given product ID.
+ * @param productID The ID of the product that the user wants to return.
+ * @return The pointer of a product instance.
+ */
 Product* Seller::GetProductInfo(int productID) {
   if (_productlist.find(productID) != _productlist.end()) {
     return _productlist[productID];
@@ -109,16 +133,28 @@ Product* Seller::GetProductInfo(int productID) {
   }
 }
 
+/*
+ * The method that moves the product from the product list to the historical product list.
+ * @param productID The ID of the product that the user wants to move.
+ */
 void Seller::AddToHistoryProducts(int productID) {
   Product* p = _productlist[productID];
   _productlist.erase(productID);
   _historyProducts.push_back(p);
 }
 
+/*
+ * The method helps store the bids that the buyer has placed.
+ * @param name The name of the product.
+ * @param bid The bid that the buyer has placed.
+ */
 void Buyer::AddBidToProduct(std::string name, double bid) {
   _bidsHistory[name].push_back(bid);
 }
 
+/*
+ * The method prints the historical orders that the buyer has purchased.
+ */
 void Buyer::ViewHistoryOrders() {
   int size = _historyOrders.size();
   for (int i = 0; i < size; i++) {

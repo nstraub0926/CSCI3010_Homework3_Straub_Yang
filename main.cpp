@@ -6,6 +6,11 @@
 // Peter Yang
 // Nathan Straub
 
+/*
+ * Homework 3
+ * This is a program that simulates eBay in CLI program.
+ */
+
 int main() {
   TextUI& t = TextUI::GetInstance();
   t.LoadInUserData("Users.csv");

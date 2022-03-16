@@ -1,5 +1,9 @@
 #include "TextUI.h"
 
+/*
+ * The constructor for instantiating TextUI.
+ * If you want to add more categories or subcategories for the product you have, do it here.
+ */
 TextUI::TextUI() {
   std::vector<std::string> subcategories;
   subcategories.push_back("Camera");
@@ -29,18 +33,9 @@ TextUI::TextUI() {
   subcategories.clear();
 }
 
-std::string TextUI::DisplayRoleChoice() {
-  std::string role;
-
-  std::cout << "Welcome to BidToBuy. Choose a role to log in (buyer/seller): ";
-  std::cin >> role;
-  while (role != "buyer" && role != "seller") {
-    std::cout << "Please enter a valid input. Choose a role to log in (buyer/seller): ";
-    std::cin >> role;
-  }
-  return role;
-}
-
+/*
+ * Read Users.csv to load in the data of users at the beginning of the program.
+ */
 void TextUI::LoadInUserData(std::string filename) {
   std::fstream file(filename, std::ios::in);
   std::string line;
@@ -66,6 +61,9 @@ void TextUI::LoadInUserData(std::string filename) {
   }
 }
 
+/*
+ * Read Bids.csv to load in the data of historical orders at the beginning of the program.
+ */
 void TextUI::LoadInBidsData(std::string filename) {
   std::fstream file(filename, std::ios::in);
   std::string line;
@@ -105,6 +103,26 @@ void TextUI::LoadInBidsData(std::string filename) {
   }
 }
 
+/*
+ * When the user executes the program, ask the user to choose a role to log in.
+ */
+std::string TextUI::DisplayRoleChoice() {
+  std::string role;
+
+  std::cout << "Welcome to BidToBuy. Choose a role to log in (buyer/seller): ";
+  std::cin >> role;
+  while (role != "buyer" && role != "seller") {
+    std::cout << "Please enter a valid input. Choose a role to log in (buyer/seller): ";
+    std::cin >> role;
+  }
+  return role;
+}
+
+/*
+ * Ask the user to log in with their username. If it is not is user list, ask if they want to create a new account.
+ * @param role The role of the user. Either buyer or seller.
+ * @return A username that is in the list.
+ */
 std::string TextUI::LogInUsername(std::string role) {
   std::string username;
 
@@ -126,6 +144,11 @@ std::string TextUI::LogInUsername(std::string role) {
   return username;
 }
 
+/*
+ * The method that helps the user to create a new account with the given role and given username.
+ * @param role The type of the account that the user wants to create. Either buyer or seller.
+ * @param username The username of the user's new account.
+ */
 void TextUI::CreateNewAccount(std::string role, std::string username) {
   std::string option;
 
@@ -157,6 +180,10 @@ void TextUI::CreateNewAccount(std::string role, std::string username) {
   }
 }
 
+/*
+ * The text UI that will be displayed to the user when they log in as a buyer.
+ * It also executes the options that the user makes when running the program.
+ */
 void TextUI::DisplayForBuyer(Buyer* b) {
   std::cout << "Please choose from the following list of buyer options: " << std::endl;
   std::cout << "1. View/Bid-On Products" << std::endl;
@@ -336,6 +363,10 @@ void TextUI::DisplayForBuyer(Buyer* b) {
   }
 }
 
+/*
+ * The text UI that will be displayed to the user when they log in as a seller.
+ * It also executes the options that the user makes when running the program.
+ */
 void TextUI::DisplayForSeller(Seller* s) {
   std::cout << "Please choose from the following list of seller options: " << std::endl;
   std::cout << "1. Post a product for sale" << std::endl;
@@ -610,6 +641,11 @@ void TextUI::DisplayForSeller(Seller* s) {
   }
 }
 
+/*
+ * When logging in, check if there are any messages and notify the user.
+ * @param role The role of the user.
+ * @param name The username of the user's account.
+ */
 void TextUI::CheckMessagebox(std::string role, std::string name) {
   if (role == "buyer") {
     if (!GetBuyer(name)->MessageboxIsEmpty()) {
@@ -623,6 +659,13 @@ void TextUI::CheckMessagebox(std::string role, std::string name) {
   std::cout << std::endl;
 }
 
+/*
+ * The method that helps a user send a message to another user.
+ * @param sender The pointer to the name of the sender.
+ * @param receiver The pointer to the name of the receiver.
+ * @param receiverRole The role of the receiver.
+ * @param content The content of the message.
+ */
 void TextUI::SendMessage(std::string* sender, std::string* receiver, std::string receiverRole, std::string content) {
   Message m(sender, receiver, content);
   if (receiverRole == "buyer") {
@@ -634,6 +677,14 @@ void TextUI::SendMessage(std::string* sender, std::string* receiver, std::string
   }
 }
 
+/*
+ * The method that helps a seller send a message which contains a product ID to the winner.
+ * @param sender The pointer to the name of the sender.
+ * @param receiver The pointer to the name of the receiver.
+ * @param receiverRole The role of the receiver.
+ * @param content The content of the message.
+ * @param productID The ID of the product that the winner won.
+ */
 void TextUI::SendMessage(std::string* sender, std::string* receiver, std::string receiverRole, std::string content, int productID) {
   Message m(sender, receiver, content, productID);
   if (receiverRole == "buyer") {
@@ -645,12 +696,20 @@ void TextUI::SendMessage(std::string* sender, std::string* receiver, std::string
   }
 }
 
+/*
+ * Print the list of the products that are for sale.
+ */
 void TextUI::ViewProductsForSale() {
   for (std::map<int, Product*>::iterator i = _products.begin(); i != _products.end(); i++) {
     std::cout << "product id: " << i->first << ", product name: " << i->second->GetProductName() << std::endl;
   }
 }
 
+/*
+ * The method that returns the pointer to the matching seller.
+ * @param name The username of the account.
+ * @return The pointer to the matching seller.
+ */
 Seller* TextUI::GetSeller(std::string name) {
   if (_sellers.find(name) != _sellers.end()) {
     return _sellers[name];
@@ -659,6 +718,11 @@ Seller* TextUI::GetSeller(std::string name) {
   }
 }
 
+/*
+ * The method that returns the pointer to the matching buyer.
+ * @param name The username of the account.
+ * @return The pointer to the matching buyer.
+ */
 Buyer* TextUI::GetBuyer(std::string name) {
   if (_buyers.find(name) != _buyers.end()) {
     return _buyers[name];
@@ -667,6 +731,17 @@ Buyer* TextUI::GetBuyer(std::string name) {
   }
 }
 
+/*
+ * The method that pushes the information of a user to the user list.
+ * @param name The username of the account.
+ * @param address The address of the user.
+ * @param phoneNum The phone number of the user.
+ * @param accountBalance The account balance of the user.
+ * @param rateTotal The total rate of the user.
+ * @param rateCount The count of the rate the user has.
+ * @param userType The type of the user's account.
+ * @return True if it pushes successfully. False if it fails.
+ */
 bool TextUI::MakeNewUser(std::string name, std::string address, long phoneNum, double accountBalance, double rateTotal, int rateCount, std::string userType) {
   if (userType == "seller") {
     _sellers.insert(std::make_pair(name, new Seller(name, address, phoneNum, accountBalance, rateTotal, rateCount)));
@@ -679,6 +754,12 @@ bool TextUI::MakeNewUser(std::string name, std::string address, long phoneNum, d
   }
 }
 
+/*
+ * The method that pushes a product to TextUI's product list and the seller's product list.
+ * @param p The pointer to an instance of a product class.
+ * @param seller The pointer to the seller.
+ * @return True if it pushes successfully. False if it fails.
+ */
 bool TextUI::AddNewProduct(Product* p, Seller* seller) {
   int id = GetID();
   if (_products.find(id) == _products.end()) {
@@ -690,6 +771,9 @@ bool TextUI::AddNewProduct(Product* p, Seller* seller) {
   }
 }
 
+/*
+ * Before the program ends, the method stores the information of all users in user list in Users.csv.
+ */
 void TextUI::WriteToUsersCSV() {
   std::ofstream f;
   f.open("Users.csv");
@@ -702,6 +786,9 @@ void TextUI::WriteToUsersCSV() {
   f.close();
 }
 
+/*
+ * Before the program ends, the method stores the information of all historical orders in Bids.csv.
+ */
 void TextUI::WriteToBidsCSV() {
   std::ofstream f;
   f.open("Bids.csv");
